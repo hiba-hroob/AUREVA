@@ -1,0 +1,1084 @@
+﻿@model AUREVA.Models.Appointment
+
+@{
+    ViewData["Title"] = "New Appointment";
+}
+
+<style>
+    /* =========================================================
+           AUREVA / APPOINTMENT CREATION
+           LUXURY BOOKING ATELIER
+        ========================================================= */
+
+    .appointment-page {
+        --teal: #19B8B2;
+        --teal-dark: #087F7A;
+        --teal-deep: #075B5A;
+        --teal-soft: #DDF5F3;
+        --teal-pale: #F1FBFA;
+        --burgundy: #800020;
+        --burgundy-dark: #5C0017;
+        --burgundy-soft: #F4E5E9;
+        --cream: #F5F4EE;
+        --paper: #FFFEFA;
+        --white: #FFFFFF;
+        --ink: #172122;
+        --muted: rgba(7,91,90,.52);
+        --line: rgba(7,91,90,.14);
+        min-height: 100vh;
+        padding: 110px 0 100px;
+        position: relative;
+        overflow: hidden;
+        background: radial-gradient( circle at 85% 10%, rgba(25,184,178,.17), transparent 24% ), radial-gradient( circle at 8% 82%, rgba(128,0,32,.09), transparent 27% ), linear-gradient( 135deg, #F8F6EF 0%, #F0EEE6 100% );
+        color: var(--ink);
+        font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+        .appointment-page *,
+        .appointment-page *::before,
+        .appointment-page *::after {
+            box-sizing: border-box;
+        }
+
+        /* =========================================================
+           BACKGROUND DECOR
+        ========================================================= */
+
+        .appointment-page::before {
+            content: "AUREVA";
+            position: absolute;
+            top: 125px;
+            right: -45px;
+            color: rgba(128,0,32,.035);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 10rem;
+            line-height: .8;
+            letter-spacing: -.09em;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .appointment-page::after {
+            content: "";
+            position: absolute;
+            left: -240px;
+            top: 400px;
+            width: 500px;
+            height: 500px;
+            border: 1px solid rgba(25,184,178,.09);
+            border-radius: 50%;
+            box-shadow: 0 0 0 50px rgba(25,184,178,.025), 0 0 0 100px rgba(128,0,32,.018);
+            pointer-events: none;
+        }
+
+    .appointment-shell {
+        width: min(1220px, calc(100% - 70px));
+        margin: auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* =========================================================
+           TOP BRAND LINE
+        ========================================================= */
+
+    .appointment-topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 35px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .appointment-kicker {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        color: var(--burgundy);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .42em;
+        text-transform: uppercase;
+    }
+
+        .appointment-kicker::before {
+            content: "";
+            width: 48px;
+            height: 1px;
+            background: linear-gradient( 90deg, var(--burgundy), var(--teal) );
+        }
+
+    .appointment-edition {
+        color: var(--muted);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .25em;
+    }
+
+    /* =========================================================
+           HERO
+        ========================================================= */
+
+    .appointment-hero {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 80px;
+        align-items: end;
+        margin-bottom: 55px;
+    }
+
+    .appointment-title {
+        margin: 0;
+        color: var(--teal-deep);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(4.5rem, 8vw, 8rem);
+        font-weight: 400;
+        line-height: .75;
+        letter-spacing: -.08em;
+    }
+
+        .appointment-title span {
+            color: var(--burgundy);
+        }
+
+    .appointment-intro {
+        max-width: 370px;
+        margin: 30px 0 0;
+        padding-left: 18px;
+        border-left: 1px solid var(--burgundy);
+        color: var(--muted);
+        font-size: 10px;
+        line-height: 1.95;
+    }
+
+    /* =========================================================
+           HERO SIDE
+        ========================================================= */
+
+    .appointment-side-note {
+        padding: 25px;
+        background: rgba(255,254,250,.72);
+        border: 1px solid var(--line);
+        box-shadow: 0 25px 55px rgba(7,91,90,.045);
+    }
+
+    .side-number {
+        color: var(--burgundy);
+        font-family: Georgia, serif;
+        font-size: 48px;
+        line-height: .8;
+        letter-spacing: -.07em;
+    }
+
+    .side-label {
+        margin-top: 13px;
+        color: var(--teal-deep);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .2em;
+    }
+
+    .side-description {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 8px;
+        line-height: 1.8;
+    }
+
+    /* =========================================================
+           FORM FRAME
+        ========================================================= */
+
+    .appointment-form-frame {
+        display: grid;
+        grid-template-columns: 235px 1fr;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        box-shadow: 0 35px 90px rgba(7,91,90,.08);
+    }
+
+    /* =========================================================
+           FORM SIDEBAR
+        ========================================================= */
+
+    .appointment-form-sidebar {
+        padding: 38px 30px;
+        background: linear-gradient( 160deg, var(--teal-deep) 0%, var(--teal-dark) 100% );
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .appointment-form-sidebar::after {
+            content: "A";
+            position: absolute;
+            right: -25px;
+            bottom: -55px;
+            color: rgba(255,255,255,.055);
+            font-family: Georgia, serif;
+            font-size: 180px;
+            line-height: 1;
+        }
+
+    .sidebar-kicker {
+        position: relative;
+        z-index: 2;
+        color: var(--teal-soft);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .28em;
+    }
+
+    .sidebar-title {
+        position: relative;
+        z-index: 2;
+        margin-top: 20px;
+        font-family: Georgia, serif;
+        font-size: 34px;
+        font-weight: 400;
+        line-height: .9;
+        letter-spacing: -.05em;
+    }
+
+    .sidebar-line {
+        width: 45px;
+        height: 1px;
+        margin: 30px 0;
+        background: var(--burgundy-soft);
+    }
+
+    .sidebar-copy {
+        position: relative;
+        z-index: 2;
+        color: rgba(255,255,255,.58);
+        font-size: 9px;
+        line-height: 1.9;
+    }
+
+    .sidebar-steps {
+        position: relative;
+        z-index: 2;
+        margin-top: 45px;
+    }
+
+    .sidebar-step {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+        color: rgba(255,255,255,.55);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .16em;
+    }
+
+    .sidebar-step-number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 25px;
+        height: 25px;
+        border: 1px solid rgba(255,255,255,.2);
+        border-radius: 50%;
+        color: var(--teal-soft);
+        font-family: Georgia, serif;
+        font-size: 11px;
+    }
+
+    .sidebar-step.active {
+        color: white;
+    }
+
+        .sidebar-step.active .sidebar-step-number {
+            background: var(--burgundy);
+            border-color: var(--burgundy);
+        }
+
+    /* =========================================================
+           FORM CONTENT
+        ========================================================= */
+
+    .appointment-form {
+        padding: 45px;
+    }
+
+    .form-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        margin-bottom: 35px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .form-heading-title {
+        color: var(--teal-deep);
+        font-family: Georgia, serif;
+        font-size: 25px;
+        font-weight: 400;
+        letter-spacing: -.04em;
+    }
+
+    .form-heading-note {
+        color: var(--muted);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .2em;
+    }
+
+    /* =========================================================
+           VALIDATION
+        ========================================================= */
+
+    .appointment-validation {
+        margin-bottom: 25px;
+        color: var(--burgundy);
+        font-size: 9px;
+    }
+
+    /* =========================================================
+           FORM GRID
+        ========================================================= */
+
+    .appointment-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px 30px;
+    }
+
+    .appointment-field.full {
+        grid-column: 1 / -1;
+    }
+
+    .appointment-field {
+        position: relative;
+    }
+
+        .appointment-field label {
+            display: block;
+            margin-bottom: 9px;
+            color: var(--burgundy);
+            font-size: 7px;
+            font-weight: 800;
+            letter-spacing: .22em;
+        }
+
+        .appointment-field input,
+        .appointment-field select,
+        .appointment-field textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid rgba(7,91,90,.13);
+            border-radius: 0;
+            outline: none;
+            background: var(--teal-pale);
+            color: var(--teal-deep);
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 600;
+            transition: border-color .3s ease, background .3s ease, box-shadow .3s ease;
+        }
+
+        .appointment-field select {
+            cursor: pointer;
+        }
+
+        .appointment-field textarea {
+            min-height: 125px;
+            resize: vertical;
+            line-height: 1.7;
+        }
+
+            .appointment-field input::placeholder,
+            .appointment-field textarea::placeholder {
+                color: rgba(7,91,90,.35);
+            }
+
+            .appointment-field input:focus,
+            .appointment-field select:focus,
+            .appointment-field textarea:focus {
+                border-color: var(--teal);
+                background: white;
+                box-shadow: 0 0 0 3px rgba(25,184,178,.08);
+            }
+
+        .appointment-field span[data-valmsg-for] {
+            display: block;
+            margin-top: 5px;
+            color: var(--burgundy);
+            font-size: 7px;
+        }
+
+        /* =========================================================
+           SPECIAL DATE FIELD
+        ========================================================= */
+
+        .appointment-field.date-field input {
+            color: var(--teal-deep);
+        }
+
+    /* =========================================================
+           ACTIONS
+        ========================================================= */
+
+    .appointment-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 40px;
+        padding-top: 25px;
+        border-top: 1px solid var(--line);
+    }
+
+    .appointment-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .2em;
+        transition: color .3s ease;
+    }
+
+        .appointment-back:hover {
+            color: var(--burgundy);
+        }
+
+    .appointment-submit {
+        display: inline-flex;
+        align-items: center;
+        gap: 13px;
+        min-height: 50px;
+        padding: 0 25px;
+        border: 0;
+        background: var(--burgundy);
+        color: white;
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .2em;
+        cursor: pointer;
+        transition: transform .35s ease, background .35s ease, box-shadow .35s ease;
+    }
+
+        .appointment-submit span {
+            color: var(--burgundy-soft);
+            font-size: 14px;
+        }
+
+        .appointment-submit:hover {
+            transform: translateY(-3px);
+            background: var(--teal-deep);
+            box-shadow: 0 16px 35px rgba(7,91,90,.18);
+        }
+
+    /* =========================================================
+           BOTTOM PHILOSOPHY
+        ========================================================= */
+
+    .appointment-philosophy {
+        display: grid;
+        grid-template-columns: 75px 1fr 250px;
+        align-items: center;
+        gap: 40px;
+        margin-top: 65px;
+        padding: 40px;
+        background: linear-gradient( 135deg, var(--cream), var(--paper) );
+        border: 1px solid var(--line);
+    }
+
+    .philosophy-mark {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 68px;
+        height: 68px;
+        border: 1px solid rgba(128,0,32,.25);
+        border-radius: 50%;
+        color: var(--burgundy);
+        font-family: Georgia, serif;
+        font-size: 29px;
+    }
+
+    .philosophy-label {
+        color: var(--burgundy);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .3em;
+    }
+
+    .philosophy-title {
+        margin: 12px 0 0;
+        color: var(--teal-deep);
+        font-family: Georgia, serif;
+        font-size: clamp(2.2rem, 3.5vw, 3.8rem);
+        font-weight: 400;
+        line-height: .9;
+        letter-spacing: -.06em;
+    }
+
+        .philosophy-title span {
+            color: var(--burgundy);
+        }
+
+    .philosophy-copy {
+        padding-left: 18px;
+        border-left: 1px solid var(--burgundy);
+        color: var(--muted);
+        font-size: 9px;
+        line-height: 1.9;
+    }
+
+    /* =========================================================
+           TABLET
+        ========================================================= */
+
+    @@media (max-width: 950px) {
+
+        .appointment-hero {
+            grid-template-columns: 1fr;
+            gap: 35px;
+        }
+
+        .appointment-side-note {
+            max-width: 330px;
+        }
+
+        .appointment-form-frame {
+            grid-template-columns: 190px 1fr;
+        }
+
+        .appointment-form-sidebar {
+            padding: 32px 23px;
+        }
+
+        .appointment-form {
+            padding: 35px;
+        }
+
+        .appointment-philosophy {
+            grid-template-columns: 65px 1fr;
+        }
+
+        .philosophy-copy {
+            grid-column: 2;
+        }
+    }
+
+    /* =========================================================
+           MOBILE
+        ========================================================= */
+
+    @@media (max-width: 700px) {
+
+        .appointment-page {
+            padding: 85px 0 65px;
+        }
+
+            .appointment-page::before {
+                display: none;
+            }
+
+        .appointment-shell {
+            width: calc(100% - 28px);
+        }
+
+        .appointment-topline {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .appointment-hero {
+            margin-bottom: 40px;
+        }
+
+        .appointment-title {
+            font-size: clamp(4rem, 19vw, 6.5rem);
+        }
+
+        .appointment-intro {
+            max-width: 300px;
+        }
+
+        .appointment-form-frame {
+            display: block;
+        }
+
+        .appointment-form-sidebar {
+            min-height: 260px;
+        }
+
+        .sidebar-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .sidebar-step {
+            margin-bottom: 0;
+        }
+
+        .appointment-form {
+            padding: 28px 22px;
+        }
+
+        .form-heading {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .appointment-grid {
+            grid-template-columns: 1fr;
+            gap: 23px;
+        }
+
+        .appointment-field.full {
+            grid-column: auto;
+        }
+
+        .appointment-actions {
+            align-items: stretch;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .appointment-submit {
+            justify-content: center;
+        }
+
+        .appointment-philosophy {
+            grid-template-columns: 1fr;
+            gap: 24px;
+            padding: 30px 24px;
+        }
+
+        .philosophy-copy {
+            grid-column: auto;
+        }
+    }
+
+    /* =========================================================
+           SMALL MOBILE
+        ========================================================= */
+
+    @@media (max-width: 420px) {
+
+        .appointment-shell {
+            width: calc(100% - 20px);
+        }
+
+        .appointment-title {
+            font-size: 4rem;
+        }
+
+        .appointment-kicker {
+            font-size: 7px;
+            letter-spacing: .3em;
+        }
+
+        .appointment-form {
+            padding: 25px 18px;
+        }
+
+        .appointment-form-sidebar {
+            padding: 28px 20px;
+        }
+
+        .sidebar-title {
+            font-size: 30px;
+        }
+
+        .philosophy-title {
+            font-size: 2.3rem;
+        }
+    }
+
+    /* =========================================================
+           REDUCED MOTION
+        ========================================================= */
+
+    @@media (prefers-reduced-motion: reduce) {
+
+        .appointment-page *,
+        .appointment-page *::before,
+        .appointment-page *::after {
+            transition: none !important;
+            animation: none !important;
+        }
+    }
+</style>
+
+
+<div class="appointment-page">
+
+    <div class="appointment-shell">
+
+        <!-- =====================================================
+             TOP LINE
+        ====================================================== -->
+
+        <div class="appointment-topline">
+
+            <div class="appointment-kicker">
+                AUREVA / NEW APPOINTMENT
+            </div>
+
+            <div class="appointment-edition">
+                PRIVATE BOOKING / 01
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
+
+        <section class="appointment-hero">
+
+            <div>
+
+                <h1 class="appointment-title">
+                    Book the
+                    <br />
+                    <span>moment.</span>
+                </h1>
+
+                <p class="appointment-intro">
+                    Every appointment begins before the
+                    experience itself. Select the client,
+                    artist, service and time to create
+                    a moment designed with intention.
+                </p>
+
+            </div>
+
+
+            <div class="appointment-side-note">
+
+                <div class="side-number">
+                    01
+                </div>
+
+                <div class="side-label">
+                    CREATE A NEW EXPERIENCE
+                </div>
+
+                <div class="side-description">
+                    Complete the details below.
+                    The appointment will become part
+                    of the AUREVA daily rhythm.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FORM FRAME
+        ====================================================== -->
+
+        <section class="appointment-form-frame">
+
+            <!-- SIDEBAR -->
+
+            <aside class="appointment-form-sidebar">
+
+                <div class="sidebar-kicker">
+                    AUREVA / ATELIER
+                </div>
+
+                <div class="sidebar-title">
+                    A moment
+                    <br />
+                    made personal.
+                </div>
+
+                <div class="sidebar-line"></div>
+
+                <div class="sidebar-copy">
+                    A considered appointment is more
+                    than a time slot. It is the beginning
+                    of a personal experience.
+                </div>
+
+
+                <div class="sidebar-steps">
+
+                    <div class="sidebar-step active">
+                        <span class="sidebar-step-number">
+                            01
+                        </span>
+                        DETAILS
+                    </div>
+
+                    <div class="sidebar-step">
+                        <span class="sidebar-step-number">
+                            02
+                        </span>
+                        ARTIST
+                    </div>
+
+                    <div class="sidebar-step">
+                        <span class="sidebar-step-number">
+                            03
+                        </span>
+                        TIME
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- FORM -->
+
+            <form asp-action="Create"
+                  method="post"
+                  class="appointment-form">
+
+                <div class="form-heading">
+
+                    <div class="form-heading-title">
+                        Appointment details
+                    </div>
+
+                    <div class="form-heading-note">
+                        ALL FIELDS / REQUIRED
+                    </div>
+
+                </div>
+
+
+                <div class="appointment-validation">
+                    <div asp-validation-summary="ModelOnly"></div>
+                </div>
+
+
+                <div class="appointment-grid">
+
+                    <!-- CLIENT -->
+
+                    <div class="appointment-field full">
+
+                        <label asp-for="ClientId">
+                            CLIENT
+                        </label>
+
+                        <select asp-for="ClientId"
+                                asp-items="ViewBag.Clients">
+
+                            <option value="">
+                                SELECT CLIENT
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="ClientId"></span>
+
+                    </div>
+
+
+                    <!-- SERVICE -->
+
+                    <div class="appointment-field">
+
+                        <label asp-for="ServiceId">
+                            SERVICE
+                        </label>
+
+                        <select asp-for="ServiceId"
+                                asp-items="ViewBag.Services">
+
+                            <option value="">
+                                SELECT SERVICE
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="ServiceId"></span>
+
+                    </div>
+
+
+                    <!-- ARTIST -->
+
+                    <div class="appointment-field">
+
+                        <label asp-for="StaffId">
+                            ARTIST
+                        </label>
+
+                        <select asp-for="StaffId"
+                                asp-items="ViewBag.Staff">
+
+                            <option value="">
+                                SELECT ARTIST
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="StaffId"></span>
+
+                    </div>
+
+
+                    <!-- DATE -->
+
+                    <div class="appointment-field date-field">
+
+                        <label asp-for="StartTime">
+                            DATE & TIME
+                        </label>
+
+                        <input asp-for="StartTime"
+                               type="datetime-local" />
+
+                        <span asp-validation-for="StartTime"></span>
+
+                    </div>
+
+
+                    <!-- DURATION -->
+
+                    <div class="appointment-field">
+
+                        <label asp-for="DurationMinutes">
+                            DURATION / MINUTES
+                        </label>
+
+                        <input asp-for="DurationMinutes"
+                               type="number"
+                               min="1"
+                               step="15"
+                               placeholder="60" />
+
+                        <span asp-validation-for="DurationMinutes"></span>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="appointment-field">
+
+                        <label asp-for="Status">
+                            STATUS
+                        </label>
+
+                        <select asp-for="Status">
+
+                            <option value="Confirmed">
+                                CONFIRMED
+                            </option>
+
+                            <option value="Pending">
+                                PENDING
+                            </option>
+
+                            <option value="Completed">
+                                COMPLETED
+                            </option>
+
+                            <option value="Cancelled">
+                                CANCELLED
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="Status"></span>
+
+                    </div>
+
+
+                    <!-- NOTES -->
+
+                    <div class="appointment-field full">
+
+                        <label asp-for="Notes">
+                            NOTES / SPECIAL DETAILS
+                        </label>
+
+                        <textarea asp-for="Notes"
+                                  placeholder="Anything the team should know..."></textarea>
+
+                        <span asp-validation-for="Notes"></span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="appointment-actions">
+
+                    <a asp-action="Index"
+                       class="appointment-back">
+
+                        ← BACK TO APPOINTMENTS
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="appointment-submit">
+
+                        CREATE APPOINTMENT
+
+                        <span>→</span>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- =====================================================
+             PHILOSOPHY
+        ====================================================== -->
+
+        <section class="appointment-philosophy">
+
+            <div class="philosophy-mark">
+                A
+            </div>
+
+
+            <div>
+
+                <div class="philosophy-label">
+                    AUREVA / BOOKING PHILOSOPHY
+                </div>
+
+                <h2 class="philosophy-title">
+                    Don't just book time.
+                    <br />
+                    <span>Design the moment.</span>
+                </h2>
+
+            </div>
+
+
+            <div class="philosophy-copy">
+                Every detail matters — from the
+                person arriving to the artist welcoming
+                them. AUREVA turns a simple appointment
+                into something considered.
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+

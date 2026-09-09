@@ -1,0 +1,1362 @@
+﻿@model IEnumerable<AUREVA.Models.Appointment>
+
+@{
+    ViewData["Title"] = "Calendar";
+    var selectedDate = (DateTime)ViewBag.SelectedDate;
+}
+
+<style>
+    /* =========================================================
+           AUREVA CALENDAR
+           EDITORIAL APPOINTMENT JOURNAL
+        ========================================================= */
+
+    .Calendar-nav {
+        position: absolute;
+        top: 28px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        width: min(1180px, calc(100% - 48px));
+        min-height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 9px 8px 25px;
+        background: rgba(255,255,255,.84);
+        border: 1px solid rgba(24,51,51,.09);
+        border-radius: 100px;
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        box-shadow: 0 18px 50px rgba(24,51,51,.07);
+    }
+
+
+    .Calendar-logo {
+        color: #075B5A;
+        text-decoration: none;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 21px;
+        letter-spacing: .08em;
+        white-space: nowrap;
+    }
+
+
+    .Calendar-nav-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 11px 18px;
+        border-radius: 999px;
+        background: #800020;
+        color: white;
+        text-decoration: none;
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .17em;
+        box-shadow: 0 12px 28px rgba(128,0,32,.16);
+        transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+    }
+
+
+        .Calendar-nav-cta:hover {
+            background: #5C0017;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 16px 34px rgba(128,0,32,.22);
+        }
+
+
+
+
+
+    .aureva-calendar {
+        --teal: #19B8B2;
+        --teal-dark: #087F7A;
+        --teal-deep: #075B5A;
+        --teal-soft: #DDF5F3;
+        --teal-pale: #F1FBFA;
+        --burgundy: #800020;
+        --burgundy-dark: #5C0017;
+        --burgundy-soft: #F4E5E9;
+        --cream: #F5F4EE;
+        --paper: #FFFEFA;
+        --white: #FFFFFF;
+        --ink: #172122;
+        --muted: rgba(7,91,90,.52);
+        --line: rgba(7,91,90,.14);
+        min-height: 100vh;
+        padding: 110px 0 90px;
+        position: relative;
+        overflow: hidden;
+        background: radial-gradient( circle at 92% 8%, rgba(25,184,178,.14), transparent 23% ), radial-gradient( circle at 5% 55%, rgba(128,0,32,.08), transparent 27% ), linear-gradient( 135deg, #F8F6EF 0%, #F1EFE7 100% );
+        color: var(--ink);
+        font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+        .aureva-calendar *,
+        .aureva-calendar *::before,
+        .aureva-calendar *::after {
+            box-sizing: border-box;
+        }
+
+        /* =========================================================
+           BACKGROUND DECORATION
+        ========================================================= */
+
+        .aureva-calendar::before {
+            content: "CALENDAR";
+            position: absolute;
+            top: 120px;
+            right: 350px;
+            color: rgba(128,0,32,.045);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 10rem;
+            line-height: .8;
+            letter-spacing: -.08em;
+            transform: rotate(0deg);
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .aureva-calendar::after {
+            content: "";
+            position: absolute;
+            top: 190px;
+            left: -180px;
+            width: 430px;
+            height: 430px;
+            border: 1px solid rgba(128,0,32,.08);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+    .calendar-shell {
+        width: min(1400px, calc(100% - 80px));
+        margin: auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* =========================================================
+           HEADER
+        ========================================================= */
+
+    .calendar-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 330px;
+        gap: 80px;
+        align-items: end;
+        padding-bottom: 45px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .calendar-kicker {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: var(--burgundy);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .42em;
+        text-transform: uppercase;
+    }
+
+        .calendar-kicker::before {
+            content: "";
+            width: 52px;
+            height: 1px;
+            background: linear-gradient( 90deg, var(--burgundy), var(--teal) );
+        }
+
+    .calendar-title {
+        margin: 27px 0 0;
+        color: var(--teal-deep);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(4.8rem, 8vw, 8.5rem);
+        font-weight: 400;
+        line-height: .76;
+        letter-spacing: -.075em;
+    }
+
+        .calendar-title span {
+            color: var(--burgundy);
+        }
+
+    .calendar-description {
+        max-width: 360px;
+        margin: 35px 0 0;
+        padding-left: 18px;
+        border-left: 1px solid var(--burgundy);
+        color: var(--muted);
+        font-size: 10px;
+        line-height: 1.95;
+    }
+
+    /* =========================================================
+           HEADER SIDE
+        ========================================================= */
+
+    .calendar-header-side {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 28px;
+    }
+
+    .calendar-date-card {
+        position: relative;
+        min-width: 210px;
+        padding: 25px 28px;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        box-shadow: 0 20px 50px rgba(7,91,90,.05);
+    }
+
+        .calendar-date-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--burgundy);
+        }
+
+    .calendar-date-small {
+        color: var(--burgundy);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .25em;
+    }
+
+    .calendar-date-number {
+        margin-top: 9px;
+        color: var(--teal-deep);
+        font-family: Georgia, serif;
+        font-size: 50px;
+        font-weight: 400;
+        line-height: .85;
+        letter-spacing: -.07em;
+    }
+
+    .calendar-date-month {
+        margin-top: 9px;
+        color: var(--muted);
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+    }
+
+    .calendar-new {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 48px;
+        padding: 0 22px;
+        background: var(--teal-deep);
+        color: white;
+        text-decoration: none;
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .22em;
+        transition: transform .4s ease, background .35s ease, box-shadow .4s ease;
+    }
+
+        .calendar-new span {
+            color: var(--burgundy-soft);
+            font-size: 17px;
+        }
+
+        .calendar-new:hover {
+            transform: translateY(-4px);
+            background: var(--burgundy);
+            box-shadow: 0 18px 40px rgba(128,0,32,.18);
+        }
+
+    /* =========================================================
+           FILTER BAR
+        ========================================================= */
+
+    .calendar-filter {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin-top: 30px;
+        padding: 15px;
+        background: rgba(255,254,250,.75);
+        border: 1px solid var(--line);
+        box-shadow: 0 15px 40px rgba(7,91,90,.035);
+    }
+
+    .calendar-filter-field {
+        position: relative;
+    }
+
+    .calendar-filter input,
+    .calendar-filter select {
+        min-height: 43px;
+        padding: 0 17px;
+        border: 1px solid rgba(7,91,90,.12);
+        border-radius: 0;
+        outline: none;
+        background: white;
+        color: var(--teal-deep);
+        font-family: inherit;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: .08em;
+        transition: border-color .3s ease, box-shadow .3s ease;
+    }
+
+        .calendar-filter input:focus,
+        .calendar-filter select:focus {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(25,184,178,.08);
+        }
+
+    .calendar-filter button {
+        min-height: 43px;
+        padding: 0 23px;
+        border: 0;
+        background: var(--burgundy);
+        color: white;
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .22em;
+        cursor: pointer;
+        transition: transform .35s ease, background .35s ease;
+    }
+
+        .calendar-filter button:hover {
+            transform: translateY(-2px);
+            background: var(--burgundy-dark);
+        }
+
+    .calendar-clear {
+        display: inline-flex;
+        align-items: center;
+        min-height: 43px;
+        padding: 0 16px;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .18em;
+        transition: color .3s ease;
+    }
+
+        .calendar-clear:hover {
+            color: var(--burgundy);
+        }
+
+    /* =========================================================
+           DAY NAVIGATION
+        ========================================================= */
+
+    .calendar-navigation {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        margin-top: 45px;
+        padding: 18px 0;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+    }
+
+    .calendar-nav-link {
+        color: var(--teal-deep);
+        text-decoration: none;
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .23em;
+        transition: color .3s ease;
+    }
+
+        .calendar-nav-link:hover {
+            color: var(--burgundy);
+        }
+
+        .calendar-nav-link:last-child {
+            text-align: right;
+        }
+
+    .calendar-today {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 90px;
+        min-height: 30px;
+        padding: 0 14px;
+        background: var(--teal-deep);
+        color: white;
+        text-decoration: none;
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .2em;
+        transition: transform .3s ease, background .3s ease;
+    }
+
+        .calendar-today:hover {
+            transform: translateY(-2px);
+            background: var(--teal-deep);
+        }
+
+    /* =========================================================
+           SECTION INTRO
+        ========================================================= */
+
+    .calendar-section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        margin-top: 48px;
+        margin-bottom: 20px;
+    }
+
+    .calendar-section-label {
+        color: var(--burgundy);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .3em;
+    }
+
+    .calendar-section-count {
+        color: var(--muted);
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: .18em;
+    }
+
+    /* =========================================================
+           APPOINTMENT LIST
+        ========================================================= */
+
+    .calendar-list {
+        border-top: 1px solid var(--teal-deep);
+    }
+
+    .appointment {
+        position: relative;
+        display: grid;
+        grid-template-columns: 125px minmax(230px, 1.35fr) minmax(170px, .8fr) 120px 125px;
+        align-items: center;
+        min-height: 125px;
+        padding: 22px 0;
+        border-bottom: 1px solid var(--line);
+        background: transparent;
+        transition: background .4s ease, padding .4s ease;
+    }
+
+        .appointment::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--burgundy);
+            transform: scaleY(0);
+            transform-origin: center;
+            transition: transform .4s cubic-bezier(.22,1,.36,1);
+        }
+
+        .appointment:hover {
+            padding-left: 18px;
+            padding-right: 18px;
+            background: var(--paper);
+        }
+
+            .appointment:hover::before {
+                transform: scaleY(1);
+            }
+
+    /* =========================================================
+           TIME
+        ========================================================= */
+
+    .appointment-time {
+        color: var(--burgundy);
+        font-family: Georgia, serif;
+        font-size: 31px;
+        font-weight: 400;
+        line-height: .9;
+        letter-spacing: -.06em;
+    }
+
+        .appointment-time small {
+            display: block;
+            margin-top: 8px;
+            color: var(--muted);
+            font-family: "Segoe UI", Arial, sans-serif;
+            font-size: 6px;
+            font-weight: 800;
+            letter-spacing: .2em;
+        }
+
+    /* =========================================================
+           CLIENT
+        ========================================================= */
+
+    .appointment-client-name {
+        color: var(--teal-deep);
+        font-family: Georgia, serif;
+        font-size: 22px;
+        font-weight: 400;
+        line-height: 1;
+        letter-spacing: -.035em;
+    }
+
+    .appointment-service {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+    }
+
+    /* =========================================================
+           STAFF
+        ========================================================= */
+
+    .appointment-staff {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        color: var(--teal-deep);
+        font-size: 9px;
+        font-weight: 700;
+    }
+
+        .appointment-staff::before {
+            content: "A";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border: 1px solid rgba(128,0,32,.28);
+            border-radius: 50%;
+            color: var(--burgundy);
+            font-family: Georgia, serif;
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+    /* =========================================================
+           DURATION
+        ========================================================= */
+
+    .appointment-duration {
+        color: var(--muted);
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+    }
+
+        .appointment-duration strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--teal-deep);
+            font-size: 10px;
+        }
+
+    /* =========================================================
+           STATUS
+        ========================================================= */
+
+    .appointment-status {
+        justify-self: end;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 27px;
+        padding: 0 11px;
+        border: 1px solid rgba(7,91,90,.12);
+        color: var(--teal-deep);
+        font-size: 6px;
+        font-weight: 800;
+        letter-spacing: .17em;
+    }
+
+        .appointment-status::before {
+            content: "";
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--teal);
+        }
+
+        .appointment-status.pending {
+            color: var(--burgundy);
+            border-color: rgba(128,0,32,.16);
+        }
+
+            .appointment-status.pending::before {
+                background: var(--burgundy);
+            }
+
+        .appointment-status.cancelled {
+            color: rgba(7,91,90,.4);
+            text-decoration: line-through;
+        }
+
+            .appointment-status.cancelled::before {
+                background: rgba(7,91,90,.35);
+            }
+
+    /* =========================================================
+           EMPTY STATE
+        ========================================================= */
+
+    .calendar-empty {
+        position: relative;
+        display: grid;
+        grid-template-columns: 120px 1fr auto;
+        align-items: center;
+        gap: 35px;
+        padding: 55px 45px;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        overflow: hidden;
+    }
+
+        .calendar-empty::after {
+            content: "00";
+            position: absolute;
+            right: -15px;
+            bottom: -55px;
+            color: rgba(128,0,32,.045);
+            font-family: Georgia, serif;
+            font-size: 150px;
+            line-height: 1;
+        }
+
+    .empty-number {
+        color: var(--burgundy);
+        font-family: Georgia, serif;
+        font-size: 75px;
+        line-height: .8;
+        letter-spacing: -.08em;
+    }
+
+    .empty-title {
+        color: var(--teal-deep);
+        font-family: Georgia, serif;
+        font-size: 23px;
+    }
+
+    .empty-description {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 9px;
+    }
+
+    .empty-button {
+        position: relative;
+        z-index: 2;
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 20px;
+        background: var(--burgundy);
+        color: white;
+        text-decoration: none;
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .2em;
+    }
+
+    /* =========================================================
+           FOOTER STATEMENT
+        ========================================================= */
+
+    .calendar-statement {
+        position: relative;
+        display: grid;
+        grid-template-columns: 90px 1fr 230px;
+        align-items: center;
+        gap: 45px;
+        margin-top: 90px;
+        padding: 48px;
+        overflow: hidden;
+        background: radial-gradient( circle at 92% 0%, rgba(128, 0, 32, .30), transparent 30% ), linear-gradient( 135deg, var(--teal-deep), var(--teal-dark) 58%, #159D98 100% );
+        color: white;
+        box-shadow: 0 30px 70px rgba(7,91,90,.14);
+    }
+
+        .calendar-statement::before {
+            content: "";
+            position: absolute;
+            width: 430px;
+            height: 430px;
+            right: -190px;
+            bottom: -300px;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 50%;
+            box-shadow: 0 0 0 55px rgba(255,255,255,.025), 0 0 0 110px rgba(255,255,255,.015);
+        }
+
+    .statement-mark {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 78px;
+        height: 78px;
+        border: 1px solid rgba(255,255,255,.2);
+        border-radius: 50%;
+        color: var(--burgundy-soft);
+        font-family: Georgia, serif;
+        font-size: 34px;
+    }
+
+    .statement-label {
+        position: relative;
+        z-index: 2;
+        color: var(--teal);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .3em;
+    }
+
+    .statement-title {
+        position: relative;
+        z-index: 2;
+        margin: 17px 0 0;
+        font-family: Georgia, serif;
+        font-size: clamp(2.7rem, 4.3vw, 4.8rem);
+        font-weight: 400;
+        line-height: .86;
+        letter-spacing: -.06em;
+    }
+
+        .statement-title span {
+            color: #E5C7CD;
+        }
+
+    .statement-side {
+        position: relative;
+        z-index: 2;
+        padding-left: 18px;
+        border-left: 1px solid var(--burgundy-soft);
+        color: rgba(255,255,255,.55);
+        font-size: 9px;
+        line-height: 1.9;
+    }
+
+    /* =========================================================
+           TABLET
+        ========================================================= */
+
+    @@media (max-width: 1050px) {
+
+        .calendar-shell {
+            width: min(100% - 55px, 1000px);
+        }
+
+        .calendar-header {
+            grid-template-columns: 1fr;
+            gap: 45px;
+        }
+
+        .calendar-header-side {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .appointment {
+            grid-template-columns: 100px 1.4fr 1fr 100px;
+        }
+
+        .appointment-duration {
+            display: none;
+        }
+
+        .calendar-statement {
+            grid-template-columns: 75px 1fr;
+        }
+
+        .statement-side {
+            grid-column: 2;
+        }
+    }
+
+    /* =========================================================
+           MOBILE
+        ========================================================= */
+
+    @@media (max-width: 700px) {
+
+        .aureva-calendar {
+            padding: 90px 0 60px;
+        }
+
+            .aureva-calendar::before {
+                display: none;
+            }
+
+        .calendar-shell {
+            width: calc(100% - 28px);
+        }
+
+        .calendar-title {
+            font-size: clamp(4.5rem, 21vw, 7rem);
+        }
+
+        .calendar-description {
+            max-width: 290px;
+        }
+
+        .calendar-header-side {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .calendar-date-card {
+            width: 100%;
+        }
+
+        .calendar-new {
+            justify-content: center;
+        }
+
+        .calendar-filter {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+            .calendar-filter input,
+            .calendar-filter select,
+            .calendar-filter button,
+            .calendar-clear {
+                width: 100%;
+            }
+
+        .calendar-navigation {
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .calendar-today {
+            grid-column: 1 / -1;
+            grid-row: 1;
+            width: 100%;
+        }
+
+        .calendar-nav-link:first-child {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .calendar-nav-link:last-child {
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        .calendar-section-head {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .appointment {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 18px;
+            padding: 25px 18px;
+        }
+
+            .appointment:hover {
+                padding-left: 24px;
+                padding-right: 18px;
+            }
+
+        .appointment-time {
+            font-size: 30px;
+        }
+
+        .appointment-client {
+            grid-column: 1 / -1;
+            grid-row: 2;
+        }
+
+        .appointment-staff {
+            grid-column: 1;
+            grid-row: 3;
+        }
+
+        .appointment-status {
+            grid-column: 2;
+            grid-row: 3;
+        }
+
+        .appointment-duration {
+            display: block;
+            grid-column: 2;
+            grid-row: 1;
+            text-align: right;
+        }
+
+        .calendar-empty {
+            grid-template-columns: 1fr;
+            gap: 22px;
+            padding: 35px 25px;
+        }
+
+        .empty-button {
+            justify-content: center;
+        }
+
+        .calendar-statement {
+            grid-template-columns: 1fr;
+            gap: 28px;
+            margin-top: 65px;
+            padding: 38px 28px;
+        }
+
+        .statement-side {
+            grid-column: auto;
+        }
+    }
+
+    /* =========================================================
+           SMALL MOBILE
+        ========================================================= */
+
+    @@media (max-width: 420px) {
+
+        .calendar-shell {
+            width: calc(100% - 20px);
+        }
+
+        .calendar-title {
+            font-size: 4.35rem;
+        }
+
+        .calendar-kicker {
+            font-size: 7px;
+            letter-spacing: .3em;
+        }
+
+        .calendar-description {
+            font-size: 9px;
+        }
+
+        .appointment {
+            gap: 13px;
+            padding: 22px 14px;
+        }
+
+        .appointment-client-name {
+            font-size: 20px;
+        }
+
+        .appointment-time {
+            font-size: 27px;
+        }
+
+        .appointment-staff {
+            font-size: 8px;
+        }
+
+        .appointment-status {
+            padding: 0 8px;
+            font-size: 5px;
+        }
+
+        .statement-title {
+            font-size: 2.65rem;
+        }
+    }
+
+    /* =========================================================
+           REDUCED MOTION
+        ========================================================= */
+
+    @@media (prefers-reduced-motion: reduce) {
+
+        .aureva-calendar *,
+        .aureva-calendar *::before,
+        .aureva-calendar *::after {
+            transition: none !important;
+            animation: none !important;
+        }
+    }
+</style>
+
+<nav class="Calendar-nav">
+
+    <a asp-controller="Home"
+       asp-action="Index"
+       class="Calendar-logo">
+        AUREVA
+    </a>
+
+
+    <a asp-controller="Appointments"
+       asp-action="Create"
+       class="Calendar-nav-cta">
+        BOOK NOW
+    </a>
+
+</nav>
+
+
+<div class="aureva-calendar">
+
+    <div class="calendar-shell">
+
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+
+        <header class="calendar-header">
+
+            <div>
+
+                <div class="calendar-kicker">
+                    AUREVA / CALENDAR
+                </div>
+
+                <h1 class="calendar-title">
+                    Daily<br />
+                    <span>ritual.</span>
+                </h1>
+
+                <p class="calendar-description">
+                    Every appointment is a moment of care.
+                    A quiet view of the people, services,
+                    and details shaping today's AUREVA experience.
+                </p>
+
+            </div>
+
+
+            <div class="calendar-header-side">
+
+                <div class="calendar-date-card">
+
+                    <div class="calendar-date-small">
+                        SELECTED DAY
+                    </div>
+
+                    <div class="calendar-date-number">
+                        @selectedDate.ToString("dd")
+                    </div>
+
+                    <div class="calendar-date-month">
+                        @selectedDate.ToString("MMMM yyyy")
+                    </div>
+
+                </div>
+
+
+                <a asp-controller="Appointments"
+                   asp-action="Create"
+                   class="calendar-new">
+
+                    <span>+</span>
+                    NEW APPOINTMENT
+
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             FILTERS
+        ====================================================== -->
+
+        <form asp-action="Index"
+              method="get"
+              class="calendar-filter">
+
+            <div class="calendar-filter-field">
+
+                <input type="date"
+                       name="date"
+                       value="@selectedDate.ToString("yyyy-MM-dd")" />
+
+            </div>
+
+
+            <div class="calendar-filter-field">
+
+                <select name="status">
+
+                    <option value="">
+                        ALL STATUS
+                    </option>
+
+                    <option value="Confirmed"
+                            selected="@(ViewBag.Status == "Confirmed")">
+                        CONFIRMED
+                    </option>
+
+                    <option value="Pending"
+                            selected="@(ViewBag.Status == "Pending")">
+                        PENDING
+                    </option>
+
+                    <option value="Completed"
+                            selected="@(ViewBag.Status == "Completed")">
+                        COMPLETED
+                    </option>
+
+                    <option value="Cancelled"
+                            selected="@(ViewBag.Status == "Cancelled")">
+                        CANCELLED
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="calendar-filter-field">
+
+                <select name="staffId">
+
+                    <option value="">
+                        ALL ARTISTS
+                    </option>
+
+                    @foreach (var member in (List<AUREVA.Models.Staff>)ViewBag.Staff)
+                    {
+                        <option value="@member.Id"
+                                selected="@(ViewBag.StaffId == member.Id)">
+                            @member.FullName
+                        </option>
+                    }
+
+                </select>
+
+            </div>
+
+
+            <button type="submit">
+                FILTER
+            </button>
+
+
+            <a asp-action="Index"
+               asp-route-date="@selectedDate.ToString("yyyy-MM-dd")"
+               class="calendar-clear">
+                CLEAR
+            </a>
+
+        </form>
+
+
+        <!-- =====================================================
+             DAY NAVIGATION
+        ====================================================== -->
+
+        <nav class="calendar-navigation">
+
+            <a asp-action="Index"
+               asp-route-date="@selectedDate.AddDays(-1).ToString("yyyy-MM-dd")"
+               class="calendar-nav-link">
+
+                ← PREVIOUS DAY
+
+            </a>
+
+
+            <a asp-action="Index"
+               asp-route-date="@DateTime.Today.ToString("yyyy-MM-dd")"
+               class="calendar-today">
+
+                TODAY
+
+            </a>
+
+
+            <a asp-action="Index"
+               asp-route-date="@selectedDate.AddDays(1).ToString("yyyy-MM-dd")"
+               class="calendar-nav-link">
+
+                NEXT DAY →
+
+            </a>
+
+        </nav>
+
+
+        <!-- =====================================================
+             APPOINTMENTS
+        ====================================================== -->
+
+        <div class="calendar-section-head">
+
+            <div class="calendar-section-label">
+                @selectedDate.ToString("dddd").ToUpper() / APPOINTMENTS
+            </div>
+
+            <div class="calendar-section-count">
+                @Model.Count() SCHEDULED
+            </div>
+
+        </div>
+
+
+        <section class="calendar-list">
+
+            @if (Model.Any())
+            {
+
+                foreach (var appointment in Model)
+                {
+
+                    var statusClass =
+                        appointment.Status?.ToLower() ?? "";
+
+                    <article class="appointment">
+
+                        <!-- TIME -->
+
+                        <div class="appointment-time">
+
+                            @appointment.StartTime.ToString("HH:mm")
+
+                            <small>
+                                START TIME
+                            </small>
+
+                        </div>
+
+
+                        <!-- CLIENT -->
+
+                        <div class="appointment-client">
+
+                            <div class="appointment-client-name">
+                                @appointment.Client?.FullName
+                            </div>
+
+                            <div class="appointment-service">
+                                @appointment.Service?.Name
+                            </div>
+
+                        </div>
+
+
+                        <!-- STAFF -->
+
+                        <div class="appointment-staff">
+
+                            @appointment.Staff?.FullName
+
+                        </div>
+
+
+                        <!-- DURATION -->
+
+                        <div class="appointment-duration">
+
+                            <strong>
+                                @appointment.DurationMinutes
+                            </strong>
+
+                            MINUTES
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <div class="appointment-status @statusClass">
+
+                            @appointment.Status.ToUpper()
+
+                        </div>
+
+                    </article>
+
+                }
+
+            }
+            else
+            {
+
+                <div class="calendar-empty">
+
+                    <div class="empty-number">
+                        00
+                    </div>
+
+                    <div>
+
+                        <div class="empty-title">
+                            A quiet day at the atelier.
+                        </div>
+
+                        <div class="empty-description">
+                            No appointments are scheduled
+                            for this day.
+                        </div>
+
+                    </div>
+
+                    <a asp-controller="Appointments"
+                       asp-action="Create"
+                       class="empty-button">
+
+                        + ADD APPOINTMENT
+
+                    </a>
+
+                </div>
+
+            }
+
+        </section>
+
+
+        <!-- =====================================================
+             STATEMENT
+        ====================================================== -->
+
+        <section class="calendar-statement">
+
+            <div class="statement-mark">
+                A
+            </div>
+
+
+            <div>
+
+                <div class="statement-label">
+                    AUREVA / DAILY PHILOSOPHY
+                </div>
+
+                <h2 class="statement-title">
+                    Make time<br />
+                    <span>feel personal.</span>
+                </h2>
+
+            </div>
+
+
+            <div class="statement-side">
+
+                The calendar is more than
+                a schedule. It is the rhythm
+                behind every AUREVA experience.
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>

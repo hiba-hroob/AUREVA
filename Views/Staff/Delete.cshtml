@@ -1,0 +1,50 @@
+﻿@model AUREVA.Models.Staff
+
+@{
+    ViewData["Title"] = "Delete Staff";
+}
+
+<div style="min-height:100vh;background:#EDE9E1;color:#0B1424;font-family:'Segoe UI',sans-serif;padding:140px 25px 80px;">
+
+    <div style="max-width:850px;margin:auto;">
+
+        <div style="color:#C5A15B;font-size:9px;font-weight:700;letter-spacing:.4em;">
+            AUREVA / REMOVE TEAM MEMBER
+        </div>
+
+        <h1 style="margin:22px 0 40px;font-family:Georgia,serif;font-size:clamp(4rem,7vw,7rem);line-height:.8;font-weight:400;">
+            Remove
+            <br />
+            @Model.FullName?
+        </h1>
+
+        <div style="background:white;border:1px solid rgba(11,20,36,.14);padding:45px;">
+
+            <p style="color:rgba(11,20,36,.5);line-height:1.8;">
+                This will permanently remove this team member from AUREVA.
+            </p>
+
+            <form asp-action="Delete"
+                  method="post"
+                  style="display:flex;justify-content:space-between;align-items:center;margin-top:35px;">
+
+                <input type="hidden" asp-for="Id" />
+
+                <a asp-action="Details"
+                   asp-route-id="@Model.Id"
+                   style="color:rgba(11,20,36,.4);text-decoration:none;font-size:8px;font-weight:700;letter-spacing:.2em;">
+                    ← CANCEL
+                </a>
+
+                <button type="submit"
+                        style="border:0;border-radius:999px;background:#0B1424;color:white;padding:15px 24px;font-size:8px;font-weight:700;letter-spacing:.2em;cursor:pointer;">
+                    DELETE STAFF →
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

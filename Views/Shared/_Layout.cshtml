@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>
+        @ViewData["Title"] - AUREVA
+    </title>
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/AUREVA.styles.css"
+          asp-append-version="true" />
+    <style>
+
+            .aureva-global-nav {
+                --burgundy: #5A1028;
+                --burgundy-dark: #420B1D;
+                --burgundy-light: #7A2440;
+                --cream: #F7F3EE;
+                position: fixed;
+                z-index: 9999;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                width: max-content;
+                max-width: calc(100% - 28px);
+                padding: 7px;
+                background: #075B5A;
+                border: 1px solid rgba(90,16,40,.25);
+                border-radius: 999px;
+                backdrop-filter: blur(18px);
+                box-shadow: 0 15px 60px rgba(90,16,40,.18);
+            }
+
+
+                .aureva-global-nav a {
+                    color: white;
+                    text-decoration: none;
+                    padding: 11px 14px;
+                    border-radius: 999px;
+                    font-size: 8px;
+                    font-weight: 700;
+                    letter-spacing: .16em;
+                    transition: .25s ease;
+                    white-space: nowrap;
+                }
+
+
+                    .aureva-global-nav a:hover {
+                        background: white;
+                        color: var(--teal-deep);
+                    }
+
+
+                .aureva-global-nav .aureva-nav-logo {
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    font-size: 13px;
+                    letter-spacing: .32em;
+                    color: white;
+                }
+
+
+                .aureva-global-nav .aureva-nav-action {
+                    border: 1px solid #650018;
+                    border-radius: 999px;
+                    padding: 15px 23px;
+                    background: #800020;
+                    color: #FFFFFF;
+                    font-size: 9px;
+                    font-weight: 800;
+                    letter-spacing: .20em;
+                    cursor: pointer;
+     
+                 
+                }
+
+
+                    .aureva-global-nav .aureva-nav-action:hover {
+                        background: #FFFFFF;
+                        color: var(--teal-deep);
+                        border-color: #FFFFFF;
+                    }
+
+
+            @@media (max-width: 850px) {
+
+                .aureva-global-nav {
+                    overflow-x: auto;
+                    justify-content: flex-start;
+                }
+
+
+                    .aureva-global-nav a {
+                        padding: 10px 11px;
+                    }
+
+
+                    .aureva-global-nav .aureva-nav-logo {
+                        padding-left: 14px;
+                        padding-right: 14px;
+                    }
+            }
+
+    </style>
+
+
+</head>
+
+
+<body>
+
+    <!-- GLOBAL AUREVA NAVIGATION -->
+
+    <nav class="aureva-global-nav">
+
+        <a asp-controller="Home"
+           asp-action="Index"
+           class="aureva-nav-logo">
+            AUREVA
+        </a>
+
+
+        <a asp-controller="Dashboard"
+           asp-action="Index">
+            DASHBOARD
+        </a>
+
+
+        <a asp-controller="Clients"
+           asp-action="Index">
+            CLIENTS
+        </a>
+
+
+        <a asp-controller="Services"
+           asp-action="Index">
+            SERVICES
+        </a>
+
+
+        <a asp-controller="Staff"
+           asp-action="Index">
+            STAFF
+        </a>
+
+
+        <a asp-controller="Calendar"
+           asp-action="Index">
+            CALENDAR
+        </a>
+
+
+        <a asp-controller="Appointments"
+           asp-action="Index"
+           class="aureva-nav-action">
+            + APPOINTMENT
+        </a>
+
+    </nav>
+
+
+    <main role="main">
+
+        @RenderBody()
+
+    </main>
+
+
+    <script src="~/js/site.js"
+            asp-append-version="true">
+    </script>
+
+
+    @await RenderSectionAsync(
+        "Scripts",
+        required: false
+    )
+
+</body>
+
+</html>

@@ -1,0 +1,948 @@
+﻿@model AUREVA.Models.Client
+
+@{
+    ViewData["Title"] = "Edit Client";
+}
+
+<style>
+    /* =========================================================
+           AUREVA / EDIT CLIENT
+           EDITORIAL LUXURY — MODERN ATELIER
+        ========================================================= */
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    .edit-page {
+        --teal: #19B8B2;
+        --teal-dark: #087F7A;
+        --teal-deep: #075B5A;
+        --teal-soft: #DDF5F3;
+        --teal-pale: #F1FBFA;
+        --burgundy: #800020;
+        --burgundy-dark: #5C0017;
+        --burgundy-soft: #E8C5CD;
+        --burgundy-pale: #FAEFF2;
+        --white: #FFFFFF;
+        --ivory: #FAFCFB;
+        --ivory-dark: #EEF5F4;
+        --text: #183333;
+        --text-soft: #486361;
+        --text-muted: #78908E;
+        --line: rgba(24,51,51,.10);
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+        background: radial-gradient( circle at 88% 5%, rgba(25,184,178,.13), transparent 25% ), radial-gradient( circle at 5% 72%, rgba(128,0,32,.07), transparent 27% ), linear-gradient( 180deg, #FFFFFF 0%, #FAFCFB 58%, #EEF5F4 100% );
+        color: var(--text);
+        font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+        .edit-page *,
+        .edit-page *::before,
+        .edit-page *::after {
+            box-sizing: border-box;
+        }
+
+        .edit-page a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+
+        /* =========================================================
+           BACKGROUND A
+        ========================================================= */
+
+        .edit-page::before {
+            content: "A";
+            position: absolute;
+            right: -40px;
+            top: 95px;
+            color: rgba(25,184,178,.085);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(19rem, 34vw, 34rem);
+            line-height: .72;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .edit-page::after {
+            content: "";
+            position: absolute;
+            left: -250px;
+            top: 500px;
+            width: 510px;
+            height: 510px;
+            border: 1px solid rgba(25,184,178,.08);
+            border-radius: 50%;
+            box-shadow: 0 0 0 48px rgba(25,184,178,.022), 0 0 0 95px rgba(128,0,32,.015);
+            pointer-events: none;
+        }
+
+
+    /* =========================================================
+           NAVIGATION
+        ========================================================= */
+
+    .edit-nav {
+        position: fixed;
+        z-index: 100;
+        top: 25px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        padding: 7px;
+        background: rgba(255,255,255,.86);
+        border: 1px solid rgba(24,51,51,.09);
+        border-radius: 999px;
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        box-shadow: 0 18px 55px rgba(24,51,51,.07);
+    }
+
+        .edit-nav button {
+            border: 0;
+            background: transparent;
+            color: var(--text-soft);
+            padding: 12px 18px;
+            border-radius: 999px;
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: .20em;
+            cursor: pointer;
+            transition: background .3s ease, color .3s ease, transform .3s ease;
+        }
+
+            .edit-nav button:hover {
+                background: var(--burgundy);
+                color: white;
+                transform: translateY(-1px);
+            }
+
+    .edit-logo {
+        padding: 0 23px;
+        color: var(--teal-deep);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 17px;
+        font-weight: 400;
+        letter-spacing: .13em;
+    }
+
+    .edit-divider {
+        width: 1px;
+        height: 19px;
+        background: rgba(24,51,51,.10);
+    }
+
+
+    /* =========================================================
+           SHELL
+        ========================================================= */
+
+    .edit-shell {
+        position: relative;
+        z-index: 2;
+        width: min(1320px, calc(100% - 64px));
+        margin: 0 auto;
+        padding: 150px 0 100px;
+    }
+
+
+    /* =========================================================
+           HEADER
+        ========================================================= */
+
+    .edit-header {
+        display: grid;
+        grid-template-columns: 1fr 330px;
+        gap: 65px;
+        align-items: end;
+        padding-bottom: 44px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .edit-kicker {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        color: var(--burgundy);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .38em;
+    }
+
+        .edit-kicker::before {
+            content: "";
+            width: 47px;
+            height: 1px;
+            background: linear-gradient( 90deg, var(--teal), var(--burgundy) );
+        }
+
+    .edit-title {
+        margin: 24px 0 0;
+        color: var(--teal-deep);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(5rem, 8vw, 8.4rem);
+        font-weight: 400;
+        line-height: .75;
+        letter-spacing: -.085em;
+    }
+
+        .edit-title span {
+            display: block;
+            color: var(--burgundy);
+        }
+
+    .edit-intro {
+        max-width: 355px;
+        margin: 0 0 5px auto;
+        padding-left: 18px;
+        border-left: 1px solid var(--burgundy);
+        color: var(--text-muted);
+        font-size: 10px;
+        line-height: 1.95;
+    }
+
+
+    /* =========================================================
+           LAYOUT
+        ========================================================= */
+
+    .edit-layout {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 55px;
+        margin-top: 55px;
+    }
+
+
+    /* =========================================================
+           SIDEBAR
+        ========================================================= */
+
+    .edit-side-label {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        color: var(--burgundy);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .30em;
+    }
+
+        .edit-side-label::before {
+            content: "";
+            width: 32px;
+            height: 1px;
+            background: var(--teal);
+        }
+
+    .edit-side-title {
+        margin-top: 20px;
+        color: var(--teal-deep);
+        font-family: "Segoe UI", Arial, sans-serif;
+        font-size: 38px;
+        font-weight: 400;
+        line-height: .9;
+        letter-spacing: -.05em;
+    }
+
+    .edit-side-text {
+        max-width: 255px;
+        margin-top: 25px;
+        color: var(--text-muted);
+        font-size: 9px;
+        line-height: 1.9;
+    }
+
+        .edit-side-text::before {
+            content: "01";
+            display: block;
+            margin-bottom: 18px;
+            color: var(--burgundy);
+            font-family: Georgia, serif;
+            font-size: 15px;
+        }
+
+
+    /* =========================================================
+           FORM
+        ========================================================= */
+
+    .edit-form {
+        position: relative;
+        overflow: hidden;
+        padding: 46px;
+        background: linear-gradient( 145deg, rgba(255,255,255,.98), rgba(247,251,250,.95) );
+        border: 1px solid var(--line);
+        box-shadow: 0 35px 90px rgba(24,51,51,.075);
+    }
+
+        .edit-form::after {
+            content: "A";
+            position: absolute;
+            right: -18px;
+            bottom: -85px;
+            color: rgba(25,184,178,.035);
+            font-family: Georgia, serif;
+            font-size: 220px;
+            line-height: .8;
+            pointer-events: none;
+        }
+
+
+        /* =========================================================
+           VALIDATION
+        ========================================================= */
+
+        .edit-form > div[asp-validation-summary],
+        .edit-form > #validation-summary {
+            color: var(--burgundy);
+            font-size: 8px;
+        }
+
+        .edit-form .validation-summary-errors {
+            position: relative;
+            z-index: 3;
+            margin-bottom: 25px;
+            color: var(--burgundy);
+            font-size: 8px;
+            line-height: 1.7;
+        }
+
+
+    /* =========================================================
+           FORM SECTIONS
+        ========================================================= */
+
+    .edit-section {
+        position: relative;
+        z-index: 2;
+        padding-bottom: 34px;
+        margin-bottom: 34px;
+        border-bottom: 1px solid var(--line);
+    }
+
+        .edit-section:last-of-type {
+            border-bottom: 0;
+            margin-bottom: 0;
+        }
+
+    .edit-heading {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        margin-bottom: 27px;
+        color: var(--burgundy);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .30em;
+    }
+
+        .edit-heading::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: linear-gradient( 90deg, rgba(24,51,51,.10), transparent );
+        }
+
+
+    /* =========================================================
+           FORM GRID
+        ========================================================= */
+
+    .edit-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 27px 30px;
+    }
+
+    .edit-field {
+        position: relative;
+    }
+
+        .edit-field.full {
+            grid-column: 1 / -1;
+        }
+
+        .edit-field label {
+            display: block;
+            margin-bottom: 9px;
+            color: var(--burgundy);
+            font-size: 7px;
+            font-weight: 800;
+            letter-spacing: .22em;
+        }
+
+        .edit-field input,
+        .edit-field textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid rgba(7,91,90,.13);
+            border-radius: 0;
+            outline: none;
+            background: var(--teal-pale);
+            color: var(--teal-deep);
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 600;
+            transition: border-color .3s ease, background .3s ease, box-shadow .3s ease;
+        }
+
+        .edit-field textarea {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.75;
+        }
+
+            .edit-field input:focus,
+            .edit-field textarea:focus {
+                border-color: var(--teal);
+                background: white;
+                box-shadow: 0 0 0 3px rgba(25,184,178,.08);
+            }
+
+            .edit-field input::placeholder,
+            .edit-field textarea::placeholder {
+                color: rgba(7,91,90,.32);
+            }
+
+        .edit-field span {
+            display: block;
+            margin-top: 6px;
+            color: var(--burgundy);
+            font-size: 7px;
+            line-height: 1.5;
+        }
+
+
+        /* =========================================================
+           NUMBER / DATE FIELDS
+        ========================================================= */
+
+        .edit-field input[type="number"],
+        .edit-field input[type="date"] {
+            color: var(--teal-deep);
+        }
+
+            .edit-field input[type="date"]::-webkit-calendar-picker-indicator {
+                opacity: .45;
+                cursor: pointer;
+                filter: sepia(30%);
+            }
+
+
+    /* =========================================================
+           ACTIONS
+        ========================================================= */
+
+    .edit-actions {
+        position: relative;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-top: 40px;
+        padding-top: 25px;
+        border-top: 1px solid var(--line);
+    }
+
+    .edit-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .20em;
+        transition: color .3s ease, transform .3s ease;
+    }
+
+        .edit-back:hover {
+            color: var(--burgundy);
+            transform: translateX(-3px);
+        }
+
+    .edit-save {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 52px;
+        padding: 0 27px;
+        border: 0;
+        border-radius: 0;
+        background: var(--burgundy);
+        color: white;
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .20em;
+        cursor: pointer;
+        transition: transform .35s ease, background .35s ease, box-shadow .35s ease;
+    }
+
+        .edit-save:hover {
+            transform: translateY(-3px);
+            background: var(--teal-deep);
+            box-shadow: 0 17px 36px rgba(7,91,90,.18);
+        }
+
+
+    /* =========================================================
+           TABLET
+        ========================================================= */
+
+    @@media (max-width: 1000px) {
+
+        .edit-shell {
+            width: min(1180px, calc(100% - 48px));
+        }
+
+        .edit-header {
+            grid-template-columns: 1fr 280px;
+            gap: 35px;
+        }
+
+        .edit-layout {
+            grid-template-columns: 210px 1fr;
+            gap: 35px;
+        }
+
+        .edit-form {
+            padding: 35px;
+        }
+    }
+
+
+    /* =========================================================
+           MOBILE
+        ========================================================= */
+
+    @@media (max-width: 760px) {
+
+        .edit-page {
+            padding: 0;
+        }
+
+            .edit-page::before {
+                right: -30px;
+                top: 105px;
+                font-size: 18rem;
+            }
+
+        .edit-nav {
+            top: 15px;
+            width: calc(100% - 28px);
+            justify-content: space-between;
+        }
+
+            .edit-nav button {
+                padding: 10px 12px;
+                font-size: 7px;
+            }
+
+        .edit-logo {
+            padding: 0 12px;
+            font-size: 14px;
+        }
+
+        .edit-shell {
+            width: calc(100% - 28px);
+            padding: 112px 0 65px;
+        }
+
+        .edit-header {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .edit-title {
+            font-size: clamp(4.3rem, 18vw, 6.7rem);
+        }
+
+        .edit-intro {
+            max-width: 320px;
+            margin-left: 0;
+        }
+
+        .edit-layout {
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-top: 45px;
+        }
+
+        .edit-side-title {
+            font-size: 34px;
+        }
+
+        .edit-side-text {
+            max-width: 310px;
+        }
+
+        .edit-form {
+            padding: 29px 22px;
+        }
+
+        .edit-grid {
+            grid-template-columns: 1fr;
+            gap: 23px;
+        }
+
+        .edit-field.full {
+            grid-column: auto;
+        }
+
+        .edit-actions {
+            align-items: stretch;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .edit-save {
+            width: 100%;
+        }
+    }
+
+
+    /* =========================================================
+           SMALL MOBILE
+        ========================================================= */
+
+    @@media (max-width: 430px) {
+
+        .edit-nav {
+            width: calc(100% - 20px);
+        }
+
+        .edit-logo {
+            padding: 0 8px;
+            font-size: 12px;
+        }
+
+        .edit-nav button {
+            padding: 9px 10px;
+        }
+
+        .edit-shell {
+            width: calc(100% - 20px);
+        }
+
+        .edit-title {
+            font-size: 4.15rem;
+        }
+
+        .edit-form {
+            padding: 25px 18px;
+        }
+
+        .edit-side-title {
+            font-size: 31px;
+        }
+
+        .edit-heading {
+            letter-spacing: .25em;
+        }
+    }
+
+
+    /* =========================================================
+           REDUCED MOTION
+        ========================================================= */
+
+    @@media (prefers-reduced-motion: reduce) {
+
+        .edit-page *,
+        .edit-page *::before,
+        .edit-page *::after {
+            transition: none !important;
+            animation: none !important;
+        }
+    }
+
+</style>
+
+<div class="edit-page">
+
+    <nav class="edit-nav">
+
+        <button type="button"
+                onclick="window.location.href='/Clients'">
+            CLIENTS
+        </button>
+
+        <div class="edit-divider"></div>
+
+        <div class="edit-logo">
+            AUREVA
+        </div>
+
+        <div class="edit-divider"></div>
+
+        <button type="button"
+                onclick="window.location.href='/'">
+            HOME
+        </button>
+
+    </nav>
+
+
+    <main class="edit-shell">
+
+        <header class="edit-header">
+
+            <div>
+
+                <div class="edit-kicker">
+                    AUREVA / EDIT RELATIONSHIP
+                </div>
+
+                <h1 class="edit-title">
+                    Refine.
+                    <br />
+                    <span>Remember.</span>
+                </h1>
+
+            </div>
+
+            <p class="edit-intro">
+                Keep the client profile accurate so every future
+                interaction feels intentional and personal.
+            </p>
+
+        </header>
+
+
+        <div class="edit-layout">
+
+            <aside>
+
+                <div class="edit-side-label">
+                    CLIENT PROFILE
+                </div>
+
+                <div class="edit-side-title">
+                    Update the
+                    details.
+                </div>
+
+                <p class="edit-side-text">
+                    Changes are saved directly to the AUREVA
+                    client record.
+                </p>
+
+            </aside>
+
+
+            <form asp-action="Edit"
+                  asp-route-id="@Model.Id"
+                  method="post"
+                  class="edit-form">
+
+                <input type="hidden"
+                       asp-for="Id" />
+
+                <div asp-validation-summary="ModelOnly"></div>
+
+
+                <section class="edit-section">
+
+                    <div class="edit-heading">
+                        BASIC INFORMATION
+                    </div>
+
+                    <div class="edit-grid">
+
+                        <div class="edit-field full">
+
+                            <label asp-for="FullName">
+                                FULL NAME
+                            </label>
+
+                            <input asp-for="FullName" />
+
+                            <span asp-validation-for="FullName"></span>
+
+                        </div>
+
+
+                        <div class="edit-field">
+
+                            <label asp-for="Email">
+                                EMAIL
+                            </label>
+
+                            <input asp-for="Email"
+                                   type="email" />
+
+                            <span asp-validation-for="Email"></span>
+
+                        </div>
+
+
+                        <div class="edit-field">
+
+                            <label asp-for="Phone">
+                                PHONE
+                            </label>
+
+                            <input asp-for="Phone" />
+
+                            <span asp-validation-for="Phone"></span>
+
+                        </div>
+
+
+                        <div class="edit-field">
+
+                            <label asp-for="DateOfBirth">
+                                DATE OF BIRTH
+                            </label>
+
+                            <input asp-for="DateOfBirth"
+                                   type="date" />
+
+                            <span asp-validation-for="DateOfBirth"></span>
+
+                        </div>
+
+
+                        <div class="edit-field">
+
+                            <label asp-for="FavoriteService">
+                                FAVORITE SERVICE
+                            </label>
+
+                            <input asp-for="FavoriteService" />
+
+                            <span asp-validation-for="FavoriteService"></span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <section class="edit-section">
+
+                    <div class="edit-heading">
+                        CLIENT HISTORY
+                    </div>
+
+                    <div class="edit-grid">
+
+                        <div class="edit-field">
+
+                            <label asp-for="TotalVisits">
+                                TOTAL VISITS
+                            </label>
+
+                            <input asp-for="TotalVisits"
+                                   type="number"
+                                   min="0" />
+
+                            <span asp-validation-for="TotalVisits"></span>
+
+                        </div>
+
+
+                        <div class="edit-field">
+
+                            <label asp-for="TotalSpent">
+                                TOTAL SPENT
+                            </label>
+
+                            <input asp-for="TotalSpent"
+                                   type="number"
+                                   min="0"
+                                   step="0.01" />
+
+                            <span asp-validation-for="TotalSpent"></span>
+
+                        </div>
+
+
+                        <div class="edit-field">
+
+                            <label asp-for="LastVisit">
+                                LAST VISIT
+                            </label>
+
+                            <input asp-for="LastVisit"
+                                   type="date" />
+
+                            <span asp-validation-for="LastVisit"></span>
+
+                        </div>
+
+
+                        <div class="edit-field">
+
+                            <label asp-for="Rating">
+                                RATING
+                            </label>
+
+                            <input asp-for="Rating"
+                                   type="number"
+                                   min="0"
+                                   max="5"
+                                   step="0.1" />
+
+                            <span asp-validation-for="Rating"></span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <section class="edit-section">
+
+                    <div class="edit-heading">
+                        PRIVATE NOTES
+                    </div>
+
+                    <div class="edit-field">
+
+                        <label asp-for="Notes">
+                            NOTES
+                        </label>
+
+                        <textarea asp-for="Notes"></textarea>
+
+                        <span asp-validation-for="Notes"></span>
+
+                    </div>
+
+                </section>
+
+
+                <div class="edit-actions">
+
+                    <a asp-action="Details"
+                       asp-route-id="@Model.Id"
+                       class="edit-back">
+                        ← CANCEL
+                    </a>
+
+                    <button type="submit"
+                            class="edit-save">
+                        SAVE CHANGES →
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>

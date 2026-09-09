@@ -1,0 +1,1012 @@
+﻿@model AUREVA.Models.Service
+
+@{
+    ViewData["Title"] = "Edit Service";
+}
+
+<style>
+    /* =========================================================
+           AUREVA / EDIT SERVICE
+           EDITORIAL LUXURY — MODERN ATELIER
+        ========================================================= */
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    .service-edit-page {
+        --teal: #19B8B2;
+        --teal-dark: #087F7A;
+        --teal-deep: #075B5A;
+        --teal-soft: #DDF5F3;
+        --teal-pale: #F1FBFA;
+        --burgundy: #800020;
+        --burgundy-dark: #5C0017;
+        --burgundy-soft: #E8C5CD;
+        --burgundy-pale: #FAEFF2;
+        --white: #FFFFFF;
+        --ivory: #FAFCFB;
+        --ivory-dark: #EEF5F4;
+        --text: #183333;
+        --text-soft: #486361;
+        --text-muted: #78908E;
+        --line: rgba(24,51,51,.10);
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+        padding: 145px 0 100px;
+        background: radial-gradient( circle at 88% 6%, rgba(25,184,178,.13), transparent 25% ), radial-gradient( circle at 5% 75%, rgba(128,0,32,.07), transparent 27% ), linear-gradient( 180deg, #FFFFFF 0%, #FAFCFB 58%, #EEF5F4 100% );
+        color: var(--text);
+        font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+        .service-edit-page *,
+        .service-edit-page *::before,
+        .service-edit-page *::after {
+            box-sizing: border-box;
+        }
+
+        .service-edit-page a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+
+        /* =========================================================
+           BACKGROUND A
+        ========================================================= */
+
+        .service-edit-page::before {
+            content: "A";
+            position: absolute;
+            right: -40px;
+            top: 75px;
+            color: rgba(25,184,178,.085);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(19rem, 34vw, 34rem);
+            line-height: .72;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .service-edit-page::after {
+            content: "";
+            position: absolute;
+            left: -260px;
+            top: 500px;
+            width: 520px;
+            height: 520px;
+            border: 1px solid rgba(25,184,178,.08);
+            border-radius: 50%;
+            box-shadow: 0 0 0 48px rgba(25,184,178,.022), 0 0 0 95px rgba(128,0,32,.015);
+            pointer-events: none;
+        }
+
+
+    /* =========================================================
+           SHELL
+        ========================================================= */
+
+    .service-edit-shell {
+        position: relative;
+        z-index: 2;
+        width: min(1180px, calc(100% - 64px));
+        margin: auto;
+    }
+
+
+    /* =========================================================
+           TOP LINE
+        ========================================================= */
+
+    .service-edit-topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 40px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .service-edit-kicker {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        color: var(--burgundy);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .38em;
+        text-transform: uppercase;
+    }
+
+        .service-edit-kicker::before {
+            content: "";
+            width: 47px;
+            height: 1px;
+            background: linear-gradient( 90deg, var(--teal), var(--burgundy) );
+        }
+
+    .service-edit-edition {
+        color: var(--text-muted);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .24em;
+    }
+
+
+    /* =========================================================
+           HERO
+        ========================================================= */
+
+    .service-edit-hero {
+        display: grid;
+        grid-template-columns: 1fr 290px;
+        gap: 65px;
+        align-items: end;
+        padding-bottom: 45px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .service-edit-title {
+        margin: 0;
+        color: var(--teal-deep);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(5rem, 8vw, 8.5rem);
+        font-weight: 400;
+        line-height: .73;
+        letter-spacing: -.085em;
+    }
+
+        .service-edit-title span {
+            display: block;
+            color: var(--burgundy);
+        }
+
+    .service-edit-intro {
+        max-width: 390px;
+        margin: 31px 0 0;
+        padding-left: 19px;
+        border-left: 1px solid var(--burgundy);
+        color: var(--text-muted);
+        font-size: 10px;
+        line-height: 1.95;
+    }
+
+
+    /* =========================================================
+           HERO NOTE
+        ========================================================= */
+
+    .service-edit-note {
+        padding: 25px;
+        background: rgba(255,255,255,.80);
+        border: 1px solid var(--line);
+        box-shadow: 0 25px 60px rgba(24,51,51,.05);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
+    .service-edit-note-number {
+        color: var(--burgundy);
+        font-family: Georgia, serif;
+        font-size: 50px;
+        line-height: .8;
+        letter-spacing: -.07em;
+    }
+
+    .service-edit-note-label {
+        margin-top: 14px;
+        color: var(--teal-deep);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .20em;
+    }
+
+    .service-edit-note-copy {
+        margin-top: 12px;
+        color: var(--text-muted);
+        font-size: 8px;
+        line-height: 1.85;
+    }
+
+    .service-edit-note-line {
+        width: 38px;
+        height: 1px;
+        margin-top: 23px;
+        background: linear-gradient( 90deg, var(--teal), var(--burgundy) );
+    }
+
+
+    /* =========================================================
+           MAIN LAYOUT
+        ========================================================= */
+
+    .service-edit-layout {
+        display: grid;
+        grid-template-columns: 255px 1fr;
+        gap: 55px;
+        margin-top: 55px;
+    }
+
+
+    /* =========================================================
+           SIDE PANEL
+        ========================================================= */
+
+    .service-edit-side {
+        position: relative;
+        align-self: start;
+        padding-top: 4px;
+    }
+
+    .service-edit-side-label {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        color: var(--burgundy);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .30em;
+    }
+
+        .service-edit-side-label::before {
+            content: "";
+            width: 32px;
+            height: 1px;
+            background: var(--teal);
+        }
+
+    .service-edit-side-title {
+        margin-top: 20px;
+        color: var(--teal-deep);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 39px;
+        font-weight: 400;
+        line-height: .9;
+        letter-spacing: -.05em;
+    }
+
+    .service-edit-side-text {
+        max-width: 245px;
+        margin-top: 24px;
+        color: var(--text-muted);
+        font-size: 9px;
+        line-height: 1.9;
+    }
+
+    .service-edit-side-number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 62px;
+        height: 62px;
+        margin-top: 35px;
+        border: 1px solid rgba(128,0,32,.20);
+        border-radius: 50%;
+        color: var(--burgundy);
+        font-family: Georgia, serif;
+        font-size: 22px;
+    }
+
+        .service-edit-side-number::before {
+            content: "";
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            border: 1px dashed rgba(25,184,178,.20);
+            border-radius: 50%;
+        }
+
+
+    /* =========================================================
+           FORM CARD
+        ========================================================= */
+
+    .service-edit-form {
+        position: relative;
+        overflow: hidden;
+        padding: 46px;
+        background: linear-gradient( 145deg, rgba(255,255,255,.98), rgba(247,251,250,.95) ) !important;
+        border: 1px solid var(--line) !important;
+        border-radius: 0 !important;
+        box-shadow: 0 35px 90px rgba(24,51,51,.075) !important;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+        .service-edit-form::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient( 90deg, var(--teal), var(--burgundy) );
+        }
+
+        .service-edit-form::after {
+            content: "A";
+            position: absolute;
+            right: -20px;
+            bottom: -95px;
+            color: rgba(25,184,178,.035);
+            font-family: Georgia, serif;
+            font-size: 225px;
+            line-height: .8;
+            pointer-events: none;
+        }
+
+
+        /* =========================================================
+           VALIDATION
+        ========================================================= */
+
+        .service-edit-form .validation-summary-errors {
+            position: relative;
+            z-index: 3;
+            margin-bottom: 27px;
+            padding: 14px 17px;
+            border: 1px solid rgba(128,0,32,.08);
+            background: var(--burgundy-pale);
+            color: var(--burgundy);
+            font-size: 8px;
+            line-height: 1.7;
+        }
+
+
+    /* =========================================================
+           FIELD SECTIONS
+        ========================================================= */
+
+    .service-edit-section {
+        position: relative;
+        z-index: 2;
+        padding-bottom: 34px;
+        margin-bottom: 34px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .service-edit-heading {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        margin-bottom: 27px;
+        color: var(--burgundy);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .30em;
+    }
+
+        .service-edit-heading::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: linear-gradient( 90deg, var(--line), transparent );
+        }
+
+
+    /* =========================================================
+           FORM FIELDS
+        ========================================================= */
+
+    .service-edit-field {
+        position: relative;
+        margin-bottom: 26px;
+    }
+
+        .service-edit-field:last-child {
+            margin-bottom: 0;
+        }
+
+    .service-edit-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 26px 30px;
+    }
+
+    .service-edit-field.full {
+        grid-column: 1 / -1;
+    }
+
+    .service-edit-field label {
+        display: block;
+        margin-bottom: 9px;
+        color: var(--burgundy);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .22em;
+        text-transform: uppercase;
+    }
+
+    .service-edit-field input,
+    .service-edit-field textarea {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid rgba(7,91,90,.13) !important;
+        border-radius: 0 !important;
+        outline: none;
+        background: var(--teal-pale) !important;
+        color: var(--teal-deep);
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: 600;
+        transition: border-color .3s ease, background .3s ease, box-shadow .3s ease, transform .3s ease;
+    }
+
+    .service-edit-field textarea {
+        min-height: 125px;
+        resize: vertical;
+        line-height: 1.75;
+    }
+
+        .service-edit-field input::placeholder,
+        .service-edit-field textarea::placeholder {
+            color: rgba(7,91,90,.30);
+        }
+
+        .service-edit-field input:focus,
+        .service-edit-field textarea:focus {
+            border-color: var(--teal) !important;
+            background: white !important;
+            box-shadow: 0 0 0 3px rgba(25,184,178,.08), 0 10px 25px rgba(24,51,51,.045);
+            transform: translateY(-1px);
+        }
+
+    .service-edit-field span {
+        display: block;
+        margin-top: 6px;
+        color: var(--burgundy);
+        font-size: 7px;
+        line-height: 1.5;
+    }
+
+
+    /* =========================================================
+           ACTIVE SERVICE
+        ========================================================= */
+
+    .service-edit-active {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 58px;
+        padding: 0 16px;
+        background: var(--ivory);
+        border: 1px solid var(--line);
+        transition: background .3s ease, border-color .3s ease;
+    }
+
+        .service-edit-active:hover {
+            background: var(--teal-pale);
+            border-color: rgba(25,184,178,.22);
+        }
+
+    .service-edit-active-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .service-edit-active-main {
+        color: var(--teal-deep);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .18em;
+    }
+
+    .service-edit-active-sub {
+        color: var(--text-muted);
+        font-size: 7px;
+    }
+
+    .service-edit-active input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin: 0;
+        appearance: none;
+        -webkit-appearance: none;
+        border: 1px solid rgba(24,51,51,.20);
+        background: white;
+        cursor: pointer;
+        transition: background .25s ease, border-color .25s ease;
+    }
+
+        .service-edit-active input[type="checkbox"]:checked {
+            background: var(--teal);
+            border-color: var(--teal);
+        }
+
+            .service-edit-active input[type="checkbox"]:checked::after {
+                content: "✓";
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                color: white;
+                font-size: 12px;
+                font-weight: 800;
+            }
+
+
+    /* =========================================================
+           ACTIONS
+        ========================================================= */
+
+    .service-edit-actions {
+        position: relative;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-top: 40px;
+        padding-top: 25px;
+        border-top: 1px solid var(--line);
+    }
+
+    .service-edit-cancel {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .20em;
+        transition: color .3s ease, transform .3s ease;
+    }
+
+        .service-edit-cancel:hover {
+            color: var(--burgundy);
+            transform: translateX(-3px);
+        }
+
+    .service-edit-save {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        min-height: 52px;
+        padding: 0 27px;
+        border: 0;
+        border-radius: 0;
+        background: var(--burgundy);
+        color: white;
+        font-family: inherit;
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .20em;
+        cursor: pointer;
+        box-shadow: 0 14px 30px rgba(92,0,23,.12);
+        transition: transform .35s ease, background .35s ease, box-shadow .35s ease;
+    }
+
+        .service-edit-save:hover {
+            transform: translateY(-3px);
+            background: var(--teal-deep);
+            box-shadow: 0 18px 38px rgba(7,91,90,.18);
+        }
+
+
+    /* =========================================================
+           TABLET
+        ========================================================= */
+
+    @@media (max-width: 1000px) {
+
+        .service-edit-shell {
+            width: min(1180px, calc(100% - 48px));
+        }
+
+        .service-edit-hero {
+            grid-template-columns: 1fr 270px;
+            gap: 35px;
+        }
+
+        .service-edit-layout {
+            grid-template-columns: 210px 1fr;
+            gap: 35px;
+        }
+
+        .service-edit-form {
+            padding: 35px !important;
+        }
+    }
+
+
+    /* =========================================================
+           MOBILE
+        ========================================================= */
+
+    @@media (max-width: 760px) {
+
+        .service-edit-page {
+            padding: 105px 0 65px;
+        }
+
+            .service-edit-page::before {
+                top: 90px;
+                right: -30px;
+                font-size: 18rem;
+            }
+
+        .service-edit-shell {
+            width: calc(100% - 28px);
+        }
+
+        .service-edit-topline {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .service-edit-hero {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .service-edit-title {
+            font-size: clamp(4.3rem, 18vw, 6.8rem);
+        }
+
+        .service-edit-note {
+            max-width: 330px;
+        }
+
+        .service-edit-layout {
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-top: 45px;
+        }
+
+        .service-edit-side-title {
+            font-size: 34px;
+        }
+
+        .service-edit-side-text {
+            max-width: 320px;
+        }
+
+        .service-edit-form {
+            padding: 29px 22px !important;
+        }
+
+        .service-edit-grid {
+            grid-template-columns: 1fr;
+            gap: 23px;
+        }
+
+        .service-edit-field.full {
+            grid-column: auto;
+        }
+
+        .service-edit-actions {
+            align-items: stretch;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .service-edit-save {
+            width: 100%;
+        }
+
+        .service-edit-cancel {
+            justify-content: center;
+        }
+    }
+
+
+    /* =========================================================
+           SMALL MOBILE
+        ========================================================= */
+
+    @@media (max-width: 430px) {
+
+        .service-edit-shell {
+            width: calc(100% - 20px);
+        }
+
+        .service-edit-title {
+            font-size: 4.05rem;
+        }
+
+        .service-edit-kicker {
+            font-size: 7px;
+            letter-spacing: .29em;
+        }
+
+        .service-edit-form {
+            padding: 25px 18px !important;
+        }
+
+        .service-edit-side-title {
+            font-size: 31px;
+        }
+
+        .service-edit-heading {
+            letter-spacing: .25em;
+        }
+    }
+
+
+    /* =========================================================
+           REDUCED MOTION
+        ========================================================= */
+
+    @@media (prefers-reduced-motion: reduce) {
+
+        .service-edit-page *,
+        .service-edit-page *::before,
+        .service-edit-page *::after {
+            transition: none !important;
+            animation: none !important;
+        }
+    }
+
+</style>
+
+
+<div class="service-edit-page">
+
+    <div class="service-edit-shell">
+
+
+        <!-- =====================================================
+             TOP LINE
+        ====================================================== -->
+
+        <div class="service-edit-topline">
+
+            <div class="service-edit-kicker">
+                AUREVA / EDIT SERVICE
+            </div>
+
+            <div class="service-edit-edition">
+                SERVICE PROFILE / 02
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
+
+        <section class="service-edit-hero">
+
+            <div>
+
+                <h1 class="service-edit-title">
+                    Refine
+                    <br />
+                    <span>service.</span>
+                </h1>
+
+                <p class="service-edit-intro">
+                    Refine the service details while keeping
+                    its identity, value and experience aligned
+                    with the AUREVA atelier.
+                </p>
+
+            </div>
+
+
+            <div class="service-edit-note">
+
+                <div class="service-edit-note-number">
+                    02
+                </div>
+
+                <div class="service-edit-note-label">
+                    REFINE THE EXPERIENCE
+                </div>
+
+                <div class="service-edit-note-copy">
+                    Update the details that define how
+                    this service is presented and delivered.
+                </div>
+
+                <div class="service-edit-note-line"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FORM LAYOUT
+        ====================================================== -->
+
+        <div class="service-edit-layout">
+
+
+            <!-- =================================================
+                 SIDE
+            ================================================== -->
+
+            <aside class="service-edit-side">
+
+                <div class="service-edit-side-label">
+                    AUREVA / ATELIER
+                </div>
+
+                <div class="service-edit-side-title">
+                    Details
+                    <br />
+                    worth refining.
+                </div>
+
+                <p class="service-edit-side-text">
+                    Keep the service menu clear,
+                    intentional and consistent with
+                    the experience your clients expect.
+                </p>
+
+                <div class="service-edit-side-number">
+                    A
+                </div>
+
+            </aside>
+
+
+            <!-- =================================================
+                 FORM
+            ================================================== -->
+
+            <form asp-action="Edit"
+                  method="post"
+                  class="service-edit-form">
+
+                <input type="hidden"
+                       asp-for="Id" />
+
+                <div asp-validation-summary="ModelOnly"></div>
+
+
+                <!-- BASIC DETAILS -->
+
+                <section class="service-edit-section">
+
+                    <div class="service-edit-heading">
+                        SERVICE IDENTITY
+                    </div>
+
+
+                    <div class="service-edit-field">
+
+                        <label asp-for="Name">
+                            SERVICE NAME
+                        </label>
+
+                        <input asp-for="Name" />
+
+                        <span asp-validation-for="Name"></span>
+
+                    </div>
+
+
+                    <div class="service-edit-field">
+
+                        <label asp-for="Description">
+                            DESCRIPTION
+                        </label>
+
+                        <textarea asp-for="Description"
+                                  rows="5"></textarea>
+
+                        <span asp-validation-for="Description"></span>
+
+                    </div>
+
+                </section>
+
+
+                <!-- SERVICE VALUE -->
+
+                <section class="service-edit-section">
+
+                    <div class="service-edit-heading">
+                        SERVICE VALUE
+                    </div>
+
+
+                    <div class="service-edit-grid">
+
+                        <div class="service-edit-field">
+
+                            <label asp-for="Price">
+                                PRICE
+                            </label>
+
+                            <input asp-for="Price"
+                                   type="number"
+                                   min="0"
+                                   step="0.01" />
+
+                            <span asp-validation-for="Price"></span>
+
+                        </div>
+
+
+                        <div class="service-edit-field">
+
+                            <label asp-for="DurationMinutes">
+                                DURATION / MINUTES
+                            </label>
+
+                            <input asp-for="DurationMinutes"
+                                   type="number"
+                                   min="1" />
+
+                            <span asp-validation-for="DurationMinutes"></span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- STATUS -->
+
+                <section class="service-edit-section">
+
+                    <div class="service-edit-heading">
+                        SERVICE STATUS
+                    </div>
+
+
+                    <div class="service-edit-active">
+
+                        <div class="service-edit-active-info">
+
+                            <span class="service-edit-active-main">
+                                ACTIVE SERVICE
+                            </span>
+
+                            <span class="service-edit-active-sub">
+                                Available for appointments
+                            </span>
+
+                        </div>
+
+                        <input asp-for="IsActive" />
+
+                    </div>
+
+                </section>
+
+
+                <!-- ACTIONS -->
+
+                <div class="service-edit-actions">
+
+                    <a asp-action="Details"
+                       asp-route-id="@Model.Id"
+                       class="service-edit-cancel">
+
+                        ← CANCEL
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="service-edit-save">
+
+                        SAVE CHANGES
+
+                        <span>→</span>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,1684 @@
+﻿@model IEnumerable<AUREVA.Models.Client>
+
+@{
+    ViewData["Title"] = "Clients";
+
+    var clients = Model?.ToList() ?? new List<AUREVA.Models.Client>();
+    var featuredClient = clients.FirstOrDefault();
+
+    var recentClients = clients
+        .Where(c => c.LastVisit.HasValue)
+        .OrderByDescending(c => c.LastVisit)
+        .Take(5)
+        .ToList();
+
+    var showcaseClients = clients.Take(6).ToList();
+}
+
+<style>
+    /* =========================================================
+           AUREVA — CLIENTS
+           QUIET LUXURY / EDITORIAL IDENTITY
+           Same visual language as the main AUREVA page
+           ========================================================= */
+
+    .aureva-clients {
+        --teal: #19B8B2;
+        --teal-dark: #087F7A;
+        --teal-deep: #075B5A;
+        --teal-soft: #DDF5F3;
+        --teal-pale: #F1FBFA;
+        --burgundy: #800020;
+        --burgundy-dark: #5C0017;
+        --burgundy-soft: #E8C5CD;
+        --burgundy-pale: #FAEFF2;
+        --white: #FFFFFF;
+        --ivory: #FAFCFB;
+        --ivory-dark: #EEF5F4;
+        --text: #183333;
+        --text-soft: #486361;
+        --text-muted: #78908E;
+        --text-faint: #A8B9B7;
+        --line: rgba(7, 91, 90, .12);
+        --line-light: rgba(255,255,255,.15);
+        min-height: 100vh;
+        padding: 34px 0 90px;
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: var(--text);
+        background: radial-gradient(circle at 7% 8%, rgba(25,184,178,.10), transparent 28%), radial-gradient(circle at 92% 18%, rgba(128,0,32,.07), transparent 25%), linear-gradient(135deg, #FFFFFF 0%, #FAFCFB 52%, #F1FBFA 100%);
+    }
+
+        .aureva-clients *,
+        .aureva-clients *::before,
+        .aureva-clients *::after {
+            box-sizing: border-box;
+        }
+
+    .clients-shell {
+        width: min(1480px, calc(100% - 64px));
+        margin: 0 auto;
+    }
+
+    /* =========================================================
+           NAVIGATION
+           ========================================================= */
+
+    .clients-nav {
+        position: relative;
+        z-index: 20;
+        width: fit-content;
+        max-width: 100%;
+        margin: 0 auto 58px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 11px;
+        background: rgba(255,255,255,.78);
+        border: 1px solid rgba(7,91,90,.10);
+        border-radius: 999px;
+        box-shadow: 0 15px 45px rgba(7,91,90,.08);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+    }
+
+    .clients-logo {
+        padding: 0 18px 0 15px;
+        color: var(--teal-deep);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: .24em;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    .clients-nav-divider {
+        width: 1px;
+        height: 23px;
+        background: var(--line);
+    }
+
+    .clients-nav a:not(.clients-logo) {
+        padding: 9px 14px;
+        color: var(--teal-deep);
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: background .25s ease, color .25s ease, transform .25s ease;
+    }
+
+        .clients-nav a:not(.clients-logo):hover {
+            color: var(--white);
+            background: var(--teal-deep);
+            transform: translateY(-1px);
+        }
+
+    .clients-nav .nav-active {
+        color: var(--white) !important;
+        background: var(--burgundy);
+    }
+
+    /* =========================================================
+           HERO
+           ========================================================= */
+
+    .clients-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(360px, .65fr);
+        gap: 24px;
+        margin-bottom: 110px;
+    }
+
+    .clients-hero-copy {
+        position: relative;
+        overflow: hidden;
+        min-height: 500px;
+        padding: 74px 72px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 34px;
+        background: radial-gradient(circle at 80% 0%, rgba(25,184,178,.10), transparent 32%), linear-gradient(135deg, #FFFFFF 0%, #FAFCFB 60%, #F1FBFA 100%);
+        border: 1px solid rgba(7,91,90,.08);
+        box-shadow: 0 28px 70px rgba(7,91,90,.08);
+    }
+
+        .clients-hero-copy::after {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            right: -90px;
+            bottom: -120px;
+            border: 1px solid rgba(128,0,32,.12);
+            border-radius: 50%;
+        }
+
+    .editorial-kicker {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 23px;
+        color: var(--burgundy);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: .23em;
+        text-transform: uppercase;
+    }
+
+        .editorial-kicker::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            flex: 0 0 auto;
+            background: var(--burgundy);
+            border-radius: 50%;
+        }
+
+    .clients-hero-title {
+        margin: 0;
+        color: var(--teal-deep);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(60px, 7vw, 112px);
+        font-weight: 400;
+        line-height: .88;
+        letter-spacing: -.055em;
+    }
+
+        .clients-hero-title span {
+            display: block;
+            color: var(--burgundy);
+            transform: translateX(40px);
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+    .clients-hero-line {
+        width: 110px;
+        height: 2px;
+        margin: 31px 0 25px;
+        background: linear-gradient( 90deg, var(--burgundy), var(--teal) );
+    }
+
+    .clients-hero-description {
+        max-width: 590px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 15px;
+        line-height: 1.9;
+    }
+
+    .clients-hero-side {
+        position: relative;
+        overflow: hidden;
+        min-height: 500px;
+        padding: 42px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border-radius: 34px;
+        color: var(--white);
+        background: radial-gradient(circle at 100% 0%, rgba(25,184,178,.35), transparent 34%), radial-gradient(circle at 0% 100%, rgba(128,0,32,.45), transparent 36%), linear-gradient(145deg, #075B5A, #043F3E);
+        box-shadow: 0 28px 70px rgba(7,91,90,.17);
+    }
+
+        .clients-hero-side::before {
+            content: "A";
+            position: absolute;
+            right: -15px;
+            bottom: -75px;
+            color: rgba(255,255,255,.035);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 300px;
+            line-height: 1;
+        }
+
+    .side-label {
+        position: relative;
+        z-index: 2;
+        color: rgba(255,255,255,.60);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .22em;
+        text-transform: uppercase;
+    }
+
+    .client-total {
+        position: relative;
+        z-index: 2;
+        margin-top: auto;
+        margin-bottom: 35px;
+    }
+
+    .client-total-number {
+        display: block;
+        color: var(--white);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(70px, 8vw, 115px);
+        font-weight: 400;
+        line-height: .8;
+        letter-spacing: -.06em;
+    }
+
+    .client-total-label {
+        display: block;
+        margin-top: 19px;
+        color: rgba(255,255,255,.65);
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+    }
+
+    /* =========================================================
+           SEARCH
+           ========================================================= */
+
+    .clients-search {
+        position: relative;
+        z-index: 5;
+        padding-top: 25px;
+        border-top: 1px solid rgba(255,255,255,.14);
+    }
+
+    .clients-search-label {
+        display: block;
+        margin-bottom: 10px;
+        color: rgba(255,255,255,.58);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .19em;
+        text-transform: uppercase;
+    }
+
+    .clients-search-row {
+        display: flex;
+        gap: 8px;
+    }
+
+    .clients-search-input {
+        min-width: 0;
+        width: 100%;
+        padding: 14px 17px;
+        color: #FFFFFF !important;
+        background: rgba(255,255,255,.08);
+        border: 1px solid rgba(255,255,255,.15);
+        border-radius: 12px;
+        outline: none;
+        font-family: "Segoe UI", Arial, sans-serif;
+        font-size: 13px;
+        transition: border-color .25s ease, background .25s ease;
+    }
+
+        .clients-search-input::placeholder {
+            color: rgba(255,255,255,.40);
+        }
+
+        .clients-search-input:focus {
+            background: rgba(255,255,255,.12);
+            border-color: rgba(25,184,178,.7);
+
+        }
+
+    .clients-search-button {
+        flex: 0 0 auto;
+        padding: 0 20px;
+        color: var(--white);
+        background: var(--burgundy);
+        border: 0;
+        border-radius: 12px;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: .15em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background .25s ease, transform .25s ease;
+    }
+
+        .clients-search-button:hover {
+            background: var(--burgundy-dark);
+            transform: translateY(-2px);
+            color:white;
+        }
+
+    .clear-search {
+        display: inline-block;
+        margin-top: 12px;
+        color: rgba(255,255,255,.62);
+        font-size: 10px;
+        letter-spacing: .12em;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
+
+        .clear-search:hover {
+            color: var(--white);
+        }
+
+    /* =========================================================
+           SECTION HEADER
+           ========================================================= */
+
+    .clients-section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 35px;
+    }
+
+    .clients-section-title {
+        margin: 0;
+        color: var(--teal-deep);
+        font-size: clamp(2.9rem, 5vw, 5.5rem);
+        font-weight: 400;
+        line-height: .95;
+        letter-spacing: -.045em;
+    }
+
+        .clients-section-title span {
+            color: var(--burgundy);
+        }
+
+    .clients-section-count {
+        padding-bottom: 6px;
+        color: var(--text-muted);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    /* =========================================================
+           FEATURED CLIENT
+           ========================================================= */
+
+    .featured-section {
+        margin-bottom: 120px;
+    }
+
+    .featured-card {
+        display: grid;
+        grid-template-columns: minmax(320px, .9fr) minmax(0, 1.1fr);
+        min-height: 550px;
+        overflow: hidden;
+        border-radius: 32px;
+        background: var(--white);
+        border: 1px solid rgba(7,91,90,.08);
+        box-shadow: 0 28px 70px rgba(7,91,90,.09);
+    }
+
+    .featured-image {
+        position: relative;
+        min-height: 550px;
+        overflow: hidden;
+    }
+
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            filter: saturate(.75) contrast(.96);
+            transition: transform .8s cubic-bezier(.2,.7,.2,1);
+            
+        }
+
+    .featured-card:hover .featured-image img {
+        transform: scale(1.035);
+    }
+
+    .featured-image::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( 135deg, rgba(92, 0, 23, 0.20), rgba(128, 0, 32, 0.20) 70%, rgba(92, 0, 23, 0.20) 100% );
+    }
+
+    .featured-image-tag {
+        position: absolute;
+        z-index: 3;
+        left: 26px;
+        bottom: 25px;
+        padding: 9px 13px;
+        color: var(--white);
+        background: rgba(7,91,90,.74);
+        border: 1px solid rgba(255,255,255,.20);
+        border-radius: 999px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+    }
+
+    .featured-content {
+        position: relative;
+        overflow: hidden;
+        padding: 58px 62px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: radial-gradient(circle at 100% 0%, rgba(25,184,178,.20), transparent 34%), linear-gradient(145deg, var(--teal-deep), #064B4A);
+    }
+
+        .featured-content::before {
+            content: "01";
+            position: absolute;
+            right: 25px;
+            top: 10px;
+            color: rgba(255,255,255,.035);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 190px;
+            line-height: 1;
+        }
+
+    .featured-label {
+        position: relative;
+        z-index: 2;
+        margin-bottom: 28px;
+        color: var(--teal);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .23em;
+        text-transform: uppercase;
+    }
+
+    .featured-name {
+        position: relative;
+        z-index: 2;
+        margin: 0;
+        color: var(--white);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(48px, 5vw, 76px);
+        font-weight: 400;
+        line-height: .94;
+        letter-spacing: -.05em;
+    }
+
+        .featured-name span {
+            display: block;
+            color: var(--burgundy-soft);
+        }
+
+    .featured-service {
+        position: relative;
+        z-index: 2;
+        margin: 25px 0 42px;
+        color: rgba(255,255,255,.64);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+    }
+
+    .featured-stats {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-top: 1px solid rgba(255,255,255,.13);
+        border-bottom: 1px solid rgba(255,255,255,.13);
+    }
+
+    .featured-stat {
+        min-height: 105px;
+        padding: 22px 18px;
+        border-right: 1px solid rgba(255,255,255,.10);
+    }
+
+        .featured-stat:last-child {
+            border-right: 0;
+        }
+
+        .featured-stat strong {
+            display: block;
+            color: var(--white);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 27px;
+            font-weight: 400;
+        }
+
+        .featured-stat small {
+            display: block;
+            margin-top: 8px;
+            color: rgba(255,255,255,.48);
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+        }
+
+    .featured-empty {
+        color: rgba(255,255,255,.82);
+    }
+
+    /* =========================================================
+           DIRECTORY
+           ========================================================= */
+
+    .directory-section {
+        margin-bottom: 120px;
+    }
+
+    .directory-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+
+    .client-card {
+        position: relative;
+        min-height: 240px;
+        padding: 27px;
+        display: flex;
+        flex-direction: column;
+        color: var(--text);
+        background: rgba(255,255,255,.78);
+        border: 1px solid rgba(7,91,90,.09);
+        border-radius: 23px;
+        text-decoration: none;
+        box-shadow: 0 12px 35px rgba(7,91,90,.045);
+        overflow: hidden;
+        transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    }
+
+        .client-card::before {
+            content: "";
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            right: -45px;
+            bottom: -45px;
+            border: 1px solid rgba(25,184,178,.15);
+            border-radius: 50%;
+        }
+
+        .client-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(25,184,178,.24);
+            box-shadow: 0 24px 55px rgba(7,91,90,.11);
+        }
+
+    .client-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .client-index {
+        color: var(--burgundy);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .18em;
+    }
+
+    .client-status {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--teal);
+        box-shadow: 0 0 0 5px var(--teal-soft);
+    }
+
+    .client-card-name {
+        margin: auto 0 12px;
+        color: var(--teal-deep);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 30px;
+        font-weight: 400;
+        line-height: 1.05;
+        letter-spacing: -.035em;
+    }
+
+    .client-card-service {
+        color: var(--text-muted);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+    }
+
+    .client-card-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 22px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+    }
+
+    .client-card-view {
+        color: var(--burgundy);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .13em;
+        text-transform: uppercase;
+    }
+
+    .client-arrow {
+        color: var(--teal-deep);
+        font-size: 20px;
+        line-height: 1;
+        transition: transform .25s ease;
+    }
+
+    .client-card:hover .client-arrow {
+        transform: translate(4px, -4px);
+    }
+
+    /* =========================================================
+           RECENT VISITS
+           ========================================================= */
+
+    .activity-section {
+        margin-bottom: 120px;
+    }
+
+    .activity-layout {
+        display: grid;
+        grid-template-columns: .7fr 1.3fr;
+        gap: 24px;
+        align-items: stretch;
+    }
+
+    .activity-intro {
+        padding: 46px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border-radius: 30px;
+        background: linear-gradient( 145deg, var(--burgundy-pale), #FFFFFF );
+        border: 1px solid rgba(128,0,32,.09);
+    }
+
+    .activity-number {
+        color: var(--burgundy);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 82px;
+        font-weight: 400;
+        line-height: .8;
+        letter-spacing: -.06em;
+    }
+
+    .activity-title {
+        margin: 25px 0 16px;
+        color: var(--teal-deep);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(38px, 4vw, 57px);
+        font-weight: 400;
+        line-height: .95;
+        letter-spacing: -.045em;
+    }
+
+    .activity-copy {
+        max-width: 330px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .activity-log {
+        padding: 20px 28px;
+        border-radius: 30px;
+        background: radial-gradient(circle at 100% 0%, rgba(25,184,178,.25), transparent 35%), linear-gradient( 145deg, var(--teal-deep), #800020);
+        box-shadow: 0 24px 60px rgba(7,91,90,.13);
+    }
+
+    .activity-log-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 17px 4px 20px;
+        color: rgba(255,255,255,.52);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+    }
+
+        .activity-log-header span:last-child {
+            color: var(--teal);
+        }
+
+    .activity-item {
+        display: grid;
+        grid-template-columns: 42px 1fr auto;
+        gap: 20px;
+        align-items: center;
+        min-height: 105px;
+        padding: 18px 5px;
+        border-top: 1px solid rgba(255,255,255,.10);
+        text-decoration: none;
+        transition: background .25s ease, padding .25s ease;
+    }
+
+        .activity-item:hover {
+            padding-left: 12px;
+            padding-right: 12px;
+            background: rgba(255,255,255,.045);
+        }
+
+    .activity-dot-wrap {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border: 1px dashed rgba(25,184,178,.55);
+        border-radius: 50%;
+    }
+
+    .activity-dot {
+        width: 7px;
+        height: 7px;
+        background: var(--burgundy);
+        border-radius: 50%;
+    }
+
+    .activity-client-name {
+        color: var(--white);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 21px;
+        font-weight: 400;
+    }
+
+    .activity-service {
+        margin-top: 6px;
+        color: rgba(255,255,255,.42);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .13em;
+        text-transform: uppercase;
+    }
+
+    .activity-date {
+        text-align: right;
+    }
+
+        .activity-date strong {
+            display: block;
+            color: rgba(255,255,255,.78);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .activity-date small {
+            display: block;
+            margin-top: 7px;
+            color: var(--teal);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 14px;
+        }
+
+    /* =========================================================
+           EMPTY STATES
+           ========================================================= */
+
+    .empty-state {
+        padding: 70px 35px;
+        text-align: center;
+        background: rgba(255,255,255,.7);
+        border: 1px dashed rgba(7,91,90,.18);
+        border-radius: 25px;
+    }
+
+        .empty-state strong {
+            display: block;
+            color: var(--teal-deep);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 32px;
+            font-weight: 400;
+        }
+
+        .empty-state span {
+            display: block;
+            margin-top: 10px;
+            color: var(--text-muted);
+            font-size: 11px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+    /* =========================================================
+           PHILOSOPHY
+           ========================================================= */
+
+    .clients-philosophy {
+        position: relative;
+        overflow: hidden;
+        min-height: 440px;
+        padding: 70px;
+        display: grid;
+        grid-template-columns: .35fr 1.65fr;
+        gap: 45px;
+        align-items: center;
+        border-radius: 34px;
+        color: var(--white);
+        background: radial-gradient(circle at 80% 20%, rgba(25,184,178,.28), transparent 28%), radial-gradient(circle at 15% 100%, rgba(128,0,32,.40), transparent 32%), linear-gradient( 135deg, #075B5A, #043F3E );
+        box-shadow: 0 30px 80px rgba(7,91,90,.17);
+    }
+
+        .clients-philosophy::after {
+            content: "AUREVA";
+            position: absolute;
+            right: -35px;
+            bottom: -75px;
+            color: rgba(255,255,255,.035);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 190px;
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: -.08em;
+        }
+
+    .philosophy-meta {
+        position: relative;
+        z-index: 2;
+        align-self: start;
+    }
+
+    .philosophy-label {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: var(--teal);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .19em;
+        text-transform: uppercase;
+    }
+
+        .philosophy-label::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: var(--burgundy);
+            border-radius: 50%;
+        }
+
+    .philosophy-number {
+        margin-top: 25px;
+        color: rgba(255,255,255,.25);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 65px;
+        line-height: 1;
+    }
+
+    .philosophy-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .philosophy-title {
+        max-width: 850px;
+        margin: 0;
+        color: var(--white);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(50px, 7vw, 96px);
+        font-weight: 400;
+        line-height: .9;
+        letter-spacing: -.06em;
+    }
+
+        .philosophy-title span {
+            color: var(--burgundy-soft);
+        
+        }
+
+    .philosophy-copy {
+        max-width: 650px;
+        margin: 30px 0 0;
+        color: rgba(255,255,255,.62);
+        font-size: 14px;
+        line-height: 1.9;
+    }
+
+    /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+    @@media (max-width: 1150px) {
+
+        .clients-hero {
+            grid-template-columns: 1fr;
+        }
+
+        .clients-hero-copy,
+        .clients-hero-side {
+            min-height: 430px;
+        }
+
+        .featured-card {
+            grid-template-columns: 1fr;
+        }
+
+        .featured-image {
+            min-height: 430px;
+        }
+
+        .directory-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .activity-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .clients-philosophy {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 800px) {
+
+        .aureva-clients {
+            padding-top: 20px;
+        }
+
+        .clients-shell {
+            width: min(100% - 30px, 680px);
+        }
+
+        .clients-nav {
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 35px;
+            overflow-x: auto;
+        }
+
+        .clients-logo {
+            padding-left: 8px;
+            padding-right: 12px;
+        }
+
+        .clients-nav a:not(.clients-logo) {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .clients-hero {
+            margin-bottom: 75px;
+        }
+
+        .clients-hero-copy {
+            min-height: 450px;
+            padding: 48px 35px;
+        }
+
+        .clients-hero-title {
+            font-size: clamp(56px, 15vw, 90px);
+        }
+
+            .clients-hero-title span {
+                transform: translateX(20px);
+            }
+
+        .clients-hero-side {
+            min-height: 400px;
+            padding: 35px;
+        }
+
+        .clients-section-head {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .directory-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .featured-content {
+            padding: 45px 35px;
+        }
+
+        .featured-stats {
+            grid-template-columns: 1fr;
+        }
+
+        .featured-stat {
+            min-height: auto;
+            border-right: 0;
+            border-bottom: 1px solid rgba(255,255,255,.10);
+        }
+
+            .featured-stat:last-child {
+                border-bottom: 0;
+            }
+
+        .activity-intro {
+            padding: 40px 32px;
+        }
+
+        .activity-log {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .activity-item {
+            grid-template-columns: 38px 1fr;
+            gap: 14px;
+        }
+
+        .activity-date {
+            grid-column: 2;
+            text-align: left;
+        }
+
+        .clients-philosophy {
+            padding: 48px 35px;
+            min-height: 500px;
+        }
+    }
+
+    @@media (max-width: 480px) {
+
+        .clients-shell {
+            width: calc(100% - 22px);
+        }
+
+        .clients-nav {
+            border-radius: 18px;
+            justify-content: flex-start;
+        }
+
+        .clients-nav-divider {
+            display: none;
+        }
+
+        .clients-nav a:not(.clients-logo) {
+            font-size: 8px;
+        }
+
+        .clients-hero-copy {
+            padding: 40px 26px;
+            border-radius: 26px;
+        }
+
+        .clients-hero-side {
+            padding: 28px;
+            border-radius: 26px;
+        }
+
+        .clients-hero-title {
+            font-size: 58px;
+        }
+
+            .clients-hero-title span {
+                transform: none;
+            }
+
+        .clients-search-row {
+            flex-direction: column;
+        }
+
+        .clients-search-button {
+            min-height: 45px;
+        }
+
+        .featured-card,
+        .activity-intro,
+        .activity-log,
+        .clients-philosophy {
+            border-radius: 25px;
+        }
+
+        .featured-image {
+            min-height: 330px;
+        }
+
+        .featured-content {
+            padding: 38px 25px;
+        }
+
+        .featured-name {
+            font-size: 48px;
+        }
+
+        .client-card {
+            min-height: 220px;
+        }
+
+        .activity-item {
+            min-height: 125px;
+        }
+
+        .philosophy-title {
+            font-size: 51px;
+        }
+    }
+
+    @@media (prefers-reduced-motion: reduce) {
+        .aureva-clients *,
+        .aureva-clients *::before,
+        .aureva-clients *::after {
+            scroll-behavior: auto !important;
+            transition: none !important;
+        }
+    }
+</style>
+
+
+<div class="aureva-clients">
+
+    <div class="clients-shell">
+
+        <!-- =====================================================
+             HERO
+             ====================================================== -->
+
+        <section class="clients-hero">
+
+            <div class="clients-hero-copy">
+
+                <div class="editorial-kicker">
+                    AUREVA / CLIENT RELATIONSHIPS
+                </div>
+
+                <h1 class="clients-hero-title">
+                    Know.
+                    <span>Remember.</span>
+                </h1>
+
+                <div class="clients-hero-line"></div>
+
+                <p class="clients-hero-description">
+                    Every client has a rhythm, a preference, a story.
+                    AUREVA keeps those details close — so every return
+                    feels familiar, considered, and personal.
+                </p>
+
+            </div>
+
+
+            <div class="clients-hero-side">
+
+                <div class="side-label">
+                    PRIVATE CLIENT DIRECTORY
+                </div>
+
+                <div class="client-total">
+
+                    <span class="client-total-number">
+                        @clients.Count.ToString("00")
+                    </span>
+
+                    <span class="client-total-label">
+                        Active relationships
+                    </span>
+
+                </div>
+
+
+                <div class="clients-search">
+
+                    <span class="clients-search-label">
+                        Search the directory
+                    </span>
+
+                    <form asp-controller="Clients"
+                          asp-action="Index"
+                          method="get">
+
+                        <div class="clients-search-row">
+
+                            <input class="clients-search-input"
+                                   type="text"
+                                   name="search"
+                                   value="@ViewBag.Search"
+                                   placeholder="Client name..." />
+
+                            <button class="clients-search-button"
+                                    type="submit">
+                                Search
+                            </button>
+
+                        </div>
+
+                        @if (!string.IsNullOrWhiteSpace(ViewBag.Search as string))
+                        {
+                            <a class="clear-search"
+                               asp-controller="Clients"
+                               asp-action="Index">
+                                Clear search ×
+                            </a>
+                        }
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FEATURED CLIENT
+             ====================================================== -->
+
+        <section class="featured-section">
+
+            <div class="clients-section-head">
+
+                <div>
+                    <div class="editorial-kicker">
+                        FEATURED RELATIONSHIP
+                    </div>
+                </div>
+
+                <div class="clients-section-count">
+                    01 / @clients.Count.ToString("00")
+                </div>
+
+            </div>
+
+
+            <div class="featured-card">
+
+                <div class="featured-image">
+
+                    <img src="https://www.gammabross.com/Gallery/salonimg-0uc1le-181.webp"
+                         alt="AUREVA Client" />
+
+                    <div class="featured-image-tag">
+                        AUREVA CLIENT
+                    </div>
+
+                </div>
+
+
+                <div class="featured-content">
+
+                    @if (featuredClient != null)
+                    {
+                        var nameParts = featuredClient.FullName
+                            .Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+
+                        var firstName = nameParts.Length > 0
+                            ? nameParts[0]
+                            : featuredClient.FullName;
+
+                        var remainingName = nameParts.Length > 1
+                            ? nameParts[1]
+                            : "";
+
+                        <div class="featured-label">
+                            FEATURED RELATIONSHIP
+                        </div>
+
+                        <h2 class="featured-name">
+
+                            @firstName
+
+                            @if (!string.IsNullOrWhiteSpace(remainingName))
+                            {
+                                <span>@remainingName</span>
+                            }
+
+                        </h2>
+
+                        <div class="featured-service">
+                            @(string.IsNullOrWhiteSpace(featuredClient.FavoriteService)
+                                ? "AUREVA CLIENT"
+                                : featuredClient.FavoriteService)
+                        </div>
+
+
+                        <div class="featured-stats">
+
+                            <div class="featured-stat">
+
+                                <strong>
+                                    @featuredClient.TotalVisits
+                                </strong>
+
+                                <small>
+                                    Total visits
+                                </small>
+
+                            </div>
+
+
+                            <div class="featured-stat">
+
+                                <strong>
+                                    @featuredClient.TotalSpent.ToString("C")
+                                </strong>
+
+                                <small>
+                                    Total spent
+                                </small>
+
+                            </div>
+
+
+                            <div class="featured-stat">
+
+                                <strong>
+                                    @(featuredClient.Rating?.ToString("0.0") ?? "—")
+                                </strong>
+
+                                <small>
+                                    Client rating
+                                </small>
+
+                            </div>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="featured-empty">
+
+                            <div class="featured-label">
+                                FEATURED RELATIONSHIP
+                            </div>
+
+                            <h2 class="featured-name">
+                                No clients.
+                            </h2>
+
+                            <div class="featured-service">
+                                Your client story begins here.
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CLIENT DIRECTORY
+             ====================================================== -->
+
+        <section class="directory-section">
+
+            <div class="clients-section-head">
+
+                <div>
+
+                    <div class="editorial-kicker">
+                        CLIENT DIRECTORY
+                    </div>
+
+                    <h2 class="clients-section-title">
+                        Familiar <span>people.</span>
+                    </h2>
+
+                </div>
+
+                <div class="clients-section-count">
+                    SHOWING @showcaseClients.Count OF @clients.Count
+                </div>
+
+            </div>
+
+
+            @if (showcaseClients.Any())
+            {
+                <div class="directory-grid">
+
+                    @for (var i = 0; i < showcaseClients.Count; i++)
+                    {
+                        var client = showcaseClients[i];
+
+                        <a asp-action="Details"
+                           asp-route-id="@client.Id"
+                           class="client-card">
+
+                            <div class="client-card-top">
+
+                                <span class="client-index">
+                                    @((i + 1).ToString("00"))
+                                </span>
+
+                                <span class="client-status"></span>
+
+                            </div>
+
+
+                            <h3 class="client-card-name">
+                                @client.FullName
+                            </h3>
+
+
+                            <div class="client-card-service">
+                                @(string.IsNullOrWhiteSpace(client.FavoriteService)
+                                    ? "AUREVA CLIENT"
+                                    : client.FavoriteService)
+                            </div>
+
+
+                            <div class="client-card-bottom">
+
+                                <span class="client-card-view">
+                                    View profile
+                                </span>
+
+                                <span class="client-arrow">
+                                    ↗
+                                </span>
+
+                            </div>
+
+                        </a>
+                    }
+
+                </div>
+            }
+            else
+            {
+                <div class="empty-state">
+
+                    <strong>
+                        No clients yet.
+                    </strong>
+
+                    <span>
+                        The AUREVA directory is waiting for its first relationship.
+                    </span>
+
+                </div>
+            }
+
+        </section>
+
+
+        <!-- =====================================================
+             RECENT VISITS
+             ====================================================== -->
+
+        <section class="activity-section">
+
+            <div class="activity-layout">
+
+                <div class="activity-intro">
+
+                    <div>
+
+                        <div class="editorial-kicker">
+                            ACTIVITY / 05
+                        </div>
+
+                        <div class="activity-number">
+                            05
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2 class="activity-title">
+                            Latest<br />
+                            returns.
+                        </h2>
+
+                        <p class="activity-copy">
+                            A quiet record of the people who recently
+                            returned to AUREVA.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="activity-log">
+
+                    <div class="activity-log-header">
+
+                        <span>
+                            RECENT VISITS
+                        </span>
+
+                        <span>
+                            LIVE LOG
+                        </span>
+
+                    </div>
+
+
+                    @if (recentClients.Any())
+                    {
+                        foreach (var client in recentClients)
+                        {
+                            <a asp-action="Details"
+                               asp-route-id="@client.Id"
+                               class="activity-item">
+
+                                <div class="activity-dot-wrap">
+                                    <span class="activity-dot"></span>
+                                </div>
+
+
+                                <div>
+
+                                    <div class="activity-client-name">
+                                        @client.FullName
+                                    </div>
+
+                                    <div class="activity-service">
+                                        @(string.IsNullOrWhiteSpace(client.FavoriteService)
+                                            ? "Recent AUREVA visit"
+                                            : client.FavoriteService)
+                                    </div>
+
+                                </div>
+
+
+                                <div class="activity-date">
+
+                                    <strong>
+                                        @client.LastVisit.Value.ToString("dd MMM yyyy")
+                                    </strong>
+
+                                    <small>
+                                        @(client.TotalSpent > 0
+                                            ? client.TotalSpent.ToString("C")
+                                            : "—")
+                                    </small>
+
+                                </div>
+
+                            </a>
+                        }
+                    }
+                    else if (clients.Any())
+                    {
+                        <div class="activity-item">
+
+                            <div class="activity-dot-wrap">
+                                <span class="activity-dot"></span>
+                            </div>
+
+                            <div>
+                                <div class="activity-client-name">
+                                    No visit history
+                                </div>
+
+                                <div class="activity-service">
+                                    NO VISIT HISTORY HAS BEEN RECORDED YET
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="activity-item">
+
+                            <div class="activity-dot-wrap">
+                                <span class="activity-dot"></span>
+                            </div>
+
+                            <div>
+                                <div class="activity-client-name">
+                                    No clients yet
+                                </div>
+
+                                <div class="activity-service">
+                                    NO CLIENTS HAVE BEEN ADDED YET
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PHILOSOPHY
+             ====================================================== -->
+
+        <section class="clients-philosophy">
+
+            <div class="philosophy-meta">
+
+                <div class="philosophy-label">
+                    AUREVA / PHILOSOPHY
+                </div>
+
+                <div class="philosophy-number">
+                    05 / 05
+                </div>
+
+            </div>
+
+
+            <div class="philosophy-content">
+
+                <h2 class="philosophy-title">
+                    Details create <span>belonging.</span>
+                </h2>
+
+                <p class="philosophy-copy">
+                    Know the person. Understand the ritual.
+                    Remember the detail. Let every visit feel familiar.
+                </p>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>

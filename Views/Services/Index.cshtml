@@ -1,0 +1,1060 @@
+﻿@model IEnumerable<AUREVA.Models.Service>
+
+@{
+    ViewData["Title"] = "Services";
+
+    var services = Model?.ToList() ?? new List<AUREVA.Models.Service>();
+}
+
+<style>
+
+    /* =========================================================
+           AUREVA SERVICES
+           QUIET LUXURY / MODERN BEAUTY
+           ========================================================= */
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        background: #FFFFFF;
+    }
+
+    .aureva-services {
+        /* ---------- AUREVA MASTER PALETTE ---------- */
+
+        --teal: #19B8B2;
+        --teal-dark: #087F7A;
+        --teal-deep: #075B5A;
+        --teal-soft: #DDF5F3;
+        --teal-pale: #F1FBFA;
+        --burgundy: #800020;
+        --burgundy-dark: #5C0017;
+        --burgundy-soft: #E8C5CD;
+        --burgundy-pale: #FAEFF2;
+        --white: #FFFFFF;
+        --ivory: #FAFCFB;
+        --ivory-dark: #EEF5F4;
+        --text: #183333;
+        --text-soft: #486361;
+        --text-muted: #78908E;
+        --text-faint: #A8B9B7;
+        --line: rgba(24, 51, 51, .10);
+        --line-dark: rgba(24, 51, 51, .16);
+        min-height: 100vh;
+        padding: 145px 0 90px;
+        background: radial-gradient( circle at 5% 5%, rgba(25,184,178,.12), transparent 24% ), radial-gradient( circle at 95% 18%, rgba(128,0,32,.09), transparent 27% ), linear-gradient( 180deg, var(--white) 0%, var(--ivory) 58%, var(--ivory-dark) 100% );
+        color: var(--text);
+        font-family: "Segoe UI", Arial, sans-serif;
+        overflow: hidden;
+    }
+
+
+        .aureva-services *,
+        .aureva-services *::before,
+        .aureva-services *::after {
+            box-sizing: border-box;
+        }
+
+
+    /* =========================================================
+           NAVBAR
+           ========================================================= */
+
+    .services-nav {
+        position: absolute;
+        top: 28px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        width: min(1180px, calc(100% - 48px));
+        min-height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 9px 8px 25px;
+        background: rgba(255,255,255,.84);
+        border: 1px solid rgba(24,51,51,.09);
+        border-radius: 100px;
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        box-shadow: 0 18px 50px rgba(24,51,51,.07);
+    }
+
+
+    .services-logo {
+        color: var(--teal-deep);
+        text-decoration: none;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 21px;
+        letter-spacing: .08em;
+        white-space: nowrap;
+    }
+
+
+    .services-nav-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 11px 18px;
+        border-radius: 999px;
+        background: var(--burgundy);
+        color: white;
+        text-decoration: none;
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .17em;
+        box-shadow: 0 12px 28px rgba(128,0,32,.16);
+        transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+    }
+
+
+        .services-nav-cta:hover {
+            background: var(--burgundy-dark);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 16px 34px rgba(128,0,32,.22);
+        }
+
+
+    /* =========================================================
+           SHELL
+           ========================================================= */
+
+    .services-shell {
+        width: min(1480px, calc(100% - 64px));
+        margin: auto;
+    }
+
+
+    /* =========================================================
+           HERO
+           ========================================================= */
+
+    .services-hero {
+        display: grid;
+        grid-template-columns: 1.3fr .7fr;
+        gap: 70px;
+        align-items: end;
+        padding-bottom: 52px;
+        border-bottom: 1px solid var(--line);
+    }
+
+
+    .services-kicker {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        color: var(--teal-dark);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .38em;
+    }
+
+
+        .services-kicker::before {
+            content: "";
+            width: 42px;
+            height: 2px;
+            background: linear-gradient( 90deg, var(--teal), var(--burgundy) );
+        }
+
+
+    .services-title {
+        margin: 28px 0 0;
+        color: var(--text);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(5rem, 9vw, 9rem);
+        line-height: .78;
+        letter-spacing: -.075em;
+        font-weight: 400;
+    }
+
+
+        .services-title span {
+            color: var(--burgundy);
+        }
+
+
+    .services-intro {
+        max-width: 365px;
+        margin-left: auto;
+        padding-left: 22px;
+        border-left: 2px solid var(--burgundy);
+        color: var(--text-muted);
+        font-size: 12px;
+        line-height: 1.9;
+    }
+
+
+        .services-intro strong {
+            display: block;
+            margin-bottom: 12px;
+            color: var(--text);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: .25em;
+        }
+
+
+    /* =========================================================
+           ACTION BAR
+           ========================================================= */
+
+    .services-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 30px;
+    }
+
+
+    .services-count {
+        color: var(--text-faint);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .25em;
+    }
+
+
+    .services-create {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 15px 23px;
+        border-radius: 999px;
+        background: var(--burgundy);
+        color: white;
+        text-decoration: none;
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .22em;
+        box-shadow: 0 14px 35px rgba(128,0,32,.18);
+        transition: transform .3s ease, background .3s ease, box-shadow .3s ease;
+    }
+
+
+        .services-create span {
+            font-size: 15px;
+            line-height: 0;
+            font-weight: 300;
+        }
+
+
+        .services-create:hover {
+            background: var(--burgundy-dark);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 20px 45px rgba(128,0,32,.24);
+        }
+
+
+    /* =========================================================
+           SERVICES LIST
+           ========================================================= */
+
+    .services-list {
+        margin-top: 60px;
+        background: rgba(255,255,255,.78);
+        border: 1px solid var(--line);
+        border-radius: 32px;
+        overflow: hidden;
+        box-shadow: 0 30px 90px rgba(7,91,90,.07);
+    }
+
+
+    /* =========================================================
+           TABLE HEADER
+           ========================================================= */
+
+    .services-list-header {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 150px 120px;
+        gap: 20px;
+        padding: 20px 30px;
+        background: linear-gradient( 135deg, var(--teal-deep), var(--teal-dark) );
+        color: rgba(255,255,255,.55);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .25em;
+    }
+
+
+        .services-list-header div:nth-child(3) {
+            color: var(--burgundy-soft);
+        }
+
+
+    /* =========================================================
+           SERVICE ROW
+           ========================================================= */
+
+    .service-row {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 150px 120px;
+        gap: 20px;
+        align-items: center;
+        min-height: 112px;
+        padding: 24px 30px;
+        border-bottom: 1px solid var(--line);
+        background: transparent;
+        transition: background .35s ease, padding-left .35s ease, transform .35s ease;
+    }
+
+
+        .service-row:last-child {
+            border-bottom: 0;
+        }
+
+
+        .service-row::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 18px;
+            bottom: 18px;
+            width: 3px;
+            background: var(--burgundy);
+            transform: scaleY(0);
+            transform-origin: center;
+            transition: transform .35s ease;
+        }
+
+
+        .service-row:hover {
+            background: var(--burgundy-pale);
+            padding-left: 37px;
+        }
+
+
+            .service-row:hover::before {
+                transform: scaleY(1);
+            }
+
+
+    /* =========================================================
+           SERVICE MAIN
+           ========================================================= */
+
+    .service-number {
+        display: block;
+        margin-bottom: 9px;
+        color: var(--teal-dark);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .20em;
+    }
+
+
+    .service-name {
+        display: inline-block;
+        color: var(--text);
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: .01em;
+        transition: color .25s ease;
+    }
+
+
+    .service-row:hover .service-name {
+        color: var(--burgundy);
+    }
+
+
+    .service-description {
+        max-width: 480px;
+        margin-top: 7px;
+        color: var(--text-muted);
+        font-size: 9px;
+        line-height: 1.65;
+    }
+
+
+    /* =========================================================
+           DURATION
+           ========================================================= */
+
+    .service-duration {
+        color: var(--text-soft);
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: .04em;
+    }
+
+
+    .service-duration-label {
+        display: block;
+        margin-bottom: 7px;
+        color: var(--teal-dark);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .18em;
+    }
+
+
+    /* =========================================================
+           PRICE
+           ========================================================= */
+
+    .service-price {
+        color: var(--burgundy-dark);
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: -.02em;
+        font-variant-numeric: tabular-nums;
+    }
+
+
+    .service-price-label {
+        display: block;
+        margin-bottom: 7px;
+        color: var(--text-faint);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .18em;
+    }
+
+
+    /* =========================================================
+           STATUS
+           ========================================================= */
+
+    .service-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .17em;
+    }
+
+
+        .service-status::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+
+        .service-status.active {
+            color: var(--teal-dark);
+        }
+
+
+            .service-status.active::before {
+                background: var(--teal);
+                box-shadow: 0 0 0 4px rgba(25,184,178,.12);
+            }
+
+
+        .service-status.inactive {
+            color: var(--text-faint);
+        }
+
+
+            .service-status.inactive::before {
+                background: var(--burgundy);
+                opacity: .55;
+                box-shadow: 0 0 0 4px var(--burgundy-soft);
+            }
+
+
+    /* =========================================================
+           EMPTY STATE
+           ========================================================= */
+
+    .services-empty {
+        padding: 95px 30px;
+        text-align: center;
+    }
+
+
+    .services-empty-ring {
+        position: relative;
+        width: 90px;
+        height: 90px;
+        margin: 0 auto 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(25,184,178,.35);
+        border-radius: 50%;
+    }
+
+
+        .services-empty-ring::before {
+            content: "";
+            position: absolute;
+            inset: 12px;
+            border: 1px dashed rgba(128,0,32,.45);
+            border-radius: 50%;
+        }
+
+
+        .services-empty-ring span {
+            position: relative;
+            z-index: 2;
+            color: var(--burgundy);
+            font-family: Georgia, serif;
+            font-size: 22px;
+        }
+
+
+    .services-empty-title {
+        color: var(--text);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 30px;
+    }
+
+
+    .services-empty-text {
+        margin-top: 10px;
+        color: var(--text-muted);
+        font-size: 10px;
+    }
+
+
+    /* =========================================================
+           BOTTOM STATEMENT
+           ========================================================= */
+
+    .services-statement {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1.3fr .7fr;
+        gap: 60px;
+        margin-top: 70px;
+        padding: 50px;
+        overflow: hidden;
+        background: radial-gradient(circle at 100% 0%, rgba(25,184,178,.25), transparent 35%), linear-gradient( 145deg, var(--teal-deep), #800020);
+        color: white;
+    }
+
+
+        .services-statement::before {
+            content: "";
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            right: -250px;
+            top: -330px;
+            border: 1px solid rgba(25,184,178,.18);
+            border-radius: 50%;
+        }
+
+
+        .services-statement::after {
+            content: "";
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            right: -170px;
+            bottom: -250px;
+            border: 1px solid rgba(128,0,32,.55);
+            border-radius: 50%;
+        }
+
+
+    .services-statement-label {
+        color: #73D8D3;
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .35em;
+    }
+
+
+    .services-statement-title {
+        position: relative;
+        z-index: 2;
+        margin: 20px 0 0;
+        color: white;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(3rem, 5vw, 5.5rem);
+        line-height: .82;
+        letter-spacing: -.06em;
+        font-weight: 400;
+    }
+
+
+        .services-statement-title span {
+            color: var(--burgundy-soft);
+        }
+
+
+    .services-statement-copy {
+        position: relative;
+        z-index: 2;
+        align-self: end;
+        max-width: 320px;
+        padding-left: 18px;
+        border-left: 2px solid var(--burgundy);
+        color: rgba(255,255,255,.58);
+        font-size: 10px;
+        line-height: 1.9;
+    }
+
+
+    /* =========================================================
+           TABLET
+           ========================================================= */
+
+    @@media (max-width: 1100px) {
+
+        .services-nav-links {
+            gap: 0;
+        }
+
+        .services-nav-link {
+            padding: 9px 11px;
+        }
+
+        .services-hero {
+            grid-template-columns: 1fr;
+            gap: 35px;
+        }
+
+        .services-intro {
+            margin-left: 0;
+        }
+
+        .services-list-header,
+        .service-row {
+            grid-template-columns: 1.4fr .8fr 120px 100px;
+        }
+
+        .services-statement {
+            grid-template-columns: 1fr;
+            gap: 35px;
+        }
+    }
+
+
+    /* =========================================================
+           MOBILE
+           ========================================================= */
+
+    @@media (max-width: 800px) {
+
+        .aureva-services {
+            padding-top: 125px;
+        }
+
+        .services-nav {
+            width: calc(100% - 28px);
+            padding: 10px 14px 10px 18px;
+        }
+
+        .services-logo {
+            font-size: 18px;
+        }
+
+        .services-nav-links {
+            display: none;
+        }
+
+        .services-nav-cta {
+            padding: 10px 15px;
+        }
+
+        .services-shell {
+            width: calc(100% - 28px);
+        }
+
+        .services-title {
+            font-size: clamp(4rem, 18vw, 6rem);
+        }
+
+        .services-actions {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .services-list {
+            margin-top: 45px;
+            border-radius: 25px;
+        }
+
+        .services-list-header {
+            display: none;
+        }
+
+        .service-row {
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            padding: 26px 23px;
+        }
+
+            .service-row:hover {
+                padding-left: 30px;
+            }
+
+        .service-main {
+            grid-column: 1 / -1;
+        }
+
+        .service-duration,
+        .service-price,
+        .service-status {
+            align-self: start;
+        }
+
+        .service-name {
+            font-size: 23px;
+        }
+
+        .service-description {
+            max-width: 100%;
+        }
+
+        .service-status {
+            justify-self: end;
+        }
+
+        .services-statement {
+            padding: 40px 28px;
+        }
+
+        .services-statement-title {
+            font-size: 3.5rem;
+        }
+    }
+
+
+    /* =========================================================
+           SMALL MOBILE
+           ========================================================= */
+
+    @@media (max-width: 480px) {
+
+        .services-shell {
+            width: calc(100% - 20px);
+        }
+
+        .services-title {
+            font-size: 4rem;
+        }
+
+        .services-intro {
+            font-size: 11px;
+        }
+
+        .service-row {
+            padding: 23px 20px;
+        }
+
+        .service-name {
+            font-size: 21px;
+        }
+
+        .service-price {
+            font-size: 14px;
+        }
+
+        .services-statement {
+            margin-top: 50px;
+            padding: 35px 23px;
+        }
+
+        .services-statement-title {
+            font-size: 3rem;
+        }
+    }
+
+
+    /* =========================================================
+           REDUCED MOTION
+           ========================================================= */
+
+    @@media (prefers-reduced-motion: reduce) {
+
+        .aureva-services *,
+        .aureva-services *::before,
+        .aureva-services *::after {
+            transition: none !important;
+            animation: none !important;
+        }
+    }
+
+</style>
+
+
+<div class="aureva-services">
+
+
+    <!-- =====================================================
+         FLOATING NAVIGATION
+         ===================================================== -->
+
+    <nav class="services-nav">
+
+        <a asp-controller="Home"
+           asp-action="Index"
+           class="services-logo">
+            AUREVA
+        </a>
+
+
+        <a asp-controller="Appointments"
+           asp-action="Create"
+           class="services-nav-cta">
+            BOOK NOW
+        </a>
+
+    </nav>
+
+
+    <div class="services-shell">
+
+
+        <!-- =====================================================
+             HERO
+             ===================================================== -->
+
+        <section class="services-hero">
+
+            <div>
+
+                <div class="services-kicker">
+                    AUREVA / SERVICES
+                </div>
+
+
+                <h1 class="services-title">
+                    Services<span>.</span>
+                </h1>
+
+            </div>
+
+
+            <div class="services-intro">
+
+                <strong>
+                    THE AUREVA MENU
+                </strong>
+
+                Curated beauty and wellness services,
+                designed around precision, care and
+                an elevated client experience.
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ACTIONS
+             ===================================================== -->
+
+        <div class="services-actions">
+
+            <div class="services-count">
+
+                @services.Count.ToString("00")
+                SERVICES AVAILABLE
+
+            </div>
+
+
+            <a asp-action="Create"
+               class="services-create">
+
+                <span>+</span>
+
+                NEW SERVICE
+
+            </a>
+
+        </div>
+
+
+        <!-- =====================================================
+             SERVICES LIST
+             ===================================================== -->
+
+        <section class="services-list">
+
+
+            <div class="services-list-header">
+
+                <div>
+                    SERVICE
+                </div>
+
+                <div>
+                    DURATION
+                </div>
+
+                <div>
+                    PRICE
+                </div>
+
+                <div>
+                    STATUS
+                </div>
+
+            </div>
+
+
+            @if (services.Any())
+            {
+
+                var index = 0;
+
+                foreach (var service in services)
+                {
+                    index++;
+
+                    <div class="service-row">
+
+
+                        <!-- SERVICE -->
+
+                        <div class="service-main">
+
+                            <span class="service-number">
+                                @index.ToString("00")
+                            </span>
+
+
+                            <a asp-action="Details"
+                               asp-route-id="@service.Id"
+                               class="service-name">
+
+                                @service.Name
+
+                            </a>
+
+
+                            @if (!string.IsNullOrWhiteSpace(service.Description))
+                            {
+                                <div class="service-description">
+
+                                    @service.Description
+
+                                </div>
+                            }
+
+                        </div>
+
+
+                        <!-- DURATION -->
+
+                        <div class="service-duration">
+
+                            <span class="service-duration-label">
+                                TIME
+                            </span>
+
+                            @service.DurationMinutes min
+
+                        </div>
+
+
+                        <!-- PRICE -->
+
+                        <div class="service-price">
+
+                            <span class="service-price-label">
+                                INVESTMENT
+                            </span>
+
+                            @service.Price.ToString("C")
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <div class="service-status @(service.IsActive ? "active" : "inactive")">
+
+                            @(service.IsActive
+                                ? "ACTIVE"
+                                : "INACTIVE")
+
+                        </div>
+
+                    </div>
+                }
+
+            }
+            else
+            {
+
+                <!-- EMPTY STATE -->
+
+                <div class="services-empty">
+
+                    <div class="services-empty-ring">
+
+                        <span>+</span>
+
+                    </div>
+
+
+                    <div class="services-empty-title">
+
+                        No services yet.
+
+                    </div>
+
+
+                    <div class="services-empty-text">
+
+                        Begin building the AUREVA service menu.
+
+                    </div>
+
+                </div>
+
+            }
+
+        </section>
+
+
+        <!-- =====================================================
+             BOTTOM STATEMENT
+             ===================================================== -->
+
+        <section class="services-statement">
+
+
+            <div>
+
+                <div class="services-statement-label">
+
+                    AUREVA / EXPERIENCE
+
+                </div>
+
+
+                <div class="services-statement-title">
+
+                    Beauty is<br />
+                    <span>in the details.</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="services-statement-copy">
+
+                Every service is presented with
+                clarity, intention and a sense of
+                quiet luxury — from the first click
+                to the final appointment.
+
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+</div>

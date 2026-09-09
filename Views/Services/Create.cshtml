@@ -1,0 +1,1208 @@
+﻿@model AUREVA.Models.Service
+
+@{
+    ViewData["Title"] = "New Service";
+}
+
+<style>
+    /* =========================================================
+           AUREVA / NEW SERVICE
+           EDITORIAL LUXURY — MODERN ATELIER
+        ========================================================= */
+
+    .service-page {
+        --teal: #19B8B2;
+        --teal-dark: #087F7A;
+        --teal-deep: #075B5A;
+        --teal-soft: #DDF5F3;
+        --teal-pale: #F1FBFA;
+        --burgundy: #800020;
+        --burgundy-dark: #5C0017;
+        --burgundy-soft: #E8C5CD;
+        --burgundy-pale: #FAEFF2;
+        --white: #FFFFFF;
+        --ivory: #FAFCFB;
+        --ivory-dark: #EEF5F4;
+        --text: #183333;
+        --text-soft: #486361;
+        --text-muted: #78908E;
+        --line: rgba(24,51,51,.10);
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+        padding: 140px 0 100px;
+        background: radial-gradient(circle at 88% 7%, rgba(25,184,178,.13), transparent 25%), radial-gradient(circle at 5% 72%, rgba(128,0,32,.07), transparent 26%), linear-gradient(180deg, #FFFFFF 0%, #FAFCFB 58%, #EEF5F4 100%);
+        color: var(--text);
+        font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+        .service-page *,
+        .service-page *::before,
+        .service-page *::after {
+            box-sizing: border-box;
+        }
+
+        .service-page a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+
+        /* =========================================================
+           BACKGROUND WATERMARK
+        ========================================================= */
+
+        .service-page::before {
+            content: "A";
+            position: absolute;
+            right: -45px;
+            top: 95px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(19rem, 34vw, 34rem);
+            line-height: .72;
+            color: rgba(25,184,178,.085);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .service-page::after {
+            content: "";
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            left: -260px;
+            top: 520px;
+            border: 1px solid rgba(25,184,178,.08);
+            border-radius: 50%;
+            box-shadow: 0 0 0 45px rgba(25,184,178,.022), 0 0 0 90px rgba(128,0,32,.015);
+            pointer-events: none;
+        }
+
+
+    /* =========================================================
+           SHELL
+        ========================================================= */
+
+    .service-shell {
+        position: relative;
+        z-index: 2;
+        width: min(1220px, calc(100% - 70px));
+        margin: auto;
+    }
+
+
+    /* =========================================================
+           TOP LINE
+        ========================================================= */
+
+    .service-topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 17px;
+        margin-bottom: 42px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .service-kicker {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        color: var(--burgundy);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .40em;
+        text-transform: uppercase;
+    }
+
+        .service-kicker::before {
+            content: "";
+            width: 48px;
+            height: 1px;
+            background: linear-gradient( 90deg, var(--burgundy), var(--teal) );
+        }
+
+    .service-edition {
+        color: var(--text-muted);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .25em;
+    }
+
+
+    /* =========================================================
+           HERO
+        ========================================================= */
+
+    .service-hero {
+        display: grid;
+        grid-template-columns: 1fr 290px;
+        gap: 75px;
+        align-items: end;
+        margin-bottom: 62px;
+    }
+
+    .service-title {
+        margin: 0;
+        color: var(--teal-deep);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(5rem, 8vw, 8.2rem);
+        font-weight: 400;
+        line-height: .74;
+        letter-spacing: -.085em;
+    }
+
+        .service-title span {
+            display: block;
+            color: var(--burgundy);
+        }
+
+    .service-intro {
+        max-width: 390px;
+        margin: 34px 0 0;
+        padding-left: 19px;
+        border-left: 1px solid var(--burgundy);
+        color: var(--text-muted);
+        font-size: 10px;
+        line-height: 1.95;
+    }
+
+
+    /* =========================================================
+           HERO NOTE
+        ========================================================= */
+
+    .service-hero-note {
+        padding: 25px;
+        background: rgba(255,255,255,.78);
+        border: 1px solid var(--line);
+        box-shadow: 0 25px 60px rgba(24,51,51,.055);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
+    .hero-note-number {
+        color: var(--burgundy);
+        font-family: Georgia, serif;
+        font-size: 50px;
+        line-height: .8;
+        letter-spacing: -.07em;
+    }
+
+    .hero-note-label {
+        margin-top: 14px;
+        color: var(--teal-deep);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .20em;
+    }
+
+    .hero-note-copy {
+        margin-top: 12px;
+        color: var(--text-muted);
+        font-size: 8px;
+        line-height: 1.85;
+    }
+
+    .hero-note-line {
+        width: 38px;
+        height: 1px;
+        margin-top: 22px;
+        background: linear-gradient( 90deg, var(--teal), var(--burgundy) );
+    }
+
+
+    /* =========================================================
+           MAIN FRAME
+        ========================================================= */
+
+    .service-frame {
+        display: grid;
+        grid-template-columns: 245px 1fr;
+        background: rgba(255,255,255,.92);
+        border: 1px solid var(--line);
+        box-shadow: 0 35px 90px rgba(24,51,51,.08);
+    }
+
+
+    /* =========================================================
+           SIDEBAR
+        ========================================================= */
+
+    .service-sidebar {
+        position: relative;
+        overflow: hidden;
+        padding: 40px 30px;
+        background: linear-gradient( 155deg, var(--teal-deep) 0%, var(--teal-dark) 100% );
+        color: white;
+    }
+
+        .service-sidebar::after {
+            content: "A";
+            position: absolute;
+            right: -25px;
+            bottom: -55px;
+            color: rgba(255,255,255,.065);
+            font-family: Georgia, serif;
+            font-size: 190px;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+    .sidebar-kicker {
+        position: relative;
+        z-index: 2;
+        color: var(--teal-soft);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .28em;
+    }
+
+    .sidebar-title {
+        position: relative;
+        z-index: 2;
+        margin-top: 20px;
+        color: white;
+        font-family: Georgia, serif;
+        font-size: 35px;
+        font-weight: 400;
+        line-height: .88;
+        letter-spacing: -.055em;
+    }
+
+    .sidebar-line {
+        width: 45px;
+        height: 1px;
+        margin: 30px 0;
+        background: var(--burgundy-soft);
+    }
+
+    .sidebar-copy {
+        position: relative;
+        z-index: 2;
+        color: rgba(255,255,255,.58);
+        font-size: 9px;
+        line-height: 1.9;
+    }
+
+    .sidebar-details {
+        position: relative;
+        z-index: 2;
+        margin-top: 48px;
+    }
+
+    .sidebar-detail {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin-bottom: 18px;
+        color: rgba(255,255,255,.56);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .15em;
+    }
+
+    .sidebar-detail-number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 25px;
+        height: 25px;
+        border: 1px solid rgba(255,255,255,.20);
+        border-radius: 50%;
+        color: var(--teal-soft);
+        font-family: Georgia, serif;
+        font-size: 11px;
+    }
+
+
+    /* =========================================================
+           FORM AREA
+        ========================================================= */
+
+    .service-form {
+        padding: 46px;
+    }
+
+    .form-heading {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        margin-bottom: 36px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .form-heading-title {
+        color: var(--teal-deep);
+        font-family: Georgia, serif;
+        font-size: 27px;
+        font-weight: 400;
+        letter-spacing: -.04em;
+    }
+
+    .form-heading-note {
+        color: var(--text-muted);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .20em;
+    }
+
+
+    /* =========================================================
+           VALIDATION
+        ========================================================= */
+
+    .service-validation {
+        margin-bottom: 27px;
+        color: var(--burgundy);
+        font-size: 9px;
+    }
+
+        .service-validation:empty {
+            display: none;
+        }
+
+
+    /* =========================================================
+           FORM GRID
+        ========================================================= */
+
+    .service-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px 30px;
+    }
+
+    .service-field {
+        position: relative;
+    }
+
+        .service-field.full {
+            grid-column: 1 / -1;
+        }
+
+        .service-field label,
+        .active-label {
+            display: block;
+            margin-bottom: 9px;
+            color: var(--burgundy);
+            font-size: 7px;
+            font-weight: 800;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+        }
+
+        .service-field input,
+        .service-field textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid rgba(7,91,90,.13);
+            border-radius: 0;
+            outline: none;
+            background: var(--teal-pale);
+            color: var(--teal-deep);
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: 600;
+            transition: border-color .3s ease, background .3s ease, box-shadow .3s ease;
+        }
+
+        .service-field textarea {
+            min-height: 135px;
+            resize: vertical;
+            line-height: 1.7;
+        }
+
+            .service-field input::placeholder,
+            .service-field textarea::placeholder {
+                color: rgba(7,91,90,.35);
+            }
+
+            .service-field input:focus,
+            .service-field textarea:focus {
+                border-color: var(--teal);
+                background: white;
+                box-shadow: 0 0 0 3px rgba(25,184,178,.08);
+            }
+
+        .service-field span[data-valmsg-for] {
+            display: block;
+            margin-top: 5px;
+            color: var(--burgundy);
+            font-size: 7px;
+        }
+
+
+    /* =========================================================
+           PRICE / DURATION
+        ========================================================= */
+
+    .service-field-money,
+    .service-field-time {
+        position: relative;
+    }
+
+    .field-suffix {
+        position: absolute;
+        right: 13px;
+        bottom: 13px;
+        color: var(--text-muted);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .16em;
+    }
+
+    .service-field-money input,
+    .service-field-time input {
+        padding-right: 75px;
+    }
+
+
+    /* =========================================================
+           ACTIVE SERVICE
+        ========================================================= */
+
+    .active-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 58px;
+        padding: 0 16px;
+        background: var(--ivory);
+        border: 1px solid var(--line);
+        transition: border-color .3s ease, background .3s ease;
+    }
+
+        .active-box:hover {
+            border-color: rgba(25,184,178,.25);
+            background: var(--teal-pale);
+        }
+
+    .active-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .active-text {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .active-main {
+        color: var(--teal-deep);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .18em;
+    }
+
+    .active-sub {
+        color: var(--text-muted);
+        font-size: 7px;
+        letter-spacing: .04em;
+    }
+
+    .active-box input[type="checkbox"] {
+        position: relative;
+        width: 20px;
+        height: 20px;
+        margin: 0;
+        appearance: none;
+        -webkit-appearance: none;
+        border: 1px solid rgba(24,51,51,.22);
+        background: white;
+        cursor: pointer;
+        transition: background .25s ease, border-color .25s ease;
+    }
+
+        .active-box input[type="checkbox"]:checked {
+            background: var(--teal);
+            border-color: var(--teal);
+        }
+
+            .active-box input[type="checkbox"]:checked::after {
+                content: "✓";
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-54%);
+                color: white;
+                font-size: 12px;
+                font-weight: 800;
+            }
+
+
+    /* =========================================================
+           ACTIONS
+        ========================================================= */
+
+    .service-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 42px;
+        padding-top: 25px;
+        border-top: 1px solid var(--line);
+    }
+
+    .service-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .20em;
+        transition: color .3s ease;
+    }
+
+        .service-back:hover {
+            color: var(--burgundy);
+        }
+
+    .service-submit {
+        display: inline-flex;
+        align-items: center;
+        gap: 13px;
+        min-height: 52px;
+        padding: 0 26px;
+        border: 0;
+        background: var(--burgundy);
+        color: white;
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .20em;
+        cursor: pointer;
+        transition: transform .35s ease, background .35s ease, box-shadow .35s ease;
+    }
+
+    .service-submit-arrow {
+        color: var(--burgundy-soft);
+        font-size: 14px;
+        transition: transform .35s ease;
+    }
+
+    .service-submit:hover {
+        transform: translateY(-3px);
+        background: var(--teal-deep);
+        box-shadow: 0 17px 36px rgba(7,91,90,.18);
+    }
+
+        .service-submit:hover .service-submit-arrow {
+            transform: translateX(4px);
+        }
+
+
+    /* =========================================================
+           BOTTOM STATEMENT
+        ========================================================= */
+
+    .service-philosophy {
+        display: grid;
+        grid-template-columns: 76px 1fr 245px;
+        gap: 40px;
+        align-items: center;
+        margin-top: 68px;
+        padding: 40px;
+        background: linear-gradient( 135deg, #F4F3ED, #FFFEFA );
+        border: 1px solid var(--line);
+    }
+
+    .philosophy-mark {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 70px;
+        height: 70px;
+        border: 1px solid rgba(128,0,32,.25);
+        border-radius: 50%;
+        color: var(--burgundy);
+        font-family: Georgia, serif;
+        font-size: 30px;
+    }
+
+        .philosophy-mark::before {
+            content: "";
+            position: absolute;
+            inset: 7px;
+            border: 1px solid rgba(128,0,32,.10);
+            border-radius: 50%;
+        }
+
+    .philosophy-label {
+        color: var(--burgundy);
+        font-size: 7px;
+        font-weight: 800;
+        letter-spacing: .30em;
+    }
+
+    .philosophy-title {
+        margin: 12px 0 0;
+        color: var(--teal-deep);
+        font-family: Georgia, serif;
+        font-size: clamp(2.25rem, 3.5vw, 3.8rem);
+        font-weight: 400;
+        line-height: .88;
+        letter-spacing: -.06em;
+    }
+
+        .philosophy-title span {
+            color: var(--burgundy);
+        }
+
+    .philosophy-copy {
+        padding-left: 18px;
+        border-left: 1px solid var(--burgundy);
+        color: var(--text-muted);
+        font-size: 9px;
+        line-height: 1.9;
+    }
+
+
+    /* =========================================================
+           TABLET
+        ========================================================= */
+
+    @@media (max-width: 1000px) {
+
+        .service-hero {
+            grid-template-columns: 1fr;
+            gap: 35px;
+        }
+
+        .service-hero-note {
+            max-width: 330px;
+        }
+
+        .service-frame {
+            grid-template-columns: 200px 1fr;
+        }
+
+        .service-form {
+            padding: 35px;
+        }
+
+        .service-sidebar {
+            padding: 34px 23px;
+        }
+
+        .service-philosophy {
+            grid-template-columns: 70px 1fr;
+        }
+
+        .philosophy-copy {
+            grid-column: 2;
+        }
+    }
+
+
+    /* =========================================================
+           MOBILE
+        ========================================================= */
+
+    @@media (max-width: 720px) {
+
+        .service-page {
+            padding: 90px 0 65px;
+        }
+
+            .service-page::before {
+                top: 120px;
+                right: -30px;
+                font-size: 18rem;
+            }
+
+        .service-shell {
+            width: calc(100% - 28px);
+        }
+
+        .service-topline {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .service-hero {
+            margin-bottom: 42px;
+        }
+
+        .service-title {
+            font-size: clamp(4.2rem, 18vw, 6.7rem);
+        }
+
+        .service-intro {
+            max-width: 320px;
+        }
+
+        .service-frame {
+            display: block;
+        }
+
+        .service-sidebar {
+            min-height: 285px;
+        }
+
+        .sidebar-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 28px;
+        }
+
+        .sidebar-detail {
+            margin-bottom: 0;
+        }
+
+        .service-form {
+            padding: 29px 22px;
+        }
+
+        .form-heading {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .service-grid {
+            grid-template-columns: 1fr;
+            gap: 23px;
+        }
+
+        .service-field.full {
+            grid-column: auto;
+        }
+
+        .service-actions {
+            align-items: stretch;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .service-submit {
+            justify-content: center;
+        }
+
+        .service-philosophy {
+            grid-template-columns: 1fr;
+            gap: 25px;
+            padding: 31px 24px;
+        }
+
+        .philosophy-copy {
+            grid-column: auto;
+        }
+
+        .philosophy-title {
+            font-size: 2.8rem;
+        }
+    }
+
+
+    /* =========================================================
+           SMALL MOBILE
+        ========================================================= */
+
+    @@media (max-width: 430px) {
+
+        .service-shell {
+            width: calc(100% - 20px);
+        }
+
+        .service-page {
+            padding-top: 82px;
+        }
+
+        .service-title {
+            font-size: 4.1rem;
+        }
+
+        .service-kicker {
+            font-size: 7px;
+            letter-spacing: .29em;
+        }
+
+        .service-form {
+            padding: 25px 18px;
+        }
+
+        .service-sidebar {
+            padding: 28px 20px;
+        }
+
+        .sidebar-title {
+            font-size: 30px;
+        }
+
+        .philosophy-title {
+            font-size: 2.45rem;
+        }
+    }
+
+
+    /* =========================================================
+           REDUCED MOTION
+        ========================================================= */
+
+    @@media (prefers-reduced-motion: reduce) {
+
+        .service-page *,
+        .service-page *::before,
+        .service-page *::after {
+            transition: none !important;
+            animation: none !important;
+        }
+    }
+
+</style>
+
+
+<div class="service-page">
+
+    <div class="service-shell">
+
+        <!-- =====================================================
+             TOP LINE
+        ====================================================== -->
+
+        <div class="service-topline">
+
+            <div class="service-kicker">
+                AUREVA / NEW SERVICE
+            </div>
+
+            <div class="service-edition">
+                ATELIER COLLECTION / 01
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
+
+        <section class="service-hero">
+
+            <div>
+
+                <h1 class="service-title">
+                    Create
+                    <br />
+                    <span>service.</span>
+                </h1>
+
+                <p class="service-intro">
+                    Every service is part of the AUREVA
+                    experience. Define its identity,
+                    value and duration with intention.
+                </p>
+
+            </div>
+
+
+            <div class="service-hero-note">
+
+                <div class="hero-note-number">
+                    01
+                </div>
+
+                <div class="hero-note-label">
+                    DEFINE THE EXPERIENCE
+                </div>
+
+                <div class="hero-note-copy">
+                    Add the details that turn a
+                    simple offering into a considered
+                    AUREVA service.
+                </div>
+
+                <div class="hero-note-line"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             MAIN FRAME
+        ====================================================== -->
+
+        <section class="service-frame">
+
+            <!-- =================================================
+                 SIDEBAR
+            ================================================== -->
+
+            <aside class="service-sidebar">
+
+                <div class="sidebar-kicker">
+                    AUREVA / ATELIER
+                </div>
+
+                <div class="sidebar-title">
+                    Every
+                    <br />
+                    detail matters.
+                </div>
+
+                <div class="sidebar-line"></div>
+
+                <div class="sidebar-copy">
+                    AUREVA services are designed around
+                    clarity, value and an experience
+                    worth remembering.
+                </div>
+
+
+                <div class="sidebar-details">
+
+                    <div class="sidebar-detail">
+
+                        <span class="sidebar-detail-number">
+                            01
+                        </span>
+
+                        IDENTITY
+
+                    </div>
+
+                    <div class="sidebar-detail">
+
+                        <span class="sidebar-detail-number">
+                            02
+                        </span>
+
+                        VALUE
+
+                    </div>
+
+                    <div class="sidebar-detail">
+
+                        <span class="sidebar-detail-number">
+                            03
+                        </span>
+
+                        DURATION
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- =================================================
+                 FORM
+            ================================================== -->
+
+            <form asp-action="Create"
+                  method="post"
+                  class="service-form">
+
+                <div class="form-heading">
+
+                    <div class="form-heading-title">
+                        Service details
+                    </div>
+
+                    <div class="form-heading-note">
+                        DEFINE YOUR OFFERING
+                    </div>
+
+                </div>
+
+
+                <div class="service-validation">
+                    <div asp-validation-summary="ModelOnly"></div>
+                </div>
+
+
+                <div class="service-grid">
+
+                    <!-- SERVICE NAME -->
+
+                    <div class="service-field full">
+
+                        <label asp-for="Name">
+                            SERVICE NAME
+                        </label>
+
+                        <input asp-for="Name"
+                               placeholder="Enter service name..." />
+
+                        <span asp-validation-for="Name"></span>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="service-field full">
+
+                        <label asp-for="Description">
+                            DESCRIPTION
+                        </label>
+
+                        <textarea asp-for="Description"
+                                  placeholder="Describe the service, its character and what the client can expect..."></textarea>
+
+                        <span asp-validation-for="Description"></span>
+
+                    </div>
+
+
+                    <!-- PRICE -->
+
+                    <div class="service-field service-field-money">
+
+                        <label asp-for="Price">
+                            PRICE
+                        </label>
+
+                        <input asp-for="Price"
+                               type="number"
+                               min="0"
+                               step="0.01"
+                               placeholder="0.00" />
+
+                        <span class="field-suffix">
+                            PRICE
+                        </span>
+
+                        <span asp-validation-for="Price"></span>
+
+                    </div>
+
+
+                    <!-- DURATION -->
+
+                    <div class="service-field service-field-time">
+
+                        <label asp-for="DurationMinutes">
+                            DURATION / MINUTES
+                        </label>
+
+                        <input asp-for="DurationMinutes"
+                               type="number"
+                               min="1"
+                               placeholder="60" />
+
+                        <span class="field-suffix">
+                            MIN
+                        </span>
+
+                        <span asp-validation-for="DurationMinutes"></span>
+
+                    </div>
+
+
+                    <!-- ACTIVE -->
+
+                    <div class="service-field full">
+
+                        <label class="active-label">
+                            SERVICE STATUS
+                        </label>
+
+                        <div class="active-box">
+
+                            <div class="active-info">
+
+                                <div class="active-text">
+
+                                    <span class="active-main">
+                                        ACTIVE SERVICE
+                                    </span>
+
+                                    <span class="active-sub">
+                                        Available for appointments
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <input asp-for="IsActive" />
+
+                        </div>
+
+                        <span asp-validation-for="IsActive"></span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     ACTIONS
+                ================================================== -->
+
+                <div class="service-actions">
+
+                    <a asp-action="Index"
+                       class="service-back">
+
+                        ← BACK TO SERVICES
+
+                    </a>
+
+
+                    <button type="submit"
+                            class="service-submit">
+
+                        CREATE SERVICE
+
+                        <span class="service-submit-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- =====================================================
+             PHILOSOPHY
+        ====================================================== -->
+
+        <section class="service-philosophy">
+
+            <div class="philosophy-mark">
+                A
+            </div>
+
+
+            <div>
+
+                <div class="philosophy-label">
+                    AUREVA / SERVICE PHILOSOPHY
+                </div>
+
+                <h2 class="philosophy-title">
+                    Make it useful.
+                    <br />
+                    <span>Make it memorable.</span>
+                </h2>
+
+            </div>
+
+
+            <div class="philosophy-copy">
+                A great service is more than a
+                description and a price. It is a
+                promise of quality, care and an
+                experience worth returning to.
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
