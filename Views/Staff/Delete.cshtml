@@ -4,44 +4,737 @@
     ViewData["Title"] = "Delete Staff";
 }
 
-<div style="min-height:100vh;background:#EDE9E1;color:#0B1424;font-family:'Segoe UI',sans-serif;padding:140px 25px 80px;">
+<style>
+    :root {
+        --teal: #169C98;
+        --teal-dark: #0B7773;
+        --teal-deep: #064F50;
+        --teal-soft: #DDF3F1;
+        --teal-pale: #F2F9F8;
+        --burgundy: #731B35;
+        --burgundy-dark: #521126;
+        --burgundy-soft: #D9AEB9;
+        --burgundy-pale: #FAF0F3;
+        --white: #FFFFFF;
+        --ivory: #F8F7F2;
+        --ivory-dark: #ECECE5;
+        --text: #173334;
+        --text-soft: #4E6563;
+        --text-muted: #81918F;
+        --text-faint: #A9B8B6;
+    }
 
-    <div style="max-width:850px;margin:auto;">
+    * {
+        box-sizing: border-box;
+    }
 
-        <div style="color:#C5A15B;font-size:9px;font-weight:700;letter-spacing:.4em;">
-            AUREVA / REMOVE TEAM MEMBER
+    .staff-delete-page {
+        position: relative;
+        min-height: 100vh;
+        overflow: hidden;
+        padding: 48px 28px 70px;
+        background: radial-gradient(circle at 10% 12%, rgba(22,156,152,.06), transparent 30%), radial-gradient(circle at 88% 82%, rgba(115,27,53,.07), transparent 29%), var(--ivory);
+        color: var(--text);
+        font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+        .staff-delete-page::before {
+            content: "A";
+            position: absolute;
+            top: 105px;
+            right: -30px;
+            z-index: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(19rem, 34vw, 34rem);
+            line-height: .72;
+            font-weight: 400;
+            color: rgba(22,156,152,.055);
+            pointer-events: none;
+            user-select: none;
+        }
+
+    .staff-delete-shell {
+        position: relative;
+        z-index: 1;
+        width: min(1120px, 100%);
+        margin: 0 auto;
+    }
+
+    /* =========================
+           TOPLINE
+        ========================= */
+
+    .staff-delete-topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding-bottom: 16px;
+        margin-bottom: 32px;
+        border-bottom: 1px solid rgba(23,51,52,.11);
+    }
+
+    .staff-delete-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--burgundy);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: .22em;
+        text-transform: uppercase;
+    }
+
+        .staff-delete-kicker::before {
+            content: "";
+            width: 28px;
+            height: 1px;
+            background: var(--burgundy);
+        }
+
+    .staff-delete-record {
+        color: var(--text-muted);
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+    }
+
+    /* =========================
+           HERO
+        ========================= */
+
+    .staff-delete-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 300px;
+        gap: 70px;
+        align-items: end;
+        margin-bottom: 42px;
+    }
+
+    .staff-delete-title {
+        margin: 0;
+        max-width: 760px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(3.6rem, 7vw, 7rem);
+        line-height: .84;
+        font-weight: 400;
+        letter-spacing: -.055em;
+        color: var(--teal-deep);
+        word-break: break-word;
+    }
+
+        .staff-delete-title em {
+            color: var(--burgundy);
+            font-style: italic;
+        }
+
+    .staff-delete-intro {
+        max-width: 650px;
+        margin: 23px 0 0;
+        color: var(--text-soft);
+        font-size: 13px;
+        line-height: 1.9;
+    }
+
+    .staff-delete-note {
+        padding: 20px 22px;
+        border-left: 2px solid var(--burgundy);
+        background: rgba(255,255,255,.5);
+    }
+
+    .staff-delete-note-label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--burgundy);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+    }
+
+    .staff-delete-note p {
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 11px;
+        line-height: 1.8;
+    }
+
+    /* =========================
+           CONFIRMATION FRAME
+        ========================= */
+
+    .staff-delete-frame {
+        display: grid;
+        grid-template-columns: 280px minmax(0, 1fr);
+        border: 1px solid rgba(115,27,53,.15);
+        background: rgba(255,255,255,.75);
+        box-shadow: 0 28px 75px rgba(82,17,38,.08), 0 8px 25px rgba(23,51,52,.05);
+        backdrop-filter: blur(14px);
+    }
+
+    /* =========================
+           SIDE
+        ========================= */
+
+    .staff-delete-side {
+        position: relative;
+        overflow: hidden;
+        padding: 38px 30px;
+        background: linear-gradient( 180deg, rgba(82,17,38,.98), rgba(115,27,53,.98) );
+        color: var(--white);
+    }
+
+        .staff-delete-side::after {
+            content: "A";
+            position: absolute;
+            right: -30px;
+            bottom: -45px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 11rem;
+            line-height: 1;
+            color: rgba(255,255,255,.045);
+            pointer-events: none;
+        }
+
+    .side-kicker {
+        display: block;
+        margin-bottom: 16px;
+        color: rgba(255,255,255,.62);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+    }
+
+    .side-title {
+        margin: 0 0 15px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 2rem;
+        line-height: 1.05;
+        font-weight: 400;
+    }
+
+    .side-copy {
+        margin: 0;
+        color: rgba(255,255,255,.7);
+        font-size: 11px;
+        line-height: 1.9;
+    }
+
+    .side-rule {
+        width: 100%;
+        height: 1px;
+        margin: 28px 0;
+        background: rgba(255,255,255,.14);
+    }
+
+    .warning-mark {
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        margin-bottom: 17px;
+        border: 1px solid rgba(255,255,255,.2);
+        color: rgba(255,255,255,.9);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 19px;
+    }
+
+    .warning-label {
+        color: rgba(255,255,255,.55);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+    }
+
+    /* =========================
+           CONTENT
+        ========================= */
+
+    .staff-delete-content {
+        padding: 42px 44px 38px;
+    }
+
+    .content-heading {
+        margin-bottom: 29px;
+    }
+
+    .content-heading-kicker {
+        display: block;
+        margin-bottom: 7px;
+        color: var(--burgundy);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+    }
+
+    .content-heading-title {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 2rem;
+        line-height: 1;
+        font-weight: 400;
+        letter-spacing: -.025em;
+        color: var(--teal-deep);
+    }
+
+    /* =========================
+           MEMBER CARD
+        ========================= */
+
+    .member-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 25px;
+        align-items: center;
+        padding: 23px 22px;
+        border: 1px solid rgba(23,51,52,.1);
+        background: var(--teal-pale);
+    }
+
+    .member-label {
+        display: block;
+        margin-bottom: 9px;
+        color: var(--text-muted);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+    }
+
+    .member-name {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 28px;
+        line-height: 1.05;
+        font-weight: 400;
+        color: var(--teal-deep);
+        word-break: break-word;
+    }
+
+    .member-id {
+        color: var(--text-muted);
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .15em;
+        text-transform: uppercase;
+    }
+
+    /* =========================
+           WARNING
+        ========================= */
+
+    .delete-warning {
+        margin-top: 22px;
+        padding: 18px 19px;
+        border-left: 2px solid var(--burgundy);
+        background: var(--burgundy-pale);
+    }
+
+        .delete-warning strong {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--burgundy-dark);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .delete-warning p {
+            margin: 0;
+            color: var(--text-soft);
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+    /* =========================
+           ACTIONS
+        ========================= */
+
+    .staff-delete-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-top: 34px;
+        padding-top: 24px;
+        border-top: 1px solid rgba(23,51,52,.1);
+    }
+
+    .delete-cancel {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-soft);
+        text-decoration: none;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+        transition: color .2s ease, gap .2s ease;
+    }
+
+        .delete-cancel::before {
+            content: "←";
+            font-size: 15px;
+            line-height: 1;
+        }
+
+        .delete-cancel:hover {
+            color: var(--teal-dark);
+            gap: 13px;
+        }
+
+    .delete-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 195px;
+        min-height: 50px;
+        padding: 14px 24px;
+        border: 1px solid var(--burgundy);
+        background: var(--burgundy);
+        color: var(--white);
+        cursor: pointer;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+        transition: background .2s ease, border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+
+        .delete-button::after {
+            content: "↗";
+            margin-left: 13px;
+            font-size: 13px;
+            line-height: 1;
+        }
+
+        .delete-button:hover {
+            background: var(--burgundy-dark);
+            border-color: var(--burgundy-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(115,27,53,.18);
+        }
+
+    /* =========================
+           FOOTER
+        ========================= */
+
+    .staff-delete-footer {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+
+        .staff-delete-footer span {
+            color: var(--text-faint);
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+        }
+
+    /* =========================
+           RESPONSIVE
+        ========================= */
+
+    @@media (max-width: 1000px) {
+
+        .staff-delete-hero {
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .staff-delete-note {
+            max-width: 500px;
+        }
+
+        .staff-delete-frame {
+            grid-template-columns: 235px minmax(0, 1fr);
+        }
+
+        .staff-delete-content {
+            padding: 36px 30px;
+        }
+    }
+
+    @@media (max-width: 780px) {
+
+        .staff-delete-page {
+            padding: 32px 18px 50px;
+        }
+
+        .staff-delete-frame {
+            grid-template-columns: 1fr;
+        }
+
+        .staff-delete-side {
+            padding: 30px;
+        }
+
+            .staff-delete-side::after {
+                display: none;
+            }
+
+        .side-rule {
+            margin: 22px 0;
+        }
+    }
+
+    @@media (max-width: 620px) {
+
+        .staff-delete-page::before {
+            top: 175px;
+            right: -70px;
+            font-size: 18rem;
+        }
+
+        .staff-delete-topline {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .staff-delete-title {
+            font-size: 3.5rem;
+        }
+
+        .staff-delete-content {
+            padding: 30px 20px;
+        }
+
+        .member-card {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .staff-delete-actions {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+        .delete-button,
+        .delete-cancel {
+            width: 100%;
+        }
+
+        .delete-cancel {
+            justify-content: center;
+        }
+    }
+
+    @@media (max-width: 430px) {
+
+        .staff-delete-page {
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+        .staff-delete-title {
+            font-size: 3rem;
+        }
+
+        .staff-delete-intro {
+            font-size: 12px;
+        }
+
+        .staff-delete-side {
+            padding: 25px 20px;
+        }
+
+        .staff-delete-content {
+            padding: 26px 16px;
+        }
+
+        .member-name {
+            font-size: 24px;
+        }
+    }
+</style>
+
+
+<div class="staff-delete-page">
+
+    <div class="staff-delete-shell">
+
+        <!-- TOPLINE -->
+        <div class="staff-delete-topline">
+
+            <div class="staff-delete-kicker">
+                Team Management
+            </div>
+
+            <div class="staff-delete-record">
+                Record #@Model.Id
+            </div>
+
         </div>
 
-        <h1 style="margin:22px 0 40px;font-family:Georgia,serif;font-size:clamp(4rem,7vw,7rem);line-height:.8;font-weight:400;">
-            Remove
-            <br />
-            @Model.FullName?
-        </h1>
 
-        <div style="background:white;border:1px solid rgba(11,20,36,.14);padding:45px;">
+        <!-- HERO -->
+        <section class="staff-delete-hero">
 
-            <p style="color:rgba(11,20,36,.5);line-height:1.8;">
-                This will permanently remove this team member from AUREVA.
-            </p>
+            <div>
 
-            <form asp-action="Delete"
-                  method="post"
-                  style="display:flex;justify-content:space-between;align-items:center;margin-top:35px;">
+                <h1 class="staff-delete-title">
+                    Remove <em>@Model.FullName?</em>
+                </h1>
 
-                <input type="hidden" asp-for="Id" />
+                <p class="staff-delete-intro">
+                    You are about to remove this team member from the
+                    AUREVA staff directory. Please review the record
+                    before continuing.
+                </p>
 
-                <a asp-action="Details"
-                   asp-route-id="@Model.Id"
-                   style="color:rgba(11,20,36,.4);text-decoration:none;font-size:8px;font-weight:700;letter-spacing:.2em;">
-                    ← CANCEL
-                </a>
+            </div>
 
-                <button type="submit"
-                        style="border:0;border-radius:999px;background:#0B1424;color:white;padding:15px 24px;font-size:8px;font-weight:700;letter-spacing:.2em;cursor:pointer;">
-                    DELETE STAFF →
-                </button>
 
-            </form>
+            <div class="staff-delete-note">
+
+                <span class="staff-delete-note-label">
+                    Important
+                </span>
+
+                <p>
+                    This action permanently removes the staff record
+                    from the system and cannot be undone.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONFIRMATION FRAME -->
+        <section class="staff-delete-frame">
+
+            <!-- SIDE -->
+            <aside class="staff-delete-side">
+
+                <div class="warning-mark">
+                    !
+                </div>
+
+                <span class="side-kicker">
+                    Remove Profile
+                </span>
+
+                <h2 class="side-title">
+                    Permanent<br />
+                    action.
+                </h2>
+
+                <p class="side-copy">
+                    Deleting this profile will remove the team member
+                    from AUREVA's staff records.
+                </p>
+
+                <div class="side-rule"></div>
+
+                <span class="warning-label">
+                    Review before confirming
+                </span>
+
+            </aside>
+
+
+            <!-- CONTENT -->
+            <div class="staff-delete-content">
+
+                <div class="content-heading">
+
+                    <span class="content-heading-kicker">
+                        Confirmation
+                    </span>
+
+                    <h2 class="content-heading-title">
+                        Remove team member
+                    </h2>
+
+                </div>
+
+
+                <!-- MEMBER -->
+                <div class="member-card">
+
+                    <div>
+
+                        <span class="member-label">
+                            Team Member
+                        </span>
+
+                        <h3 class="member-name">
+                            @Model.FullName
+                        </h3>
+
+                    </div>
+
+                    <div class="member-id">
+                        ID #@Model.Id
+                    </div>
+
+                </div>
+
+
+                <!-- WARNING -->
+                <div class="delete-warning">
+
+                    <strong>
+                        Permanent deletion
+                    </strong>
+
+                    <p>
+                        This will permanently remove this team member
+                        from AUREVA. Make sure this is the profile you
+                        intend to delete before confirming.
+                    </p>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+                <form asp-action="Delete"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden"
+                           asp-for="Id" />
+
+
+                    <div class="staff-delete-actions">
+
+                        <a asp-action="Details"
+                           asp-route-id="@Model.Id"
+                           class="delete-cancel">
+                            Cancel &amp; Return
+                        </a>
+
+                        <button type="submit"
+                                class="delete-button">
+                            Delete Staff
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <div class="staff-delete-footer">
+
+            <span>
+                AUREVA / Team Management
+            </span>
 
         </div>
 
