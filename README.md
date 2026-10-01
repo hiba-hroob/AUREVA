@@ -357,3 +357,14 @@ Add your preferred license here before publishing the repository publicly.
 ### AUREVA
 
 **Beauty, in perfect flow.**
+
+## ✦ Project Demo
+
+Watch AUREVA in action:
+
+https://youtu.be/BOiADB9_pCY?si=pJVFYw-sFq21lLVw
+
+**AUREVA — Luxury Salon Management, beautifully organized.**
+
+The video showcases the main dashboard, client management, appointments, services, and the overall AUREVA experience.
+
