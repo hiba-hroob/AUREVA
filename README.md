@@ -106,68 +106,6 @@ The dashboard can surface the most requested services and display:
 
 This gives the salon a simple business-performance overview without adding unnecessary complexity.
 
-
-
-## ✦ Design System
-
-A major part of AUREVA is its visual identity.
-
-The interface follows a luxury editorial aesthetic built around:
-
-### Burgundy
-
-
-#3A0D18
-
-
-Used as the primary signature color.
-
-### Wine
-
-
-#651F32
-
-
-Used for secondary accents and visual depth.
-
-### Navy
-
-
-#0B1424
-
-
-Used as a premium contrast color for darker surfaces and modern accents.
-
-### Champagne Gold
-
-
-#D4A85C
-
-
-Used for highlights, borders, important numbers, and luxury accents.
-
-### Ivory
-
-
-#F7F0E6
-
-
-Used as the main warm background tone.
-
-The overall visual language combines:
-
-* Editorial typography
-* Large serif headlines
-* Minimal interface labels
-* Soft shadows
-* Rounded luxury cards
-* Burgundy / Navy contrast
-* Champagne highlights
-* Subtle hover interactions
-* Responsive layouts
-
-
-
 ## ✦ Typography
 
 AUREVA combines serif and sans-serif typography intentionally.
