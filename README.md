@@ -306,3 +306,8 @@ https://youtu.be/BOiADB9_pCY?si=pJVFYw-sFq21lLVw
 
 The video showcases the main dashboard, client management, appointments, services, and the overall AUREVA experience.
 
+**Project Screenshots ✅**
+
+https://www.linkedin.com/posts/hiba-hroob-6312533ab_salonmanagementsystem-webdevelopment-softwaredevelopment-activity-7507449827690119168-Q2Qx?utm_source=share&utm_medium=member_desktop&rcm=ACoAAGQ89MUBQd0BvG1Pdk5l7DYOoDOMwXM-P0E
+
+
