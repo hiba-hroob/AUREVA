@@ -19,102 +19,281 @@
     <link rel="stylesheet"
           href="~/AUREVA.styles.css"
           asp-append-version="true" />
-    <style>
-
-            .aureva-global-nav {
-                --burgundy: #5A1028;
-                --burgundy-dark: #420B1D;
-                --burgundy-light: #7A2440;
-                --cream: #F7F3EE;
-                position: fixed;
-                z-index: 9999;
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                display: flex;
-                align-items: center;
-                gap: 4px;
-                width: max-content;
-                max-width: calc(100% - 28px);
-                padding: 7px;
-                background: #075B5A;
-                border: 1px solid rgba(90,16,40,.25);
-                border-radius: 999px;
-                backdrop-filter: blur(18px);
-                box-shadow: 0 15px 60px rgba(90,16,40,.18);
-            }
+    
 
 
-                .aureva-global-nav a {
-                    color: white;
-                    text-decoration: none;
-                    padding: 11px 14px;
-                    border-radius: 999px;
-                    font-size: 8px;
-                    font-weight: 700;
-                    letter-spacing: .16em;
-                    transition: .25s ease;
-                    white-space: nowrap;
-                }
+<style>
+    /* =========================================
+       AUREVA — RESPONSIVE GLOBAL NAVBAR
+    ========================================= */
+
+    .aureva-global-nav {
+        --burgundy: #5A1028;
+        --burgundy-dark: #420B1D;
+        --burgundy-light: #7A2440;
+        --burgundy-accent: #800020;
+        --cream: #F7F3EE;
+        --teal: #075B5A;
+        --teal-deep: #064847;
+
+        position: fixed;
+        z-index: 9999;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+
+        width: max-content;
+        max-width: calc(100vw - 32px);
+        box-sizing: border-box;
+        padding: 7px;
+
+        background: var(--teal);
+        border: 1px solid rgba(90, 16, 40, 0.25);
+        border-radius: 999px;
+
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+
+        box-shadow: 0 15px 60px rgba(90, 16, 40, 0.18);
+    }
+
+    /* =========================================
+       NAVIGATION LINKS
+    ========================================= */
+
+    .aureva-global-nav a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        color: #FFFFFF;
+        text-decoration: none;
+
+        padding: 11px 14px;
+        border-radius: 999px;
+
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        line-height: 1.4;
+
+        white-space: nowrap;
+        flex-shrink: 0;
+
+        transition:
+            background 0.25s ease,
+            color 0.25s ease,
+            transform 0.25s ease;
+    }
+
+    .aureva-global-nav a:hover {
+        background: #FFFFFF;
+        color: var(--teal-deep);
+    }
+
+    /* =========================================
+       LOGO
+    ========================================= */
+
+    .aureva-global-nav .aureva-nav-logo {
+        padding-left: 20px;
+        padding-right: 20px;
+
+        color: #FFFFFF;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.32em;
+    }
+
+    /* =========================================
+       APPOINTMENT BUTTON
+    ========================================= */
+
+    .aureva-global-nav .aureva-nav-action {
+        padding: 15px 23px;
+
+        background: var(--burgundy-accent);
+        color: #FFFFFF;
+
+        border: 1px solid #650018;
+        border-radius: 999px;
+
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+
+        cursor: pointer;
+    }
+
+    .aureva-global-nav .aureva-nav-action:hover {
+        background: #FFFFFF;
+        color: var(--burgundy);
+        border-color: #FFFFFF;
+    }
+
+    /* =========================================
+       SMALL DESKTOP / LAPTOP
+    ========================================= */
+
+    @@media (max-width: 1100px) {
+        .aureva-global-nav {
+            gap: 2px;
+            padding: 6px;
+            max-width: calc(100vw - 24px);
+        }
+
+        .aureva-global-nav a {
+            padding: 10px 10px;
+            font-size: 7px;
+            letter-spacing: 0.12em;
+        }
+
+        .aureva-global-nav .aureva-nav-logo {
+            padding-left: 14px;
+            padding-right: 14px;
+            font-size: 12px;
+            letter-spacing: 0.24em;
+        }
+
+        .aureva-global-nav .aureva-nav-action {
+            padding: 12px 15px;
+            font-size: 8px;
+        }
+    }
+
+    /* =========================================
+       TABLET
+    ========================================= */
+
+    @@media (max-width: 850px) {
+        .aureva-global-nav {
+            top: 14px;
+            gap: 3px;
+            padding: 7px;
+            border-radius: 22px;
+
+            flex-wrap: wrap;
+            justify-content: center;
+
+            width: calc(100vw - 28px);
+            max-width: 620px;
+        }
+
+        .aureva-global-nav a {
+            padding: 10px 12px;
+            font-size: 8px;
+            letter-spacing: 0.12em;
+        }
+
+        .aureva-global-nav .aureva-nav-logo {
+            padding-left: 16px;
+            padding-right: 16px;
+            font-size: 13px;
+        }
+
+        .aureva-global-nav .aureva-nav-action {
+            padding: 11px 16px;
+        }
+    }
+
+    /* =========================================
+       MOBILE
+    ========================================= */
+
+    @@media (max-width: 600px) {
+        .aureva-global-nav {
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            transform: none;
+
+            width: auto;
+            max-width: none;
+            box-sizing: border-box;
+
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+
+            padding: 9px;
+            border-radius: 18px;
+        }
+
+        .aureva-global-nav a {
+            flex: 1 1 auto;
+            min-width: 0;
+            padding: 10px 8px;
+
+            font-size: 8px;
+            letter-spacing: 0.08em;
+            text-align: center;
+        }
+
+        .aureva-global-nav .aureva-nav-logo {
+            flex: 1 0 100%;
+            width: 100%;
+
+            padding: 8px 10px 12px;
+            margin-bottom: 3px;
+
+            font-size: 15px;
+            letter-spacing: 0.35em;
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 10px;
+        }
+
+        .aureva-global-nav .aureva-nav-action {
+            flex: 1 0 100%;
+            width: 100%;
+            box-sizing: border-box;
+
+            padding: 12px 10px;
+            margin-top: 3px;
+
+            font-size: 9px;
+            letter-spacing: 0.15em;
+        }
+    }
+
+    /* =========================================
+       EXTRA SMALL MOBILE
+    ========================================= */
+
+    @@media (max-width: 360px) {
+        .aureva-global-nav {
+            left: 8px;
+            right: 8px;
+            gap: 3px;
+            padding: 7px;
+        }
+
+        .aureva-global-nav a {
+            padding: 9px 6px;
+            font-size: 7px;
+            letter-spacing: 0.05em;
+        }
+
+        .aureva-global-nav .aureva-nav-logo {
+            font-size: 14px;
+            letter-spacing: 0.3em;
+        }
+
+        .aureva-global-nav .aureva-nav-action {
+            padding: 11px 8px;
+            font-size: 8px;
+        }
+    }
+</style>
 
 
-                    .aureva-global-nav a:hover {
-                        background: white;
-                        color: var(--teal-deep);
-                    }
-
-
-                .aureva-global-nav .aureva-nav-logo {
-                    padding-left: 20px;
-                    padding-right: 20px;
-                    font-size: 13px;
-                    letter-spacing: .32em;
-                    color: white;
-                }
-
-
-                .aureva-global-nav .aureva-nav-action {
-                    border: 1px solid #650018;
-                    border-radius: 999px;
-                    padding: 15px 23px;
-                    background: #800020;
-                    color: #FFFFFF;
-                    font-size: 9px;
-                    font-weight: 800;
-                    letter-spacing: .20em;
-                    cursor: pointer;
-     
-                 
-                }
-
-
-                    .aureva-global-nav .aureva-nav-action:hover {
-                        background: #FFFFFF;
-                        color: var(--teal-deep);
-                        border-color: #FFFFFF;
-                    }
-
-
-            @@media (max-width: 850px) {
-
-                .aureva-global-nav {
-                    overflow-x: auto;
-                    justify-content: flex-start;
-                }
-
-
-                    .aureva-global-nav a {
-                        padding: 10px 11px;
-                    }
-
-
-                    .aureva-global-nav .aureva-nav-logo {
-                        padding-left: 14px;
-                        padding-right: 14px;
-                    }
-            }
-
-    </style>
 
 
 </head>
