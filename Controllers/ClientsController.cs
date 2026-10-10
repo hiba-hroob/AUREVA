@@ -53,7 +53,21 @@ namespace AUREVA.Controllers
                 return View(client);
             }
 
+            // Creation time is always UTC.
             client.CreatedAt = DateTime.UtcNow;
+
+            // Convert optional dates to UTC Kind for PostgreSQL.
+            if (client.DateOfBirth.HasValue)
+            {
+                client.DateOfBirth = DateTime.SpecifyKind(
+                    client.DateOfBirth.Value, DateTimeKind.Utc);
+            }
+
+            if (client.LastVisit.HasValue)
+            {
+                client.LastVisit = DateTime.SpecifyKind(
+                    client.LastVisit.Value, DateTimeKind.Utc);
+            }
 
             _context.Clients.Add(client);
             await _context.SaveChangesAsync();
