@@ -998,8 +998,11 @@
                  FORM
             ================================================== -->
 
-            <form id="demo-service-create-form"
+          <form asp-controller="Services"
+      asp-action="Create"
+      method="post"
       class="service-form">
+      @Html.AntiForgeryToken()
 
                 <div class="form-heading">
 
@@ -1205,60 +1208,3 @@
     </div>
 
 </div>
-
-                
-@section Scripts {
-    <script>
-        (() => {
-            "use strict";
-
-            const form = document.getElementById("demo-service-create-form");
-
-            if (!form || !window.AurevaDemo) {
-                console.error("AUREVA demo store is unavailable.");
-                return;
-            }
-
-            form.addEventListener("submit", function (event) {
-                event.preventDefault();
-
-                const name = form.querySelector('[name="Name"]').value.trim();
-                const description = form.querySelector('[name="Description"]').value.trim();
-                const priceInput = form.querySelector('[name="Price"]').value;
-                const durationInput = form.querySelector('[name="DurationMinutes"]').value;
-                const price = Number(priceInput);
-                const durationMinutes = Number(durationInput);
-                const checkbox = form.querySelector('[name="IsActive"][type="checkbox"]');
-
-                if (!name) {
-                    alert("Please enter a service name.");
-                    return;
-                }
-
-                if (priceInput === "" || !Number.isFinite(price) || price < 0) {
-                    alert("Please enter a valid price.");
-                    return;
-                }
-
-                if (
-                    durationInput === "" ||
-                    !Number.isInteger(durationMinutes) ||
-                    durationMinutes < 1
-                ) {
-                    alert("Please enter a valid duration.");
-                    return;
-                }
-
-                window.AurevaDemo.add("services", {
-                    name,
-                    description,
-                    price,
-                    durationMinutes,
-                    isActive: checkbox ? checkbox.checked : false
-                });
-
-                alert("Service added temporarily. The navigation integration is not finished yet.");
-            });
-        })();
-    </script>
-}
