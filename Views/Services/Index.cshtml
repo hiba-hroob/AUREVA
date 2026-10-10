@@ -852,7 +852,7 @@
 
         <div class="services-actions">
 
-            <div class="services-count">
+            <div class="services-count" id="services-count">
 
                 @services.Count.ToString("00")
                 SERVICES AVAILABLE
@@ -876,7 +876,7 @@
              SERVICES LIST
              ===================================================== -->
 
-        <section class="services-list">
+        <section class="services-list" id="services-list">
 
 
             <div class="services-list-header">
@@ -1058,3 +1058,130 @@
     </div>
 
 </div>
+
+
+<script>
+(() => {
+    "use strict";
+
+    function renderDemoServices() {
+        if (!window.AurevaDemo) return;
+
+        const list = document.getElementById("services-list");
+        const count = document.getElementById("services-count");
+
+        if (!list || !count) return;
+
+        const services = window.AurevaDemo.list("services");
+
+        count.textContent =
+            String(services.length).padStart(2, "0") +
+            " SERVICES AVAILABLE";
+
+        const header = list.querySelector(".services-list-header");
+
+        list.replaceChildren();
+
+        if (header) {
+            list.appendChild(header);
+        } else {
+            const newHeader = document.createElement("div");
+            newHeader.className = "services-list-header";
+
+            ["SERVICE", "DURATION", "PRICE", "STATUS"].forEach(label => {
+                const cell = document.createElement("div");
+                cell.textContent = label;
+                newHeader.appendChild(cell);
+            });
+
+            list.appendChild(newHeader);
+        }
+
+        if (services.length === 0) {
+            const empty = document.createElement("div");
+            empty.className = "services-empty";
+
+            const ring = document.createElement("div");
+            ring.className = "services-empty-ring";
+
+            const plus = document.createElement("span");
+            plus.textContent = "+";
+            ring.appendChild(plus);
+
+            const title = document.createElement("div");
+            title.className = "services-empty-title";
+            title.textContent = "No services yet.";
+
+            const text = document.createElement("div");
+            text.className = "services-empty-text";
+            text.textContent = "Begin building the AUREVA service menu.";
+
+            empty.append(ring, title, text);
+            list.appendChild(empty);
+            return;
+        }
+
+        services.forEach((service, index) => {
+            const row = document.createElement("div");
+            row.className = "service-row";
+
+            const main = document.createElement("div");
+            main.className = "service-main";
+
+            const number = document.createElement("span");
+            number.className = "service-number";
+            number.textContent = String(index + 1).padStart(2, "0");
+
+            const name = document.createElement("span");
+            name.className = "service-name";
+            name.textContent = service.name || "Untitled service";
+
+            const description = document.createElement("div");
+            description.className = "service-description";
+            description.textContent = service.description || "";
+
+            main.append(number, name);
+            if (service.description) main.appendChild(description);
+
+            const duration = document.createElement("div");
+            duration.className = "service-duration";
+
+            const durationLabel = document.createElement("span");
+            durationLabel.className = "service-duration-label";
+            durationLabel.textContent = "TIME";
+
+            duration.append(durationLabel,
+                document.createTextNode(`${service.durationMinutes} min`));
+
+            const price = document.createElement("div");
+            price.className = "service-price";
+
+            const priceLabel = document.createElement("span");
+            priceLabel.className = "service-price-label";
+            priceLabel.textContent = "INVESTMENT";
+
+            price.append(priceLabel,
+                document.createTextNode(
+                    new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD"
+                    }).format(Number(service.price) || 0)
+                ));
+
+            const status = document.createElement("div");
+            status.className =
+                "service-status " + (service.isActive ? "active" : "inactive");
+            status.textContent = service.isActive ? "ACTIVE" : "INACTIVE";
+
+            row.append(main, duration, price, status);
+            list.appendChild(row);
+        });
+    }
+
+    renderDemoServices();
+
+document.addEventListener("aureva:services-refresh", () => {
+    renderDemoServices();
+});
+})();
+</script>
