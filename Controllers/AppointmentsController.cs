@@ -66,7 +66,7 @@ namespace AUREVA.Controllers
             ViewBag.Staff = staff;
             ViewBag.TodayRevenue = todayRevenue;
 
-            return View();
+            return View(todayAppointments);
         }
 
         // GET: /Appointments/Create
