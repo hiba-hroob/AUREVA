@@ -16,16 +16,57 @@ namespace AUREVA.Controllers
         }
 
         // GET: /Appointments
+
         public async Task<IActionResult> Index()
         {
-            var appointments = await _context.Appointments
+            var palestineTimeZone =
+                TimeZoneInfo.FindSystemTimeZoneById("Asia/Hebron");
+
+            var palestineNow =
+                TimeZoneInfo.ConvertTime(
+                    DateTimeOffset.UtcNow,
+                    palestineTimeZone);
+
+            var localToday = palestineNow.Date;
+            var localTomorrow = localToday.AddDays(1);
+
+            var today = new DateTimeOffset(
+                localToday,
+                palestineTimeZone.GetUtcOffset(localToday));
+
+            var tomorrow = new DateTimeOffset(
+                localTomorrow,
+                palestineTimeZone.GetUtcOffset(localTomorrow));
+
+            var todayUtc = today.UtcDateTime;
+            var tomorrowUtc = tomorrow.UtcDateTime;
+
+            var todayAppointments = await _context.Appointments
                 .Include(a => a.Client)
                 .Include(a => a.Service)
                 .Include(a => a.Staff)
+                .Where(a =>
+                    a.StartTime >= todayUtc &&
+                    a.StartTime < tomorrowUtc)
                 .OrderBy(a => a.StartTime)
                 .ToListAsync();
 
-            return View(appointments);
+            var staff = await _context.Staff
+                .OrderBy(s => s.FullName)
+                .ToListAsync();
+
+            var todayRevenue = todayAppointments
+                .Where(a =>
+                    a.Status != "Cancelled" &&
+                    a.Service != null)
+                .Sum(a => a.Service!.Price);
+
+            ViewBag.Today = localToday;
+            ViewBag.TodayAppointments = todayAppointments;
+            ViewBag.Staff = staff;
+            ViewBag.TodayRevenue = todayRevenue;
+
+            return View();
         }
 
         // GET: /Appointments/Create

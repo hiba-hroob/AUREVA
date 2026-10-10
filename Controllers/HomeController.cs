@@ -15,10 +15,33 @@ namespace AUREVA.Controllers
             _context = context;
         }
 
+
         public async Task<IActionResult> Index()
         {
-            var today = DateTime.Today;
-            var tomorrow = today.AddDays(1);
+            // توقيت فلسطين
+            var palestineTimeZone =
+                TimeZoneInfo.FindSystemTimeZoneById("Asia/Hebron");
+
+            var palestineNow =
+                TimeZoneInfo.ConvertTimeFromUtc(
+                    DateTime.UtcNow,
+                    palestineTimeZone);
+
+            var localToday = palestineNow.Date;
+            var localTomorrow = localToday.AddDays(1);
+
+            // تحويل بداية ونهاية اليوم المحلي إلى UTC
+            var today = TimeZoneInfo.ConvertTimeToUtc(
+                DateTime.SpecifyKind(
+                    localToday,
+                    DateTimeKind.Unspecified),
+                palestineTimeZone);
+
+            var tomorrow = TimeZoneInfo.ConvertTimeToUtc(
+                DateTime.SpecifyKind(
+                    localTomorrow,
+                    DateTimeKind.Unspecified),
+                palestineTimeZone);
 
             var todayAppointments = await _context.Appointments
                 .Include(a => a.Client)
@@ -40,7 +63,7 @@ namespace AUREVA.Controllers
                     a.Service != null)
                 .Sum(a => a.Service!.Price);
 
-            ViewBag.Today = today;
+            ViewBag.Today = localToday;
             ViewBag.TodayAppointments = todayAppointments;
             ViewBag.Staff = staff;
             ViewBag.TodayRevenue = todayRevenue;
