@@ -5,9 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Database
 builder.Services.AddDbContext<AurevaDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("AurevaDatabase")
-    )
+   options.UseNpgsql(
+    builder.Configuration.GetConnectionString("AurevaDatabase")
+)
 );
 
 // MVC
