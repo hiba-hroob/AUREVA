@@ -8,7 +8,8 @@ namespace AUREVA.Controllers
     {
         private readonly AurevaDbContext _context;
 
-        public CalendarController(AurevaDbContext context)
+
+    public CalendarController(AurevaDbContext context)
         {
             _context = context;
         }
@@ -18,7 +19,12 @@ namespace AUREVA.Controllers
             string? status,
             int? staffId)
         {
-            var selectedDate = (date ?? DateTime.Today).Date;
+            var requestedDate = date ?? DateTime.Today;
+
+            var selectedDate = DateTime.SpecifyKind(
+                requestedDate.Date,
+                DateTimeKind.Utc);
+
             var nextDate = selectedDate.AddDays(1);
 
             var query = _context.Appointments
@@ -55,4 +61,6 @@ namespace AUREVA.Controllers
             return View(appointments);
         }
     }
+
+
 }
