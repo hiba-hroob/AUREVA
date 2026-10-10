@@ -87,8 +87,21 @@ namespace AUREVA.Controllers
                 return View(appointment);
             }
 
+            var palestineTimeZone =
+    TimeZoneInfo.FindSystemTimeZoneById("Asia/Hebron");
+
+            var localStart = DateTime.SpecifyKind(
+                appointment.StartTime,
+                DateTimeKind.Unspecified);
+
+            appointment.StartTime = TimeZoneInfo.ConvertTimeToUtc(
+                localStart,
+                palestineTimeZone);
+
             var start = appointment.StartTime;
             var end = start.AddMinutes(appointment.DurationMinutes);
+
+
 
             var conflict = await _context.Appointments
                 .Where(a =>
@@ -185,8 +198,20 @@ namespace AUREVA.Controllers
                 return NotFound();
             }
 
+            var palestineTimeZone =
+       TimeZoneInfo.FindSystemTimeZoneById("Asia/Hebron");
+
+            var localStart = DateTime.SpecifyKind(
+                appointment.StartTime,
+                DateTimeKind.Unspecified);
+
+            appointment.StartTime = TimeZoneInfo.ConvertTimeToUtc(
+                localStart,
+                palestineTimeZone);
+
             var start = appointment.StartTime;
             var end = start.AddMinutes(appointment.DurationMinutes);
+
 
             var conflict = await _context.Appointments
                 .Where(a =>
@@ -308,3 +333,4 @@ namespace AUREVA.Controllers
         }
     }
 }
+
