@@ -86,3 +86,8 @@ AUREVA follows the **Model-View-Controller (MVC)** architectural pattern.
 
 
 * AUREVA — Beauty, in perfect flow. *
+
+  ## 🧪 Demo Notice
+
+**All live links provided below are for demonstration purposes only.** These are demo versions intended to showcase the projects' features and functionality.
+
