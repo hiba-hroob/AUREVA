@@ -953,11 +953,7 @@
                             DURATION / MINUTES
                         </label>
 
-                        <input asp-for="DurationMinutes"
-                               type="number"
-                               min="1"
-                               step="15"
-                               placeholder="60" />
+                        <input asp-for="DurationMinutes" type="number" min="1" max="1440" step="15" placeholder="60" />
 
                         <span asp-validation-for="DurationMinutes"></span>
 
