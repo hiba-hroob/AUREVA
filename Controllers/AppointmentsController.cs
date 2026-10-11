@@ -75,7 +75,7 @@ namespace AUREVA.Controllers
     .OrderBy(a => a.StartTime)
     .ToListAsync();
 
-            ViewBag.UpcomingAppointments = upcomingAppointments;git 
+            ViewBag.UpcomingAppointments = upcomingAppointments;
 
             return View(todayAppointments);
         }
