@@ -2,6 +2,16 @@
 
 @{
     ViewData["Title"] = "Appointments";
+
+    var palestineTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Asia/Hebron");
+    var upcomingAppointments = ViewBag.UpcomingAppointments as System.Collections.Generic.IEnumerable<AUREVA.Models.Appointment>
+        ?? System.Linq.Enumerable.Empty<AUREVA.Models.Appointment>();
+
+    DateTime ToPalestineTime(DateTime storedDateTime)
+    {
+        var utcDateTime = DateTime.SpecifyKind(storedDateTime, DateTimeKind.Utc);
+        return TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, palestineTimeZone);
+    }
 }
 
 <style>
@@ -506,6 +516,39 @@
     }
 
 
+    .upcoming-heading {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px 24px;
+        margin: 70px 0 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .upcoming-heading h2 {
+        margin: 0;
+        color: var(--teal-deep);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2.7rem, 5vw, 4.8rem);
+        font-weight: 400;
+        line-height: .95;
+        letter-spacing: -.06em;
+    }
+
+    .upcoming-heading h2 span {
+        color: var(--burgundy);
+    }
+
+    .upcoming-heading-count {
+        color: var(--text-muted);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: .20em;
+    }
+
+
     /* =========================================================
            TABLET
         ========================================================= */
@@ -824,10 +867,11 @@
             </div>
 
 
-            @if (Model.Any())
+            @if (Model != null && Model.Any())
             {
                 @foreach (var item in Model)
                 {
+                    var localStartTime = ToPalestineTime(item.StartTime);
 
                     <a asp-action="Details"
                        asp-route-id="@item.Id"
@@ -837,7 +881,7 @@
 
                         <div class="appointment-time">
 
-                            @item.StartTime.ToString("HH:mm")
+                            @localStartTime.ToString("HH:mm")
 
                         </div>
 
@@ -871,7 +915,7 @@
 
                         <div class="appointment-date">
 
-                            @item.StartTime.ToString("dd MMM yyyy")
+                            @localStartTime.ToString("dd MMM yyyy")
 
                         </div>
 
@@ -896,6 +940,80 @@
 
 
         </div>
+
+
+        <!-- =====================================================
+             UPCOMING APPOINTMENTS
+        ====================================================== -->
+
+        <section aria-labelledby="upcoming-heading">
+
+            <div class="upcoming-heading">
+                <h2 id="upcoming-heading">Coming <span>up.</span></h2>
+                <div class="upcoming-heading-count">
+                    FUTURE BOOKINGS / @upcomingAppointments.Count()
+                </div>
+            </div>
+
+            <div class="appointments-list">
+
+                <div class="appointments-list-header">
+                    <div>TIME</div>
+                    <div>CLIENT / SERVICE</div>
+                    <div>ARTIST</div>
+                    <div>DATE</div>
+                    <div>STATUS</div>
+                </div>
+
+                @if (upcomingAppointments.Any())
+                {
+                    @foreach (var item in upcomingAppointments)
+                    {
+                        var localStartTime = ToPalestineTime(item.StartTime);
+
+                        <a asp-action="Details"
+                           asp-route-id="@item.Id"
+                           class="appointment-row"
+                           style="text-decoration:none;color:inherit;">
+
+                            <div class="appointment-time">
+                                @localStartTime.ToString("HH:mm")
+                            </div>
+
+                            <div>
+                                <div class="appointment-client">
+                                    @(item.Client?.FullName ?? "Unknown client")
+                                </div>
+                                <div class="appointment-service">
+                                    @(item.Service?.Name ?? "Unknown service")
+                                </div>
+                            </div>
+
+                            <div class="appointment-staff">
+                                @(item.Staff?.FullName ?? "Unknown artist")
+                            </div>
+
+                            <div class="appointment-date">
+                                @localStartTime.ToString("dd MMM yyyy")
+                            </div>
+
+                            <div class="appointment-status">
+                                @((item.Status ?? "Confirmed").ToUpper())
+                            </div>
+
+                        </a>
+                    }
+                }
+                else
+                {
+                    <div class="appointment-empty">
+                        No upcoming appointments scheduled.
+                    </div>
+                }
+
+            </div>
+
+        </section>
 
 
         <!-- =====================================================

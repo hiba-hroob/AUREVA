@@ -66,6 +66,17 @@ namespace AUREVA.Controllers
             ViewBag.Staff = staff;
             ViewBag.TodayRevenue = todayRevenue;
 
+
+            var upcomingAppointments = await _context.Appointments
+    .Include(a => a.Client)
+    .Include(a => a.Service)
+    .Include(a => a.Staff)
+    .Where(a => a.StartTime >= tomorrowUtc)
+    .OrderBy(a => a.StartTime)
+    .ToListAsync();
+
+            ViewBag.UpcomingAppointments = upcomingAppointments;git 
+
             return View(todayAppointments);
         }
 
